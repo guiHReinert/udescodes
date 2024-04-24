@@ -94,13 +94,17 @@ repetir' n e l = if l < n then e:(repetir' n e (l + 1)) else []
 --14. Declare uma função que converta um inteiro em um número inteiro em uma String.
 --Exemplo: numString 126 => “126”
 
-numString num = inverso (int2char (int2list num))
+--numString num = inverso (int2char (int2list num))
 
-int2list 0 = []
-int2list num = mod num 10 : int2list(div num 10)
+--int2list 0 = []
+--int2list num = mod num 10 : int2list(div num 10)
 
-int2char [] = []
-int2char (x:xs) = [toEnum (x+48)::Char] ++ int2char xs
+--int2char [] = []
+--int2char (x:xs) = [toEnum (x+48)::Char] ++ int2char xs
+
+d2c d = toEnum (d+48)::Char
+numString 0 = []
+numString n = (numString (div n 10)) ++ [d2c (mod n 10)]
 
 --15. Declare uma função que converta uma String contendo uma sequência de dígitos para um
 --inteiro.
@@ -115,20 +119,25 @@ stringNum' (c:cs) = c2d c + 10 * stringNum' cs
 --inteiro.
 --Exemplo: bin2int “1110” => 14
 
-bin2int bin = bin2int' (inverso bin) 0
-bin2int' [] _ = 0
-bin2int' (b:bs) pot = if b == '1' then 2^pot + bin2int' bs (pot + 1) else bin2int' bs (pot + 1)
+--bin2int bin = bin2int' (inverso bin) 0
+--bin2int' [] _ = 0
+--bin2int' (b:bs) pot = if b == '1' then 2^pot + bin2int' bs (pot + 1) else bin2int' bs (pot + 1)
+
+bin2int cs = bin2int' (inverso cs)
+bin2int' [] = 0
+bin2int' (c:cs) = c2d c + 2 * bin2int' cs
 
 --17. Declare uma função que converta um número inteiro em binário.
 --Exemplo: int2bin: 14 => “1110”
 
-
+int2bin 0 = "0"
+int2bin n = inverso (int2bin' n)
+int2bin' 0 = []
+int2bin' n = if mod n 2 == 0 then '0':(int2bin' (div n 2)) else '1':(int2bin' (div n 2))
 
 --18. Declare uma função que receba uma String e converta todas letras maiúsculas dessa String
 --em letras minúsculas.
 --Exemplo: minusculas “AbCdeF” => “abcdef”
 
-minusculas str = minus str
-
-minus [] = []
-minus (t:ts) = (c2d t + 32 + '0'):(minus ts)
+minusculas [] = []
+minusculas (x:xs) = if fromEnum x < 97 then (toEnum (fromEnum x+32)::Char):(minusculas xs) else x:(minusculas xs)

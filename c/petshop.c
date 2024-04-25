@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <locale.h>
 
 int main () {
 
-    char nome[25], nomeani[25], data[15], caso, animal, tamanho;
+    char nome[25], nomeani[25], data[15], remedio[99], telefone[25],
+    caso, animal, tamanho;
     int pacotes;
     double total, valorRac;
 
@@ -23,7 +25,7 @@ int main () {
     scanf(" %c", &caso);
 
      switch (caso){
-        case '1':
+        case '1': // Vacina
             printf("Felino ou Canino? (F/C) \n >> ");
             scanf(" %c", &animal);
             if (animal == 'f' || animal == 'F') {
@@ -52,7 +54,7 @@ int main () {
             printf(" >> Preço total: R$ 190,00\n");
     
         break;
-        case '2':
+        case '2': // Castração
             printf("Felino ou Canino? (F/C) \n >> ");
             scanf(" %c", &animal);
             if (animal == 'F') {
@@ -75,14 +77,14 @@ int main () {
             if (animal == 'F') {
                 printf("Felino: %s\n", nomeani);
                 printf("Data: %s\n", data);
-                printf("\n >> Preço total: R$ 220,00\n");
+                printf(">> Preço total: R$ 220.00\n");
             } else {
                 printf("Canino: %s\n", nomeani);
                 printf("Data: %s\n", data);
-                printf(" >> Preço total: R$ 280,00\n");
+                printf(" >> Preço total: R$ 280.00\n");
             }
         break;
-        case '3':
+        case '3': // Venda de ração
             printf("Quantos pacotes serão comprados? \n >> ");
             scanf("%i", &pacotes);
             printf("Qual será o tamanho dos pacotes? (P/M/G) \n >> ");
@@ -99,17 +101,34 @@ int main () {
 
             printf("-----------------------\n");
             
-	    printf("Cliente: %s\n", nome);
+	        printf("Cliente: %s\n", nome);
             printf("Serviço: Venda de ração\n");
             printf("Pedido: %i unidades de tamanho %c cada.\n", pacotes, tamanho);
-            printf("Valor bruto: R$ %.2lf\n", valorRac);
             if (pacotes > 1){
+                printf("Valor bruto: R$ %.2lf\n", valorRac);
             	printf("Desconto: 10 %% \n");
                 total = 0.9 * valorRac;
             } else {
                 total = valorRac;
                 }
             printf(" >> Preço total: R$ %.2lf\n", total);
+        break;
+        case '4':   
+            
+            printf("Digite o nome do remédio para encomendar:\n >> ");
+            // fgets(remedio, 99, stdin);
+            scanf("%s", remedio);
+            
+            printf("Digite o seu telefone:\n >> ");
+            // fgets(telefone, 25, stdin);
+            scanf("%s", telefone);
+
+            printf("-----------------------\n");
+
+            printf("Cliente: %s\n", nome);
+            printf("Serviço: Encomenda de medicamento\n");
+            printf("Medicamento: %s\n", remedio);
+            printf("Contato: %s\n", telefone);
 
         break;
      }

@@ -106,7 +106,7 @@ int main () {
                 valorRac = 120 * pacotes;
             } else {
             printf("Digite uma opção válida!\n");
-            return 0; //coloquei return aq - ass sofia
+            return 0; 
             }
 
             printf("-----------------------\n");
@@ -119,7 +119,7 @@ int main () {
             	printf("Desconto: 10 %% \n");
                 total = 0.9 * valorRac;
             } else {
-                printf("Desconto: 0 %% \n");//adicionei isso aq tb - ass sofia
+                printf("Desconto: 0 %% \n");
                 total = valorRac;
                 }
             printf(" >> Preço total: R$ %.2lf\n", total);
@@ -129,7 +129,7 @@ int main () {
             printf("Digite o nome do remédio para encomendar:\n >> ");
             scanf("%[^\n]s", remedio);
             getchar();
-            // conseguimosss - ass sofia e luiza
+            
             
             printf("Digite o seu telefone:\n >> ");
                 scanf("%s"" ""%s", ddd, telefone);

@@ -2,14 +2,25 @@
 -- words :: String → [String] -- Divide uma linha em palavras
 
 import Data.List -- sortOn
+import System.IO
 
 type Doc = String
 type Line = String
 type Word' = String
 
-str1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+main = do putStr "Arquivo: "
+          file_name <- getLine
+          txt <- readFile file_name
+          let document = makeindex txt
+          plotar document
 
-str2 = "Departamento de Ciência da Computação\nProgramação Funcional\nO objetivo desse exercício é definir uma função que, dado um documento, gera um índice das palavras que ocorrem nesse documento.\nO programa deve ter como entrada um arquivo texto.\nConsidere as seguintes definições:"
+plotar :: [([Int], Word')] -> IO()
+plotar [] = return ()
+plotar ((ns,l):ls) = do putStr (l ++ ": ")
+                        print ns
+                        plotar ls
+
+str1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
 
 makeindex :: Doc -> [([Int], Word')]
 makeindex d = sortLs(shorten(amalgamate(allNumWords(numLines d))))
@@ -29,31 +40,27 @@ numLines' n (x:xs) = (n,x):numLines' (n+1) xs
 isThere y [] = False
 isThere y (x:xs) = if y == x then True else isThere y xs
 
-docNumLines = numLines str1
-
 -- c) Associar a cada ocorrência de uma palavra do documento, o número da linha em que essa
 -- palavra ocorre:
 
 allNumWords :: [(Int, Line)] -> [(Int, Word')]
-allNumWords ys = allNumWords' (worderizer ys)
+allNumWords ys = allNumWords' (worderize ys)
 
-worderizer :: [(Int, Line)] -> [(Int, [Line])]
-worderizer [] = []
-worderizer ((n,x):xs) = ((n,words x):worderizer xs)
+worderize :: [(Int, Line)] -> [(Int, [Line])]
+worderize [] = []
+worderize ((n,x):xs) = ((n,words x):worderize xs)
 
 allNumWords' :: [(Int, [Line])] -> [(Int, Word')]
 allNumWords' ((_,[]):ys) = allNumWords' ys 
 allNumWords' [] = []
 allNumWords' ((n,(x:xs)):ys) = (n,x):allNumWords' ((n,xs):ys)
 
-docAllNumLines = allNumWords docNumLines
-
 -- e) Juntar as várias ocorrências de cada palavra, produzindo, para cada palavra, a lista dos
 -- números das linhas em que a palavra ocorre:
 
 amalgamate :: [(Int, Word')] -> [([Int], Word')]
 amalgamate [] = []
-amalgamate ((n,x):xs) = cleanizer ((amalgamate' x ((n,x):xs), x): amalgamate xs) []
+amalgamate ((n,x):xs) = cleanize ((amalgamate' x ((n,x):xs), x): amalgamate xs) []
 
 amalgamate' :: Word' -> [(Int, Word')] -> [Int]
 amalgamate' _ [] = []
@@ -61,13 +68,11 @@ amalgamate' x ((n,y):ys)
     | x == y = n: amalgamate' x ys
     | otherwise = amalgamate' x ys 
 
-cleanizer :: [([Int], Word')] -> [Word'] -> [([Int], Word')]
-cleanizer [] _ = [] 
-cleanizer (((n:ns),x):xs) ws
-    | not (isThere x ws) = ((n:ns),x) : cleanizer xs (x:ws)
-    | otherwise = cleanizer xs ws
- 
-docAmalgamated = amalgamate docAllNumLines
+cleanize :: [([Int], Word')] -> [Word'] -> [([Int], Word')]
+cleanize [] _ = [] 
+cleanize (((n:ns),x):xs) ws
+    | not (isThere x ws) = ((n:ns),x) : cleanize xs (x:ws)
+    | otherwise = cleanize xs ws
 
 -- f) Eliminar, da lista de números de linhas em que cada palavra ocorre, as repetições de um
 -- mesmo número de linha:
@@ -83,13 +88,9 @@ shorten' (n:ns) ans
     | not (isThere n ns) = n : shorten' ns (n:ans)
     | otherwise = shorten' ns ans
 
-docShorted = shorten docAmalgamated
-
 -- d) Ordenar alfabeticamente as ocorrências de palavras no texto:
 -- sortLs :: [(Int,Word')] -> [(Int,Word')]
 
 sortLs :: [([Int], Word')] -> [([Int], Word')]
 sortLs xs = sortOn snd xs
-
-docSorted = sortLs docShorted
 

@@ -37,11 +37,11 @@ docNumLines = numLines str1
 allNumWords :: [(Int, Line)] -> [(Int, Word')]
 allNumWords ys = allNumWords' (worderizer ys)
 
-worderizer :: [(Int, Line)] -> [(Int, [Line])]
+worderizer :: [(Int, Line)] -> [(Int, [Word'])]
 worderizer [] = []
 worderizer ((n,x):xs) = ((n,words x):worderizer xs)
 
-allNumWords' :: [(Int, [Line])] -> [(Int, Word')]
+allNumWords' :: [(Int, [Word'])] -> [(Int, Word')]
 allNumWords' ((_,[]):ys) = allNumWords' ys 
 allNumWords' [] = []
 allNumWords' ((n,(x:xs)):ys) = (n,x):allNumWords' ((n,xs):ys)

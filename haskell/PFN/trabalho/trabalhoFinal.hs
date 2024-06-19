@@ -20,7 +20,7 @@ plotar ((ns,l):ls) = do putStr (l ++ ": ")
                         print ns
                         plotar ls
 
-str1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
 
 makeindex :: Doc -> [([Int], Word')]
 makeindex d = sortLs(shorten(amalgamate(allNumWords(numLines d))))
@@ -60,13 +60,13 @@ allNumWords' ((n,(x:xs)):ys) = (n,x):allNumWords' ((n,xs):ys)
 
 amalgamate :: [(Int, Word')] -> [([Int], Word')]
 amalgamate [] = []
-amalgamate ((n,x):xs) = cleanize ((amalgamate' x ((n,x):xs), x): amalgamate xs) []
+amalgamate ((n,x):xs) = cleanize ((conjugate x ((n,x):xs), x): amalgamate xs) []
 
-amalgamate' :: Word' -> [(Int, Word')] -> [Int]
-amalgamate' _ [] = []
-amalgamate' x ((n,y):ys)
-    | x == y = n: amalgamate' x ys
-    | otherwise = amalgamate' x ys 
+conjugate :: Word' -> [(Int, Word')] -> [Int]
+conjugate _ [] = []
+conjugate x ((n,y):ys)
+    | x == y = n: conjugate x ys
+    | otherwise = conjugate x ys 
 
 cleanize :: [([Int], Word')] -> [Word'] -> [([Int], Word')]
 cleanize [] _ = [] 

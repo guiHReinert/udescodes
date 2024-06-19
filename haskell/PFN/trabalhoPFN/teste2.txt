@@ -1,0 +1,1 @@
+"Departamento de Ciência da Computação\nProgramação Funcional\nO objetivo desse exercício é definir uma função que, dado um documento, gera um índice das palavras que ocorrem nesse documento.\nO programa deve ter como entrada um arquivo texto.\nConsidere as seguintes definições:"

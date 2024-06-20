@@ -12,6 +12,7 @@ main = do putStr "Arquivo: "
           file_name <- getLine
           txt <- readFile file_name
           let document = makeindex txt
+          print document
           plotar document
 
 plotar :: [([Int], Word')] -> IO()

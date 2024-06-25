@@ -11,7 +11,7 @@ data Shape = Circle {center :: Point, radius :: Float} |
 
 -- deriving (Show): makes the type directly showable on output
 -- deriving (Eq): makes the type constructors comparable with == or /=
--- deriving (Ord): 
+-- deriving (Ord): makes the order of data constructors interpretatable
 
 surface :: Shape -> Float
 surface (Circle _ r) = pi * r^2

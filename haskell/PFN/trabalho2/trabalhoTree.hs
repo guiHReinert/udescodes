@@ -6,7 +6,7 @@
 -- linhas em que ocorrem) devem ser armazenada em uma árvore binária de pesquisa declarada como:
 
 type Word' = String
-type Line = String
+typ	e Line = String
 type Doc = String
 
 -- A impressão das palavras e índices deve ser feita percorrendo a árvore em ordem.

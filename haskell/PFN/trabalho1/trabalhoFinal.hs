@@ -1,7 +1,7 @@
 -- lines :: String → [String] -- Divide um texto em linhas
 -- words :: String → [String] -- Divide uma linha em palavras
 
-import Data.List -- sortOn
+import Data.List (sortOn)
 import System.IO
 
 type Doc = String
@@ -38,6 +38,7 @@ numLines' :: Int -> [Line] -> [(Int, Line)]
 numLines' _ [] = []
 numLines' n (x:xs) = (n,x):numLines' (n+1) xs
 
+isThere :: a -> [a] -> Bool
 isThere y [] = False
 isThere y (x:xs) = if y == x then True else isThere y xs
 

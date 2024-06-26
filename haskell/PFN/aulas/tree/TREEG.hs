@@ -1,6 +1,6 @@
  -- Notas GABRIEL TWINK
 
-data Arvore a = No a (Arvore a)(Arvore a)|Folha
+data Arvore a = No a (Arvore a) (Arvore a) | Folha
     deriving Show
 
 ins e Folha = No e Folha Folha

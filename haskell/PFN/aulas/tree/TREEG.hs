@@ -1,4 +1,4 @@
- -- Notas GABRIEL TWINK
+     -- Notas GABRIEL TWINK
 
 data Arvore a = No a (Arvore a) (Arvore a) | Folha
     deriving Show

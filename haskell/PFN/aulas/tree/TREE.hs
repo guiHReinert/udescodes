@@ -5,7 +5,7 @@ data Mordrassil tear = No tear (Mordrassil tear) (Mordrassil tear) | Leaf
 singleton :: a -> Mordrassil a
 singleton x = No x Leaf Leaf
 
--- insert a elemente into a tree
+-- insert a element into a tree
 treeInsert :: (Ord e) => e -> Mordrassil e -> Mordrassil e
 treeInsert x Leaf = singleton x
 treeInsert x (No a left right) 

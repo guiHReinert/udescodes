@@ -6,6 +6,7 @@
 -- linhas em que ocorrem) devem ser armazenada em uma árvore binária de pesquisa declarada como:
 
 import Data.List (sort)
+import Data.Char (toLower)
 
 type Doc = String
 type Line = String
@@ -42,7 +43,7 @@ worderize ((n,x):xs) = ((n,words x):worderize xs)
 allNumWords' :: [(Index, [Line])] -> [(Index, Word')]
 allNumWords' ((_,[]):ys) = allNumWords' ys 
 allNumWords' [] = []
-allNumWords' ((n,(x:xs)):ys) = (n,x):allNumWords' ((n,xs):ys)
+allNumWords' ((n,(x:xs)):ys) = (n,map toLower x):allNumWords' ((n,xs):ys)
 
 -- d) Inserir elementos em uma lista ordenada, o elemento deve ser inserido em uma posição que
 -- mantenha a lista resultante ordenada. Caso a lista já contenha o elemento não deve ocorrer a
@@ -92,6 +93,7 @@ lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tesTree = makeIndexTree lorem
 
 -- Ler o arquivo e plotar a árvore
+main :: IO()
 main = do putStr "Arquivo: "
           file_name <- getLine
           txt <- readFile file_name

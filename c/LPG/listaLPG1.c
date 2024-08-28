@@ -18,6 +18,22 @@ float* arrSort(float* array, int arr_size){ // The array and size parameters mus
         }
     return array;
 }
+float fator(int n){
+    if (n==0){
+        return 1;
+    }
+    else{
+        return n*fator(n-1);
+    }
+}
+float pot(int a, int b){
+    if(b==0){
+        return 1;
+    }
+    else{
+        return a*pot(a, b-1);
+    }
+}
 
 // Questão 1
 void quadrante(){
@@ -192,29 +208,37 @@ void somaImparesCon_2(){
     }
 }
 // Questão 8
+double somatHarm(int k){
+    if(k>0){
+        return 1.0/k + somatHarm(k-1);
+    }
+    else{
+        return 0;
+    }
+} 
 void serieHarmonica(){
     unsigned int terms=0;
-    float soma=0;
     scanf("%d", &terms);
-    for(int g=1; g<=terms; g++){
-        soma += 1.0/g;
-    }
-    printf("\n%f\n", soma);
+    printf("\n%lf\n", somatHarm(terms));
 }
 // Questão 9
+double serieLogNB2(int k, float n){
+    if(k>0){
+        return pot(-1.0, n+1)/n + serieLogNB2(k-1, n+1);
+    }
+    else{
+        return 0;
+    }
+} 
 void logNeperianoB2(){
     unsigned int terms=0;
-    float soma=0;
     scanf("%d", &terms);
-    for(int g=1; g<=terms; g++){
-        soma += pow(-1, g+1)/(float)g;
-    }
-    printf("\n%lf\n", soma);
+    printf("\n%lf\n", serieLogNB2(terms, 1));
 }
 //Questão 10
-float regressao(int k, float div, int coef){ 
+float regresGL(int k, float div, int coef){ 
     if(k>0){
-        return coef*(4/div) + regressao(k-1, div+2, -coef);
+        return coef*(4/div) + regresGL(k-1, div+2, -coef);
     }
     else{
         return 0;
@@ -223,11 +247,80 @@ float regressao(int k, float div, int coef){
 void serieGregLeib(){
     unsigned int terms=0;
     scanf("%d", &terms);
-    printf("\n%f\n", regressao(terms, 1, 1));
+    printf("\n%f\n", regresGL(terms, 1, 1));
 }
 // Questão 11
+float regresNilak(int k, float div1, int coef){
+    if(k>0){
+        return coef*(4/((div1)*(div1+1)*(div1+2))) + regresNilak(k-1, div1+2, -coef);
+    }
+    else{
+        return 0;
+    }
+}
 void serieNilak(){
-    
+    unsigned int terms=0;
+    scanf("%d", &terms);
+    printf("\n%f\n", 3.0+regresNilak(terms, 2, 1));
+}
+// Questão 12
+double regresEuler(int div){
+    if(div>0){
+        return 1.0/fator(div) + regresEuler(div-1);
+    }
+    else{
+        return 1;
+    }
+}
+void serieEuler(){
+    unsigned int terms=0;
+    scanf("%d", &terms);
+    printf("\n%lf\n", regresEuler(terms));
+}
+// Questão 13
+double regresTaylor(int k, int x, int exp, float div){
+    if(k>0){
+        return pot(x, exp)/fator(div) + regresTaylor(k-1, x, exp+1, div+1);
+    }
+    else{
+        return 0;
+    }
+}
+void serieTaylor(){
+    unsigned int base=0, terms=0;
+    scanf("%d", &base);
+    scanf("%d", &terms);
+    printf("\n%lf\n", regresTaylor(terms, base, 0, 0));
+}
+// Questão 14
+double somatSin(int k, int x, int exp, float div, int coef){
+    if(k>0){
+        return coef*(pot(x, exp)/fator(div)) + somatSin(k-1, x, exp+2, div+2, -coef);
+    }
+    else{
+        return 0;
+    }
+}
+void aproxSin(){
+    float base=0, terms=0;
+    scanf("%f", &base);
+    scanf("%f", &terms);    
+    printf("\n%lf\n", somatSin(terms, base, 1, 1, 1));
+}
+// Questão 15
+double somatCos(int k, int x, int exp, float div, int coef){
+    if(k>0){
+        return coef*(pot(x, exp)/fator(div)) + somatSin(k-1, x, exp+2, div+2, -coef);
+    }
+    else{
+        return 0;
+    }
+}
+void aproxCos(){
+    float base=0, terms=0;
+    scanf("%f", &base);
+    scanf("%f", &terms);    
+    printf("\n%lf\n", somatCos(terms, base, 0, 0, 1));
 }
 
 void main(){
@@ -251,7 +344,6 @@ void main(){
     \n(5) 13) Serie de Taylor \
     \n(6) 14) Valor Aprox. de sen(x) \
     \n(7) 15) Valor Aprox. de cos(x) \
-    \n(8) 16) Somatoria dos termos: digite 16, e entao um numero entre 8 e 15 para calcular a somatoria do termos da funcao respectiva. \
     \n\n > ");
     scanf("%d", &ans);
     switch(ans){
@@ -265,6 +357,11 @@ void main(){
         case 8: serieHarmonica(); break;
         case 9: logNeperianoB2(); break;
         case 10: serieGregLeib(); break;
-        default: printf("Digite um índice correto! (entre 1 e 16)\n");
+        case 11: serieNilak(); break;
+        case 12: serieEuler(); break;
+        case 13: serieTaylor(); break;
+        case 14: aproxSin(); break;
+        case 15: aproxCos(); break;
+        default: printf("Digite um índice correto! (entre 1 e 15)\n");
     }
 }

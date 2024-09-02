@@ -22,7 +22,7 @@ float fator(int n){
     if (n==0){
         return 1;
     }
-    else{
+    else if(n>0){
         return n*fator(n-1);
     }
 }
@@ -30,9 +30,10 @@ float pot(int a, int b){
     if(b==0){
         return 1;
     }
-    else{
-        return a*pot(a, b-1);
+    if(b<0){
+        return a*pot(1/a, b-1);
     }
+    return a*pot(a, b-1);
 }
 
 // Questão 1

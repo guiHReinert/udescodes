@@ -18,7 +18,7 @@ float* arrSort(float* array, int arr_size){ // The array and size parameters mus
         }
     return array;
 }
-float fator(int n){
+double fator(int n){
     if (n==0){
         return 1;
     }
@@ -26,7 +26,7 @@ float fator(int n){
         return n*fator(n-1);
     }
 }
-float pot(int a, int b){
+double pot(int a, int b){
     if(b==0){
         return 1;
     }

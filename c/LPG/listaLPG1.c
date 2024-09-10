@@ -327,7 +327,7 @@ void aproxCos(){
 void main(){
     unsigned int ans;
 
-    printf("Escolha uma questão das listas: \
+    printf("Escolha uma questao das listas: \
     \n >> Lista 1.1 - Selecao e Repeticao: \
     \n1) Coordenadas de um ponto \
     \n2) Tipos de Triangulos \

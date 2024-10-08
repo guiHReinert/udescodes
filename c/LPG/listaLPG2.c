@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Funções auxiliares
 float* arrSort(float* array, int arr_size){ // The array and size parameters must be diffent
@@ -100,7 +101,7 @@ char como parâmetro. Caso o caractere seja um dígito, converta-o para um valor
 o armazene em uma variável int. Em seguida, mostre o valor inteiro na tela.
 */
 int verif_inteiro(char carac){
-    if(('0' <= carac)&&(carac <= '9')){
+    if((carac>='0')&&(carac<='9')){
         return 1;
     }
     else{
@@ -122,16 +123,80 @@ que x pode ser maior do que y. Por exemplo, para x = 6 e y = -5, temos a seguint
 (em ordem crescente): -3 + (-1) + 1 + 3 + 5 = 5.
 Outro exemplo: para x = 3 e y = 10 temos 5 + 7 + 9 = 21.
 */
+int soma_impares(int x, int y){
+    int fst, last, sum=0; 
+    if(x<=y){
+        fst = x;
+        last = y;
+    }
+    else{
+        fst = y;
+        last = x;
+    }
+    for(int c=fst+1; c<last; c++){
+        if(c%2!=0){
+            sum += c;
+        }
+    }
+    return sum;
+}
+void sumOdds(){
+    int nums[2];
+    for(int c=0; c<2; c++){
+        scanf("%d", &nums[c]);
+    }
+    printf("%d\n", soma_impares(nums[0], nums[1]));
+}
 
 /* 5) Faça um programa que, dados k e n, mostre na tela os n primeiros números primos acima
 de k. A verificação do número (se é ou não é primo) deve ser feita através de uma função.
 */
+int eh_primo(int num){
+    for(int c=2; c<=sqrt(num); c++){
+        if(num%c==0){
+            return 0;
+        }
+    }
+    return 1;
+}
+void fstPrimes(){
+    int k, terms, count, soma=0;
+    scanf("%d", &k);
+    scanf("%d", &terms);
+    count = k+1;
+    while(terms>0){
+        count += 1;
+        if(eh_primo(count)){
+            printf("primo: %d\n", count);
+            soma += count;
+            terms -= 1;
+        }
+    }
+    //printf("%d\n", soma);
+}
 
 /* 6) Faça um programa que mostre na tela os n primeiros termos da sequência de Fibonacci.
 Por exemplo, dado n = 8, temos: 1, 1, 2, 3, 5, 8, 13 e 21. A determinação do n-ésimo termo
 da sequência deve ser feita por uma função iterativa que tem o seguinte protótipo:
     int fibo(int n);
 */
+int fibo(int size){
+    int sum, nums[size]; nums[0]=1;
+    for(int c=1; c<size; c++){
+        sum += nums[c-1];
+        nums[c] = sum;
+    }
+    return sum;
+
+}
+void fstFibon(){
+    int qnt;
+    scanf("%d", &qnt);
+    printf("%d\n", fibo(qnt));
+    //for(int c=1; c<=qnt; c++){
+
+    //}
+}
 
 /* 7) Escreva uma função que calcula o somatório dos n termos que são múltiplos de k a partir
 de x. Os parâmetros são determinados pelo usuário e a função é chamada pelo programa
@@ -139,7 +204,29 @@ principal, que em seguida mostra o resultado na tela. Exemplo:
 para n = 3, k = 4 e x = 18, temos, 20 + 24 + 28 = 72. Protótipo da função:
     int soma_especial(int n, int k, int x);
 */
+int soma_especial(int n, int k, int x){
+    int sum, fst, count;
+    while(n){
+        if(fst<x){
+            count++;
+            fst *= k*count;
+            sum = fst;
+        }
+        else{
+            count++;
+            sum += k*count;
+            n--;
+        }
 
+    }
+}
+void specialSum(){
+    int terms, num, fst;
+    scanf("%d", &terms);
+    scanf("%d", &num);
+    scanf("%d", &fst);
+    printf("%d\n", soma_especial(terms, num, fst));
+}
 /* 8) Faça um programa que leia um inteiro n e determine a soma S da seguinte forma:
 1 + 2 + 3 + 4 + ... + n.
 Escreva duas versões de funções: iterativa e recursiva.
@@ -175,6 +262,10 @@ void main(){
         case 1: triangleType(); break;
         case 2: biggestNum(); break;
         case 3: printInt(); break;
+        case 4: sumOdds(); break;
+        case 5: fstPrimes(); break;
+        case 6: fstFibon(); break;
+        case 7: specialSum(); break;
         default: printf("Digite um índice correto! (entre 1 e 10)\n");
     }
 }

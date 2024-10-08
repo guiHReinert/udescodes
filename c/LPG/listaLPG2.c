@@ -99,17 +99,23 @@ dígito de 0 a 9. A verificação deve ser feita por uma função booleana (int)
 char como parâmetro. Caso o caractere seja um dígito, converta-o para um valor inteiro e
 o armazene em uma variável int. Em seguida, mostre o valor inteiro na tela.
 */
-int verif_inteiro(){
-    
+int verif_inteiro(char carac){
+    if(('0' <= carac)&&(carac <= '9')){
+        return 1;
+    }
+    else{
+        return 0;
+    }
 }
 void printInt(){
     char carac;
-    int ans;
-    scanf("%c", &carac);
-    ans = verif_inteiro(carac);
-    printf("%d\n", ans);
+    scanf(" %c", &carac);
+    int isInt = verif_inteiro(carac);
+    if(isInt){
+        int num = (int)carac;
+        printf("%d\n", num);
+    }
 }
-
 /* 4) Faça uma função que recebe 2 parâmetros, x e y, e calcule a soma dos números impares
 entre eles (sem contar com eles mesmos). Repare que a função deve levar em conta de
 que x pode ser maior do que y. Por exemplo, para x = 6 e y = -5, temos a seguinte soma

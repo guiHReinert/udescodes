@@ -62,20 +62,17 @@ void maiorLinha(int lin, int col, int mat[lin][col], int arr[col]){
 void substring(char* oldStr, char* newStr, int beg, int end){
     int len = sizeof(oldStr)/sizeof(oldStr)[0], posNew=0;
     if(beg>len){
-        printf("primeiro caso\n");
         newStr = "";
     }
     else{
         for(int g=0; g<=len; g++){
             if(beg<=end){
                 if(beg<=g && g<=end){
-                    printf("segundo caso\n");
                     newStr[posNew] = oldStr[g];
                     posNew++;
                 }
             }
             else{
-                printf("terceiro caso\n");
                 for(int u=0; u<=len; u++){
                     newStr[u] = oldStr[u];
                 }
@@ -83,6 +80,18 @@ void substring(char* oldStr, char* newStr, int beg, int end){
         }
     }
 }
+/* 
+CÓDIGO Q4 SOFIA amiga mt boa
+void substring( char orig[], char dest[], int ini, int fim){
+    if (ini > strlen(orig)) dest[fim-ini] = '\0';
+    int j=0;
+    for(int i= ini; i<= fim; i++){
+        dest[j++] = orig[i];
+    }
+    dest[j] = '\0';
+}
+*/
+
 
 int main(){
     /* QUESTÃO 1

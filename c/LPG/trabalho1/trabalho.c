@@ -14,8 +14,8 @@ int arrSum(int arr[], int len){
     }
     return sum;
 }
-int seqSearch(int arr[], int len, int x){
-    for(int c=0; c<len; c++){
+int seqSearch(int arr[], int x){
+    for(int c=0; c<MAXN; c++){
         if(arr[c]==x){
             return c;
         }
@@ -32,18 +32,26 @@ int lenSet(int set[], int len){ // Quantos elementos diferentes de 0 tem
     return count;
 }
 
-void addElem(int arr[], int set[], int len){  
-    int newArr[MAXN]={0}, newPos=0; 
-    for(int g=0; g<len; g++){
-        if(set[g]==0){
-            newPos = g;
-            break;
+void unir(int set1[], int set2[], int newSet[]){
+    int newPos=0; 
+    for(int g=0; g<MAXN; g++){
+        if(set1[g]!=0){
+            newSet[g] = set1[g];
+            newPos = g+1;
         }
     }
-    for(int u=0; u<len; u++){
-        if(seqSearch(set, arr[u], len)<0 && newPos+1<len){
-            set[newPos] = arr[u];
-            newPos++;
+    for(int u=0; u<MAXN; u++){
+        if(seqSearch(newSet, set2[u])<0){
+            newSet[newPos++] = set2[u];
+        }
+    }
+}
+
+void intersec(int set1[], int set2[], int newSet[]){
+    int pos=0;
+    for(int g=0; g<MAXN; g++){
+        if(seqSearch(set1, set1[g])>=0 && seqSearch(set2, set1[g])>=0){
+            newSet[pos++] = set1[seqSearch(set1, set1[g])];
         }
     }
 }
@@ -53,12 +61,15 @@ int main(int argc, char *argv[]){
     // printf(" Digite o numero maximo de matrizes aceitas: ");
     // scanf("%d", &maxM);
     // printf(" Digite o tamanho maximo de cada matriz: ");
-    // scanf("%d", &maxN);
+    // scanf("%d", &maxN);arr[g] = set1[g];
     // #define MAXM maxM
     // #define MAXN maxN
 
     int matL=-1, matriz[MAXM][MAXN]={{0}};
     char ans=0;
+
+    char idRaw=0;
+    int idCooked=0, dentroInter=0;
 
     printf("\n< GERENCIAMENTO DE CONJUNTOS >\n");
     while(ans!='9'){
@@ -80,18 +91,18 @@ int main(int argc, char *argv[]){
             case '1':
                 if(matL+1<MAXM){
                     matL++;
-                    printf("\n Novo conjunto criado. (%d conjunto(s))\n", matL+1);
+                    printf(" Novo conjunto criado. (%d conjunto(s))\n", matL+1);
                     }
                 else{
-                    printf("\n Quantidade maxima de %d conjunto(s) alcancada.\n", MAXM);
+                    printf(" Quantidade maxima de %d conjunto(s) alcancada.\n", MAXM);
                 }
             break;
             case '2':
                 if(matL>=0){
-                    char idRaw=0;
-                    int idCooked=0, dentroInter=0;
+                    idCooked = 0;
+                    dentroInter = 0;
+                    printf(" Escolha um conjunto (entre 0 e %d): ", matL);
                     while(!dentroInter){
-                        printf(" Escolha um conjunto (entre 0 e %d): ", matL);
                         scanf(" %c", &idRaw);
                         dentroInter = idRaw>='0' && idRaw<=('0'+matL);
                         if(!dentroInter){
@@ -99,34 +110,139 @@ int main(int argc, char *argv[]){
                         }
                     }
                     idCooked = idRaw - '0';
-                    int elementos[MAXN]={0};
                     printf(" Digite os inteiros a inserir no conjunto %d (separe cada um somente com espaços):\n", idCooked);
-                    int elem, cElem=0, count=0;
-                    while(count<MAXN){
+                    int elem=0, cElem=lenSet(matriz[idCooked], MAXN);
+                    while(1){
                         scanf("%d", &elem);
-                        if(elem==0 || lenSet(matriz[idCooked], MAXN)+cElem>=MAXN){
+                        if(seqSearch(matriz[idCooked], elem)<0){
+                            matriz[idCooked][cElem++] = elem;
+                        }
+                        if(elem==0 || lenSet(matriz[idCooked], MAXN)>MAXN){
                             break;
                         }
-                        if(seqSearch(elementos, MAXN, elem)<0 && seqSearch(matriz[idCooked], MAXN, elem)<0){
-                            elementos[cElem++] = elem;
-                        }
-                        count++;
-                    }
-                    addElem(elementos, matriz[idCooked], MAXN);
-
-                    for(int c=0; c<MAXN; c++){
-                        printf(" %d", elementos[c]);
-                    }
-                    printf("\n");
-                    for(int c=0; c<MAXN; c++){
-                        printf(" %d", matriz[idCooked][c]);
                     }
                 }
 
-                else{printf("\n Nenhum conjunto foi criado.\n");}
+                else{printf(" Nenhum conjunto foi criado.\n");}
+            break;
+            case '3':
+                if(matL>=0){
+                    idRaw = 0;
+                    idCooked = 0;
+                    dentroInter = 0;
+                    printf(" Escolha um conjunto (entre 0 e %d): ", matL);
+                    while(!dentroInter){
+                        scanf(" %c", &idRaw);
+                        dentroInter = idRaw>='0' && idRaw<=('0'+matL);
+                        if(!dentroInter){
+                            printf("  Digite um valor entre 0 e %d!\n", matL);
+                        }
+                    }
+                    idCooked = idRaw - '0';
+                    for(int g=idCooked; g<matL; g++){
+                        for(int u=0; u<MAXN; u++){
+                            matriz[g][u] = matriz[g+1][u];
+                        }
+                    }
+                    memset(matriz[matL], 0, sizeof(matriz[matL]));
+                    matL--;
+                }
+                else{
+                    printf(" Nenhum conjunto foi criado.\n");
+                }
+            break;
+            case '4':
+                if(matL>0){
+                    char idSet1=0, idSet2=0;
+                    printf(" Digite o primeiro conjunto (entre 0 e %d): ", matL);
+                    while(1){
+                        scanf(" %c", &idSet1);
+                        if(idSet1>='0' && idSet1<=('0'+matL)){
+                            break;
+                        }
+                        else{
+                            printf("  Digite um valor valido! ");
+                        }
+                    } 
+                    printf(" Digite o segundo conjunto (entre 0 e %d): ", matL);
+                    while(1){
+                        scanf(" %c", &idSet2);
+                        if(idSet2>='0' && idSet2<=('0'+matL) && idSet1!=idSet2){
+                            break;
+                        }
+                        else{
+                            printf("  Digite um valor valido! ");
+                        }
+                    }
+                    idSet1 -= '0';
+                    idSet2 -= '0';
+                    matL++;
+                    if(lenSet(matriz[idSet1], MAXN)+lenSet(matriz[idSet2], MAXN)<=MAXN){
+                        unir(matriz[idSet1], matriz[idSet2], matriz[matL]);
+                    }
+                    else{
+                        printf("\n  Os conjuntos %d e %d ultrapassam a capacidade maxima de %d elementos.\n", idSet1, idSet2, MAXN);
+                    }
+                }
+                else{
+                    printf("  Nao ha conjuntos o suficiente para realizar a uniao.\n");
+                }
+
+            break;
+            case '5':
+                if(matL>0){
+                    char idSet1=0, idSet2=0;
+                    printf(" Digite o primeiro conjunto (entre 0 e %d): ", matL);
+                    while(1){
+                        scanf(" %c", &idSet1);
+                        if(idSet1>='0' && idSet1<=('0'+matL)){
+                            break;
+                        }
+                        else{
+                            printf("  Digite um valor valido! ");
+                        }
+                    } 
+                    printf(" Digite o segundo conjunto (entre 0 e %d): ", matL);
+                    while(1){
+                        scanf(" %c", &idSet2);
+                        if(idSet2>='0' && idSet2<=('0'+matL) && idSet1!=idSet2){
+                            break;
+                        }
+                        else{
+                            printf("  Digite um valor valido! ");
+                        }
+                    }
+                    idSet1 -= '0';
+                    idSet2 -= '0';
+                    matL++;
+                    intersec(matriz[idSet1], matriz[idSet2], matriz[matL]);                    
+                }
+                else{
+                    printf("  Nao ha conjuntos o suficiente para realizar a intersecçao.\n");
+                }
+            break;
+            case '6':
+                idRaw = 0;
+                idCooked = 0;
+                dentroInter = 0;
+                printf(" Escolha um conjunto (entre 0 e %d): ", matL);
+                while(!dentroInter){
+                    scanf(" %c", &idRaw);
+                    dentroInter = idRaw>='0' && idRaw<=('0'+matL);
+                    if(!dentroInter){
+                        printf("  Digite um valor entre 0 e %d! ", matL);
+                    }
+                }
+                idCooked = idRaw - '0';
+                printf(" Conjunto %d:", idCooked);
+                for(int c=0; c<MAXN; c++){
+                    if(matriz[idCooked][c]){
+                        printf(" %d", matriz[idCooked][c]);
+                    }
+                }
             break;
             case '7':
-                printf("\n Total de %d conjuntos: \n", matL+1);
+                printf(" Total de %d conjuntos: \n", matL+1);
                 for(int g=0; g<=matL; g++){
                     printf(" Conj. %d =", g);
                     if(arrSum(matriz[g], MAXN)==0){
@@ -134,14 +250,38 @@ int main(int argc, char *argv[]){
                     }
                     else{
                         for(int u=0; u<MAXN; u++){
-                            printf(" %d", matriz[g][u]);
+                            if(matriz[g][u]!=0){
+                                printf(" %d", matriz[g][u]);
+                            }
                         }
                     }
                     printf("\n");
                 }
             break;
+            case '8':
+                int num=0, id=0, sets[MAXN]={0};
+                printf(" Escreva o numero a ser buscado: ");
+                scanf("%d", &num);
+                for(int g=0; g<MAXM; g++){
+                    if(seqSearch(matriz[g], num)>-1){
+                        sets[id++] = g;
+                    }
+                }
+                if(arrSum(sets, MAXN)){
+                    printf(" Conjuntos com o numero %d:", num);
+                    for(int c=0; c<=lenSet(sets, MAXN);c++){
+                        printf(" %d", sets[c]);
+                    }
+                    printf("\n");
+                }
+                else{
+                    printf("  Nao ha conjuntos com o numero %d", num);
+                }
+                
+            break;
+            case '9': break;
             default:
-                printf("\n Por favor, insira um indice correto!\n");
+                printf(" Por favor, insira um indice correto!\n");
             break;
         }
     }

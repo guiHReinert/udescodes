@@ -9,39 +9,43 @@
 // Funcoes Auxiliares
 int arrSum(int arr[], int len){
     int sum=0;
-    for(int c; c<len; c++){
+    for(int c=0; c<len; c++){
         sum += arr[c];
     }
     return sum;
 }
-
-int addElem(char str[], int *set){  
-    int setLen=sizeof(set)/sizeof(set)[0];
-    char numRaw[MAXN]; 
-    int arrNums[MAXN]={0}, cRaw=0, cNums=0;
-    for(int g=0; g<MAXN*4 && cNums<=MAXN-setLen; g++){ // Quantidade de elementos a adicionar menor ou igual a quantidade de espaços vazios no conjunto
-        if(str[g]>='0' && str[g]<='9' || str[g]=='-'){
-            printf("\ng=%d, str[g]=%c, ascii=%d", g, str[g], str[g]-'0');
-            numRaw[cRaw++] = str[g];
-        }
-        else{
-            if(cRaw>0){
-                arrNums[cNums++] = atoi(numRaw);
-                cRaw = 0;
-            }
-        }
-        if(cNums>MAXN-setLen){
-            printf("\n Quantidade maxima de elementos excedida!");
-            return 0;
+int seqSearch(int arr[], int len, int x){
+    for(int c=0; c<len; c++){
+        if(arr[c]==x){
+            return c;
         }
     }
-    printf("\n");
-    for(int u=0; u<MAXN; u++){
-        printf(" u=%d, %d\n", u, arrNums[u]);
+    return -1;
+}
+int lenSet(int set[], int len){ // Quantos elementos diferentes de 0 tem
+    int count=0;
+    for(int g=0; g<len; g++){
+        if(set[g]!=0){
+            count++;
+        }
     }
-    printf("\n");
-    return 1;
+    return count;
+}
 
+void addElem(int arr[], int set[], int len){  
+    int newArr[MAXN]={0}, newPos=0; 
+    for(int g=0; g<len; g++){
+        if(set[g]==0){
+            newPos = g;
+            break;
+        }
+    }
+    for(int u=0; u<len; u++){
+        if(seqSearch(set, arr[u], len)<0 && newPos+1<len){
+            set[newPos] = arr[u];
+            newPos++;
+        }
+    }
 }
 
 int main(int argc, char *argv[]){
@@ -56,10 +60,10 @@ int main(int argc, char *argv[]){
     int matL=-1, matriz[MAXM][MAXN]={{0}};
     char ans=0;
 
+    printf("\n< GERENCIAMENTO DE CONJUNTOS >\n");
     while(ans!='9'){
         ans = 0;
-        printf("\n< GERENCIAMENTO DE CONJUNTOS > \
-        \n\n >> Menu de Entrada \
+        printf("\n >> Menu de Entrada \
         \n1 - Criar um novo conjunto vazio \
         \n2 - Inserir dados em um conjunto \
         \n3 - Remover um conjunto \
@@ -95,17 +99,27 @@ int main(int argc, char *argv[]){
                         }
                     }
                     idCooked = idRaw - '0';
-                    char elementos[MAXN*4]; /* Considerando um caso pouco extremo onde se insere um conjunto completo de numeros negativos
-                                            e cada um separado por uma virgula e um espaço entre elementos.
-                                            */
-                    printf(" Digite os elementos a inserir no conjunto %d (separe com virgulas cada um):\n", idCooked);
-                    scanf(" %[^\n]", elementos);
-                    // printf("(%s) e len = %ld", elementos, sizeof(elementos)/sizeof(elementos)[0]);
-                    if(elementos[0]>='0' && elementos[0]<='9'){
-                        addElem(elementos, matriz[idCooked]);
+                    int elementos[MAXN]={0};
+                    printf(" Digite os inteiros a inserir no conjunto %d (separe cada um somente com espaços):\n", idCooked);
+                    int elem, cElem=0, count=0;
+                    while(count<MAXN){
+                        scanf("%d", &elem);
+                        if(elem==0 || lenSet(matriz[idCooked], MAXN)+cElem>=MAXN){
+                            break;
+                        }
+                        if(seqSearch(elementos, MAXN, elem)<0 && seqSearch(matriz[idCooked], MAXN, elem)<0){
+                            elementos[cElem++] = elem;
+                        }
+                        count++;
                     }
-                    else{
-                        printf(" Digite valores validos!\n");
+                    addElem(elementos, matriz[idCooked], MAXN);
+
+                    for(int c=0; c<MAXN; c++){
+                        printf(" %d", elementos[c]);
+                    }
+                    printf("\n");
+                    for(int c=0; c<MAXN; c++){
+                        printf(" %d", matriz[idCooked][c]);
                     }
                 }
 
@@ -115,13 +129,13 @@ int main(int argc, char *argv[]){
                 printf("\n Total de %d conjuntos: \n", matL+1);
                 for(int g=0; g<=matL; g++){
                     printf(" Conj. %d =", g);
-                    if(arrSum(matriz[g], MAXN)>0){ // caso arrSum=<0, logo o conjunto nao possui elementos
+                    if(arrSum(matriz[g], MAXN)==0){
+                        printf(" vazio");
+                    }
+                    else{
                         for(int u=0; u<MAXN; u++){
                             printf(" %d", matriz[g][u]);
                         }
-                    }
-                    else{
-                        printf(" vazio");
                     }
                     printf("\n");
                 }

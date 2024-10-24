@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
         \n2 - Inserir dados em um conjunto \
         \n3 - Remover um conjunto \
         \n4 - Fazer a uniao entre dois conjuntos \
-        \n5 - Fazer a interseccao entre dois conjuntos \
+        \n5 - Fazer a intersecçao entre dois conjuntos \
         \n6 - Mostrar um cojunto \
         \n7 - Mostrar todos os conjuntos \
         \n8 - Busca por um valor \
@@ -111,15 +111,17 @@ int main(int argc, char *argv[]){
                     }
                     idCooked = idRaw - '0';
                     printf(" Digite os inteiros a inserir no conjunto %d (separe cada um somente com espaços):\n", idCooked);
-                    int elem=0, cElem=lenSet(matriz[idCooked], MAXN);
+                    int count=0, elem=-1, cElem=lenSet(matriz[idCooked], MAXN);
                     while(1){
+                        count++;
+                        if(elem==0 || count>=MAXN || lenSet(matriz[idCooked], MAXN)>MAXN){
+                            break;
+                        }
                         scanf("%d", &elem);
                         if(seqSearch(matriz[idCooked], elem)<0){
                             matriz[idCooked][cElem++] = elem;
                         }
-                        if(elem==0 || lenSet(matriz[idCooked], MAXN)>MAXN){
-                            break;
-                        }
+                        
                     }
                 }
 
@@ -259,15 +261,16 @@ int main(int argc, char *argv[]){
                 }
             break;
             case '8':
-                int num=0, id=0, sets[MAXN]={0};
+                int num=0, id=0, found=0, sets[MAXN]={0};
                 printf(" Escreva o numero a ser buscado: ");
                 scanf("%d", &num);
                 for(int g=0; g<MAXM; g++){
                     if(seqSearch(matriz[g], num)>-1){
                         sets[id++] = g;
+                        found = 1;
                     }
                 }
-                if(arrSum(sets, MAXN)){
+                if(found){
                     printf(" Conjuntos com o numero %d:", num);
                     for(int c=0; c<=lenSet(sets, MAXN);c++){
                         printf(" %d", sets[c]);

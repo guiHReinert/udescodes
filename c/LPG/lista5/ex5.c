@@ -1,30 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
 /*
 5) Escreva uma função que recebe um vetor e sua capacidade como parâmetros e precisa
 “retornar” o maior e o menor valores do vetor.
-void max_min(int vet[], int tam, int *pMin, int *pMax);
 */
-
+void max_min(int vet[], int tam, int *pMin, int *pMax){
+    *pMin = vet[0];
+    *pMax = vet[0];
+    for(int g=0; g<tam; g++){
+        if(vet[g] < *pMin){
+            *pMin = vet[g];
+        }
+        if(vet[g] > *pMax){
+            *pMax = vet[g];
+        }
+    }
+}
 
 void main(){
-    printf("Escolha uma questao da lista: \
-    \n1) Tipo de triangulo \
-    \n2) Maior de Tres Valores \
-    \n3) Verificacao 0 a 9 \
-    \n4) Soma de Impares \
-    \n5) N Primeiros Numeros Primos \
-    \n6) N Primeiros Termos de Fibonacci \
-    \n7) Soma Especial \
-    \n8) Soma Simples \
-    \n9) Serie Harmonica \
-    \n10) Somatorio Numero de Euler \
-    \n\n > ");
-    int ans; scanf("%d", &ans);
-    switch(ans){
-        case 1: triangleType(); break;
-        default: printf("Digite um índice correto! (entre 1 e 10)\n");
+    int cap=0, min=0, max=0;
+    printf(" Digite a capacidade do vetor: ");
+    scanf("%d", &cap);
+    int  arr[cap], elem;
+    printf(" Digite os seus %d elementos: ", cap);
+    for(int c=0; c<cap; c++){
+        scanf("%d", &elem);
+        arr[c] = elem;
     }
+    max_min(arr, cap, &min, &max);
+    printf(" Menor = %d\n Maior = %d\n", min, max);
 }

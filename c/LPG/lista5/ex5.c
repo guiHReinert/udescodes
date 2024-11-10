@@ -21,7 +21,7 @@ void main(){
     int cap=0, min=0, max=0;
     printf(" Digite a capacidade do vetor: ");
     scanf("%d", &cap);
-    int  arr[cap], elem;
+    int arr[cap], elem;
     printf(" Digite os seus %d elementos: ", cap);
     for(int c=0; c<cap; c++){
         scanf("%d", &elem);

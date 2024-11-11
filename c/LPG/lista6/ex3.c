@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 /*
 3) Escreva um programa que aloca dinamicamente um vetor do tipo float e realiza a entrada
 de dados. Em seguida, o programa deve calcular a média dos valores do vetor e alocar
@@ -10,23 +9,32 @@ dos valores. Outra alternativa consiste em usar realloc() para ir aumentando o e
 alocado à medida que os valores vão sendo encontrados.
 */
 
-
 void main(){
-    printf("Escolha uma questao da lista: \
-    \n1) Tipo de triangulo \
-    \n2) Maior de Tres Valores \
-    \n3) Verificacao 0 a 9 \
-    \n4) Soma de Impares \
-    \n5) N Primeiros Numeros Primos \
-    \n6) N Primeiros Termos de Fibonacci \
-    \n7) Soma Especial \
-    \n8) Soma Simples \
-    \n9) Serie Harmonica \
-    \n10) Somatorio Numero de Euler \
-    \n\n > ");
-    int ans; scanf("%d", &ans);
-    switch(ans){
-        case 1: triangleType(); break;
-        default: printf("Digite um índice correto! (entre 1 e 10)\n");
+    int len=0;
+    printf(" Quantos numeros deseja inserir no vetor? ");
+    scanf("%d", &len);
+    float *arr1 = malloc(sizeof(float) * len);
+    printf(" Digite os numeros a serem inseridos:\n > ");
+    for(int g=0; g<len; g++){
+        scanf("%f", &arr1[g]);
     }
+
+    float media=0.0;
+    for(int u=0; u<len; u++){
+        media += arr1[u];
+    }
+    media /= len;
+    int pos2=0;
+    float *arr2 = malloc(sizeof(float) * len);
+    for(int i=0; i<len; i++){
+        if(arr1[i] >= media){
+            arr2[pos2++] = arr1[i];
+        }
+    }
+
+    printf(" Media = %f\n Vetor final:\n { ", media);
+    for(int c=0; c<pos2; c++){
+        printf("%.2f ", arr2[c]);
+    }
+    printf("}\n");
 }

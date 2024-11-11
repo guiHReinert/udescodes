@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 /*
 4) Faça um programa que leia uma certa quantidade de inteiros que são armazenados num
 vetor v. A quantidade deve ser definida pelo usuário, e o programa aloca espaço para v. O
@@ -11,22 +10,47 @@ conter zeros. Ao final, imprima os três vetores. Pode ser feito com malloc() ou
 realloc().
 */
 
-void main(){
-    printf("Escolha uma questao da lista: \
-    \n1) Tipo de triangulo \
-    \n2) Maior de Tres Valores \
-    \n3) Verificacao 0 a 9 \
-    \n4) Soma de Impares \
-    \n5) N Primeiros Numeros Primos \
-    \n6) N Primeiros Termos de Fibonacci \
-    \n7) Soma Especial \
-    \n8) Soma Simples \
-    \n9) Serie Harmonica \
-    \n10) Somatorio Numero de Euler \
-    \n\n > ");
-    int ans; scanf("%d", &ans);
-    switch(ans){
-        case 1: triangleType(); break;
-        default: printf("Digite um índice correto! (entre 1 e 10)\n");
+void printar(int *arr, int size){
+    printf(" { ");
+    for(int c=0; c < size; c++){
+        printf("%d ", arr[c]);
     }
+    printf("}\n");
+}
+
+void main(){
+    int len=0;
+    printf(" Quantos numeros deseja inserir no vetor? ");
+    scanf("%d", &len);
+    int *v = malloc(sizeof(int) * len);
+    printf(" Digite os numeros a serem inseridos:\n > ");
+    for(int g=0; g<len; g++){
+        scanf("%d", &v[g]);
+    }
+
+    int *vn = malloc(sizeof(v[0])), *vp = malloc(sizeof(v[0]));
+    int  posN=0, posP=0;
+    for(int u=0; u<len; u++){
+        if(v[u] < 0){
+            vn = realloc(vn, sizeof(v[0]) * posN+1);
+            vn[posN++] = v[u];
+        }
+    }
+    for(int i=0; i<len; i++){
+        if(v[i] > 0){
+            vp = realloc(vp, sizeof(v[0]) * posP+1);
+            vp[posP++] = v[i];
+        }
+    }
+
+    printf(" Vetor original:");
+    printar(v, len);
+    printf(" Valores negativos:");
+    printar(vn, posN);
+    printf(" Valores positivos:");
+    printar(vp, posP);
+
+    free(v);
+    free(vn);
+    free(vp);
 }

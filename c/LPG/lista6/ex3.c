@@ -37,4 +37,7 @@ void main(){
         printf("%.2f ", arr2[c]);
     }
     printf("}\n");
+
+    free(arr1);
+    free(arr2);
 }

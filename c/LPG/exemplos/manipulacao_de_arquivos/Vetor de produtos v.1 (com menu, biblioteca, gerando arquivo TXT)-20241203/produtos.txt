@@ -1,0 +1,4 @@
+
+Lista de produtos:
+produto 1: (123, 'cafe com leite', R$10.00, 10/12/2025)
+produto 2: (456, 'bolo de chocolate', R$15.00, 11/11/2024)

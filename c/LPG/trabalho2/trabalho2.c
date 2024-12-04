@@ -5,11 +5,9 @@
 struct Data{
      int dia, mes, ano;
 };
-
 struct Compositor{
      char nome[50], nacionalidade[50]; 
 };
-
 struct musica{
      char titulo[100], estilo[50], gravadora[50];
      int tempo;
@@ -55,15 +53,15 @@ void inserir(struct musica *cd, int *n, int *m){
           }
      }
      printf("Informe o genero musical: ");
-     scanf("%s", cd[*n - 1].estilo);
+     scanf("%[^\n]", cd[*n - 1].estilo);
      printf("Informe a gravadora: ");
-     scanf("%s", cd[*n - 1].gravadora);
+     scanf("%[^\n]", cd[*n - 1].gravadora);
      printf("Informe a data de lancamento (formato dd mm aaaa): ");
      scanf("%d%d%d", &cd[*n - 1].data.dia, &cd[*n - 1].data.mes, &cd[*n - 1].data.ano);
      printf("Informe a duracao da musica (tempo aproximado em minutos): ");
      scanf("%d", &cd[*n - 1].tempo);
      printf("Informe o nome do/da compositor/compositora: ");
-     scanf("%s", cd[*n - 1].compositor.nome);
+     scanf("%[^\n]", cd[*n - 1].compositor.nome);
      printf("Informe a nacionalidade do/da compositor/compositora: ");
-     scanf("%s", cd[*n-1].compositor.nacionalidade);
+     scanf("%[^\n]", cd[*n-1].compositor.nacionalidade);
 }

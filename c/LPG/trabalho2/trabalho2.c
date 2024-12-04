@@ -22,7 +22,7 @@ struct musica{
 void printMenu(); // printa o menu de opcoes
 void inserir(struct musica **cd, int *n);
 void printar(struct musica mus);
-int search(struct musica *cd, char *key, int *len);
+int search(struct musica **cd, char *key, int *len);
 
 int main() {
      struct musica *cd;
@@ -42,12 +42,22 @@ int main() {
                }
           } 
           else if(t == 4){
-               int opc = 0;
-               do{
-                    printf("Digite o indice da musica a ser mostrada: ");
-                    scanf("%d", &opc);
-               }while(opc < 0 || opc > n - 1);
-               printar(cd[opc]);
+               char name[MAX];
+               int namePos = 0;
+               while(1){
+                    getchar();
+                    printf("Digite o nome da musica a ser mostrada: ");
+                    scanf("%[^\n]s", name);
+                    namePos = search(&cd, name, &n);
+                    if(namePos > -1){
+                         printar(cd[namePos]);
+                         break;
+                    }
+                    else{
+                         printf("Esta musica nao esta registrada.\n");
+                    }
+               }
+               
           }
      }
 
@@ -77,10 +87,11 @@ void inserir(struct musica **cd, int *n){
      (*n)++;
      *cd = realloc(*cd, sizeof(struct musica) * (*n));
 
+     char title[MAX];
      getchar();
      printf("\nDigite o nome da musica: ");
      // scanf("%[^\n]s", cd[*m - 1].titulo);
-     scanf("%[^\n]s", (*cd)[*n - 1].titulo);
+     scanf("%[^\n]s", title);
 
      // for(int i=0; i < *m - 1; i++){
      //      if(strcmp(cd[i].titulo, cd[*m - 1].titulo) == 0){
@@ -88,18 +99,19 @@ void inserir(struct musica **cd, int *n){
      //           (*m)--;
      //           return;
      //      }
-     for(int i=0; i < *n - 1; i++){
-          if(strcmp((*cd)[i].titulo, (*cd)[*n - 1].titulo) == 0){
-               printf("Musica ja cadastrada!\n");
-               (*n)--;
-               return;
-          }
-     }
-     if(search(*cd, (*cd)[*n - 1].titulo, n) == -1){
+     // for(int i=0; i < *n - 1; i++){
+     //      if(strcmp((*cd)[i].titulo, (*cd)[*n - 1].titulo) == 0){
+     //           printf("Musica ja cadastrada!\n");
+     //           (*n)--;
+     //           return;
+     //      }
+     // }
+     if(search(&(*cd), title, n) > -1){
           printf("Musica ja cadastrada!\n");
           (*n)--;
           return;
      }
+     strcpy((*cd)[*n - 1].titulo, title);
 
      getchar();
      printf("Informe o genero musical: ");
@@ -132,9 +144,10 @@ void printar(struct musica mus){
      mus.tempo, mus.compositor.nome, mus.compositor.nacionalidade);
 }
 
-int search(struct musica *cd, char *key, int *len){
+int search(struct musica **cd, char *key, int *len){
      for(int i = 0; i < *len; i++){
-          if(strcmp((*cd).titulo, (*cd).titulo) == 0){
+          // printf("\nComparando (%s) com (%s)\n", (*cd)[i].titulo, key);
+          if(strcmp((*cd)[i].titulo, key) == 0){
                return i;
           }
      }

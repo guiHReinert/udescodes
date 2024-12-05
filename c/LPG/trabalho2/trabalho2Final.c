@@ -36,6 +36,10 @@ int main() {
      // Recebe os dados salvos no arquivo de texto <f>
      printf("Digite o nome do arquivo a ser aberto: ");
      scanf("%s", f);
+    while(strcmp(f, "musicas.txt") == 0){
+        printf(" Nome de arquivo invalido. Digite outro nome: ");
+        scanf("%s", f);
+    }
      dados = fopen(f, "rt");
 
      if(dados == NULL){
@@ -58,12 +62,7 @@ int main() {
           fclose(dados);
      }
 
-     while(t != 5){ 
-          // Registrar os dados no relatorio
-          musicas = fopen("musicas.txt", "wt");
-          registrar(cd, musicas, n);
-          fclose(musicas);
-
+    while(t != 5){ 
           printMenu(); 
           scanf("%d", &t);
           if(t == 1){// Inserir uma nova musica
@@ -76,15 +75,29 @@ int main() {
                scanf("%[^\n]s", s);
                remover(&cd, &n, s);
           }
-          else if(t == 3){// Mostrar todas as musicas
+          else if(t == 3){
                if(n == 0){
                     printf(" Nao ha musicas registradas\n");
                     continue;
                } 
-               printf("%-25s| %-25s| %-25s| %-25s| %-25s| %-25s| %-25s\n\n",
-                    "Titulo:","Genero:","Gravadora:","Lancamento:","Duracao(min):","Compositor(es):","Nacionalidade(s):");
-               for(int c=0; c<n; c++){
-                    printar(cd[c]);
+               int opc = 0; 
+               printf("1 - Mostrar as musicas no terminal\n2 - Exportar para o arquivo de texto\n >");
+               scanf("%d", &opc);
+               if(opc == 1){// Mostrar todas as musicas
+                   printf("%-25s| %-25s| %-25s| %-25s| %-25s| %-25s| %-25s\n\n",
+                        "Titulo:","Genero:","Gravadora:","Lancamento:","Duracao(min):","Compositor(es):","Nacionalidade(s):");
+                   for(int c=0; c<n; c++){
+                        printar(cd[c]);
+                   }
+               }
+                else if(opc == 2){// Registrar os dados no relatorio
+                  musicas = fopen("musicas.txt", "wt");
+                  registrar(cd, musicas, n);
+                  fclose(musicas);
+               }
+               else{
+                   printf(" Opcao invalida\n");
+                   continue;
                }
           }
           else if(t == 4){// Mostrar uma musica especifica
@@ -117,19 +130,19 @@ int main() {
                printf(" Opcao invalida\n");
           }
      }
-     // Registrar os dados no cadastro
-     dados = fopen(f, "wt");
-     fprintf(dados, "%d\n", n);
-     for(int i = 0; i < n; i++){
-          fprintf(dados, "\n%s\n%s\n%s\n%d %d %d\n%d\n%s\n%s\n",
-          cd[i].titulo, cd[i].estilo, cd[i].gravadora,
-          cd[i].data.dia, cd[i].data.mes, cd[i].data.ano,
-          cd[i].tempo, cd[i].compositor.nome, cd[i].compositor.nacionalidade);
-     }
-
-     fclose(dados);
-     free(cd);
-     return 0;
+         // Registrar os dados no cadastro
+         dados = fopen(f, "wt");
+         fprintf(dados, "%d\n", n);
+         for(int i = 0; i < n; i++){
+              fprintf(dados, "\n%s\n%s\n%s\n%d %d %d\n%d\n%s\n%s\n",
+              cd[i].titulo, cd[i].estilo, cd[i].gravadora,
+              cd[i].data.dia, cd[i].data.mes, cd[i].data.ano,
+              cd[i].tempo, cd[i].compositor.nome, cd[i].compositor.nacionalidade);
+         }
+    
+         fclose(dados);
+         free(cd);
+         return 0;
 }
 
 void printMenu(){

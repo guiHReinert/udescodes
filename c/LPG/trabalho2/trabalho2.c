@@ -11,7 +11,6 @@ struct Compositor{
      char nome[MAX], nacionalidade[MAX]; 
 };
 
-// musica contem os structs acima
 struct musica{
      char titulo[MAX], estilo[MAX], gravadora[MAX];
      int tempo;
@@ -19,105 +18,90 @@ struct musica{
      struct Compositor compositor;
 };
 
-void printMenu(); // printa o menu de opcoes
-void inserir(struct musica **cd, int *n);
-void registrar(struct musica mus, FILE *file);
-void printar(struct musica mus);
-void remover(struct musica **cd, int *n, char *s);
-int search(struct musica **cd, char *key, int len);
+void printMenu();                                           // Printa o menu de opcoes
+void inserir(struct musica **cd, int *n);                   // Armazena uma nova musica
+void registrar(struct musica *mus, FILE *file, int len);    // Exporta/registra uma nova musica
+void printar(struct musica mus);                            // Mostra os dados de uma musica no terminal
+void remover(struct musica **cd, int *n, char *s);          // Remove uma musica armazenada
+int search(struct musica **cd, char *key, int len);         // Retorna o indice de uma musica pelo seu nome(chave)
 
 int main() {
      struct musica *cd;
      cd = malloc(sizeof(struct musica));
 
      int n = 0, t = 0;
-     FILE *file;
+     FILE *dados, *musicas;
      char f[MAX];
+
+     // Recebe os dados salvos no arquivo de texto <f>
      printf("Digite o nome do arquivo a ser aberto: ");
      scanf("%s", f);
-     file = fopen(f, "rt");
+     dados = fopen(f, "rt");
 
-     if(file == NULL){
-          printf(" Novo arquivo criado com sucesso");
+     if(dados == NULL){
+          printf(" Arquivo nao encontrado");
      }else{
           printf(" Arquivo encontrado com sucesso");
           int m;
-          char bMAX[150];
-          fscanf(file, "%d", &m);
+          fscanf(dados, "%d", &m);
           n = m;
           cd = realloc(cd, n * sizeof(struct musica));
           for (int i = 0; i < n; i++) {
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Titulo: %[^\n]s", cd[i].titulo);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Genero: %[^\n]s", cd[i].estilo);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Gravadora: %[^\n]s", cd[i].gravadora);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Lancamento: %d/%d/%d", &cd[i].data.dia, &cd[i].data.mes, &cd[i].data.ano);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Duracao: %d min", &cd[i].tempo);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Compositor(es): %[^\n]s", cd[i].compositor.nome);
-               fgets(bMAX, sizeof(bMAX), file);
-               sscanf(bMAX, "Nacionalidade(s): %[^\n]s", cd[i].compositor.nacionalidade);
+               fscanf(dados, " %[^\n]s", cd[i].titulo);
+               fscanf(dados, " %[^\n]s", cd[i].estilo);
+               fscanf(dados, " %[^\n]s", cd[i].gravadora);
+               fscanf(dados, "%d %d %d", &cd[i].data.dia, &cd[i].data.mes, &cd[i].data.ano);
+               fscanf(dados, "%d", &cd[i].tempo);
+               fscanf(dados, " %[^\n]s", cd[i].compositor.nome);
+               fscanf(dados, " %[^\n]s", cd[i].compositor.nacionalidade);
      }
-          fclose(file);
+          fclose(dados);
      }
 
-     file = fopen("musicas.txt", "wt");
      while(t != 5){ 
+          // Registrar os dados no relatorio
+          musicas = fopen("musicas.txt", "wt");
+          registrar(cd, musicas, n);
+          fclose(musicas);
+
           printMenu(); 
           scanf("%d", &t);
-          if(t == 1){
-               // inserir(cd, &n, &m);
+          if(t == 1){// Inserir uma nova musica
                inserir(&cd, &n);
           }
-          else if(t == 2){
+          else if(t == 2){// Remover uma musica
                printf("Digite o titulo da musica a ser removida\n");
                char s[MAX];
                getchar();
                scanf("%[^\n]s", s);
                remover(&cd, &n, s);
           }
-               else if(t == 3){
-               int op;
-               printf("\n1 - Mostrar no terminal\n2 - Mostrar no arquivo de texto\n");
-               scanf("%d", &op);
-               if(op == 2){
-                    if(n == 0){
+          else if(t == 3){// Mostrar todas as musicas
+               if(n == 0){
                     printf(" Nao ha musicas registradas\n");
                     continue;
-                    } 
-                    file = fopen("musicas.txt", "wt");
-                    for(int c=0; c<n; c++){
-                         registrar(cd[c], file);
-                    }
-                    fclose(file);
-               }
-               if(op == 1){
-                    if(n == 0){
-                    printf(" Nao ha musicas registradas\n");
-                    continue;
-                    } 
-                    for(int c=0; c<n; c++){
-                         printar(cd[c]);
-                    }
-               }
                } 
-               else if(t == 4){
+               printf("%-25s| %-25s| %-25s| %-25s| %-25s| %-25s| %-25s\n\n",
+                    "Titulo:","Genero:","Gravadora:","Lancamento:","Duracao(min):","Compositor(es):","Nacionalidade(s):");
+               for(int c=0; c<n; c++){
+                    printar(cd[c]);
+               }
+          }
+          else if(t == 4){// Mostrar uma musica especifica
                if(n == 0){
                     printf("\n Nao ha musicas registradas\n");
                     continue;
                }
-                    char name[MAX];
-                    int namePos = 0;
-                    while(1){
-                         getchar();
-                         printf("Digite o nome da musica a ser mostrada: ");
-                         scanf("%[^\n]s", name);
-                         namePos = search(&cd, name, n);
-                         if(namePos > -1){          
+               char name[MAX];
+               int namePos = 0;
+               while(1){
+                    getchar();
+                    printf("Digite o nome da musica a ser mostrada: ");
+                    scanf("%[^\n]s", name);
+                    namePos = search(&cd, name, n);
+                    if(namePos > -1){      
+                         printf("%-25s| %-25s| %-25s| %-25s| %-25s| %-25s| %-25s\n\n",
+                              "Titulo:","Genero:","Gravadora:","Lancamento:","Duracao(min):","Compositor(es):","Nacionalidade(s):");    
                          printar(cd[namePos]);
                          break;
                     }
@@ -133,22 +117,17 @@ int main() {
                printf(" Opcao invalida\n");
           }
      }
-     file = fopen(f, "wt");
-     fprintf(file, "%d\n", n);
+     // Registrar os dados no cadastro
+     dados = fopen(f, "wt");
+     fprintf(dados, "%d\n", n);
      for(int i = 0; i < n; i++){
-          fprintf(file, "\nTitulo: %s\
-          \nGenero: %s\
-          \nGravadora: %s\
-          \nLancamento: %d/%d/%d\
-          \nDuracao: %d min\
-          \nCompositor(es): %s\
-          \nNacionalidade(es): %s\n",
+          fprintf(dados, "\n%s\n%s\n%s\n%d %d %d\n%d\n%s\n%s\n",
           cd[i].titulo, cd[i].estilo, cd[i].gravadora,
           cd[i].data.dia, cd[i].data.mes, cd[i].data.ano,
           cd[i].tempo, cd[i].compositor.nome, cd[i].compositor.nacionalidade);
      }
 
-     fclose(file);
+     fclose(dados);
      free(cd);
      return 0;
 }
@@ -162,10 +141,8 @@ void printMenu(){
      \n5 - Sair do programa\n > ");
      }
 
-     // Insere as informacoes em musica e nos structs correspondentes
-     // inserir(struct musica <pont das musicas>, int <cap do vetor>, int <qnt de musicas>)
-
-     void inserir(struct musica **cd, int *n){
+     // Insere uma nova musica no vetor
+void inserir(struct musica **cd, int *n){
      char title[MAX];
      getchar();
      printf("\nDigite o nome da musica: ");
@@ -197,27 +174,29 @@ void printMenu(){
      scanf("%[^\n]s", (*cd)[*n - 1].compositor.nacionalidade);
 }
 
-void registrar(struct musica mus, FILE *file){
-     fprintf(file,"\n%s\t%s\t%s\t%d/%d/%d\t%d\t%s\t%s\n",
-     mus.titulo, mus.estilo, mus.gravadora,
-     mus.data.dia, mus.data.mes, mus.data.ano,
-     mus.tempo, mus.compositor.nome, mus.compositor.nacionalidade);
+void registrar(struct musica *mus, FILE *file, int len){// Registra todas as musicas armazenadas no relatorio
+     fprintf(file, "%-25s| %-25s| %-25s| %-25s| %-25s| %-25s| %-25s\n\n",
+          "Titulo:","Genero:","Gravadora:","Lancamento:","Duracao(min):","Compositor(es):","Nacionalidade(s):");
+     char strLan[MAX];
+     for(int c=0; c<len; c++){
+          sprintf(strLan, "%d/%d/%d", mus[c].data.dia, mus[c].data.mes, mus[c].data.ano);
+          fprintf(file,"%-25s| %-25s| %-25s| %-25s| %-25d| %-25s| %-25s\n",
+               mus[c].titulo, mus[c].estilo, mus[c].gravadora,
+               strLan, mus[c].tempo,
+               mus[c].compositor.nome, mus[c].compositor.nacionalidade);
+     }
 }
 
-void printar(struct musica mus){
-     printf("\nTitulo: %s\
-     \nGenero: %s\
-     \nGravadora: %s\
-     \nLancamento: %d/%d/%d\
-     \nDuracao: %d min\
-     \nCompositor(es): %s\
-     \nNacionalidade(s): %s\n",
-     mus.titulo, mus.estilo, mus.gravadora,
-     mus.data.dia, mus.data.mes, mus.data.ano,
-     mus.tempo, mus.compositor.nome, mus.compositor.nacionalidade);
+void printar(struct musica mus){// Mostra uma unica musica no terminal
+     char strLan[MAX];
+     sprintf(strLan, "%d/%d/%d", mus.data.dia, mus.data.mes, mus.data.ano);
+     printf("%-25s| %-25s| %-25s| %-25s| %-25d| %-25s| %-25s\n",
+          mus.titulo, mus.estilo, mus.gravadora,
+          strLan, mus.tempo,
+          mus.compositor.nome, mus.compositor.nacionalidade);
 }
 
-void remover(struct musica **cd, int *n, char *s){
+void remover(struct musica **cd, int *n, char *s){// Remove uma unica musica
      int ind = search(cd, s, *n);
      if(ind == -1){
           printf(" Musica nao cadastrada\n");
@@ -232,7 +211,7 @@ void remover(struct musica **cd, int *n, char *s){
      return;
 }
 
-int search(struct musica **cd, char *key, int len){
+int search(struct musica **cd, char *key, int len){// Retorna o indice de uma musica caso ela exista
      for(int i = 0; i < len; i++){
           if(strcmp((*cd)[i].titulo, key) == 0){
                return i;

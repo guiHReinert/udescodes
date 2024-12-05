@@ -1,0 +1,7 @@
+
+Nome: 1234    	Genero: 2346    	Gravadora: 2346    	Lancamento: 345/3245/345    	Duracao: 345 min    	Compositor(es): 3425    	Nacionalidade(s): 345
+    
+Nome: 12345    	Genero: 45678    	Gravadora: 567    	Lancamento: 456/456/456    	Duracao: 456 min    	Compositor(es): 456    	Nacionalidade(s): 1234
+    
+Nome: 125456    	Genero: 2476    	Gravadora: 2356    	Lancamento: 457/76/456    	Duracao: 6 min    	Compositor(es): 456    	Nacionalidade(s): 456
+    

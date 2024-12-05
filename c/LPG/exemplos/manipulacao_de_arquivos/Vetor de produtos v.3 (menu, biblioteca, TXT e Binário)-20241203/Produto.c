@@ -8,7 +8,7 @@ void mostra_produto( struct produto p ){
 	printf(")\n");
 }
 
-// V2 mostra o tratamento de todos os campos (não é recomendado...)
+// V2 mostra o tratamento de todos os campos (nï¿½o ï¿½ recomendado...)
 void mostra_produto_v2( struct produto p ){
 	printf("(%d, '%s', R$%.2f, %d/%d/%d)\n",
 			p.codigo, p.descricao, p.preco,

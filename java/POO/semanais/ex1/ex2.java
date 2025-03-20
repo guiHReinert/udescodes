@@ -17,9 +17,6 @@ public class ex2{
             escaninho.nextLine();
         }
 
-        // Sort das pessoas pelas suas idades (ordem descrescente)
-        
-
         System.out.println("");
         for(int k=0; k<3; k++){
             System.out.format("%d: %s\nidade: %d\n", k+1, nomes[k], ages[k]);

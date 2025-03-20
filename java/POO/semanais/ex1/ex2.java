@@ -1,3 +1,4 @@
+package ex1;
 import java.util.Scanner;
 
 public class ex2{
@@ -15,6 +16,9 @@ public class ex2{
 
             escaninho.nextLine();
         }
+
+        // Sort das pessoas pelas suas idades (ordem descrescente)
+        
 
         System.out.println("");
         for(int k=0; k<3; k++){

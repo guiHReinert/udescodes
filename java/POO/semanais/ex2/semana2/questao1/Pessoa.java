@@ -1,3 +1,5 @@
+package ex2.semana2.questao1;
+
 /*
 1. Uma pessoa possui nome, idade (em anos), altura (em metros) e massa (em
 kilogramas). Implemente em Java duas classes, uma que representa a Pessoa, com
@@ -34,7 +36,7 @@ public class Pessoa{
         return age;
     }
 
-    public void setName(float height){
+    public void setHeight(float height){
         this.height = height;
     }
     public float getHeight(){
@@ -49,6 +51,7 @@ public class Pessoa{
     }
 
     public float getIMC(){
+        this.imc = this.mass / (this.height * this.height);
         return this.imc;
     }
 }

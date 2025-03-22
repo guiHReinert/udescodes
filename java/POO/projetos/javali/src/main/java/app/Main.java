@@ -37,6 +37,6 @@ public class Main{
         else if (ans==2) {
             petShop.mostrarVeterinarios();
         }
-        else{System.out.printf("Digite um numero adequado.");}
+        else{System.out.printf(" Digite um numero adequado.\n");}
     }
 }

@@ -43,10 +43,13 @@ public class SistemaPetShop {
             else if(ans == 6){
                 SistemaPetShop.cadastrarDono();
             }
-            else if(ans==7){
+            else if(ans == 7){
+                SistemaPetShop.cadastrarEnderecoDono();
+            }
+            else if(ans == 8){
                 break;
             }
-            else{System.out.println(" Digite um indice adequado.");}
+            else{System.out.printf(" Digite um indice adequado.");}
         }
     }
 
@@ -59,7 +62,8 @@ public class SistemaPetShop {
         System.out.println("4 - Cadastrar novo animal.");
         System.out.println("5 - Mostrar os animais registrados.");
         System.out.println("6 - Cadastrar novo dono de um animal.");
-        System.out.println("7 - Sair do sistema.");
+        System.out.println("7 - Cadastrar endereco de um dono.");
+        System.out.println("8 - Sair do sistema.");
         System.out.printf(" >> ");
     }
 
@@ -101,13 +105,14 @@ public class SistemaPetShop {
     public static Veterinario getVeterinario(){
         int id;
         while(true){
+            System.out.printf("\n >> ");
             id = Integer.parseInt(inputer.nextLine());
 
             if(0 <= id && id < numVeterinarios){
                 return veterinarios[id];
             }
             else{
-                System.out.println(" Digite um indice adequado.");
+                System.out.printf(" Digite um indice adequado.");
                 continue;
             }
         }
@@ -125,7 +130,7 @@ public class SistemaPetShop {
             Endereco endereco = new Endereco();
 
             mostrarVeterinarios();
-            System.out.printf("\nDigite o indice do veterinario acima para cadastrar o seu endereco:\n >> ");
+            System.out.printf("\nDigite o indice do veterinario acima para cadastrar o seu endereco:");
             Veterinario veterinario = getVeterinario();
 
             System.out.printf("Digite o nome da rua de %s: ", veterinario.getNome());
@@ -159,7 +164,8 @@ public class SistemaPetShop {
         Animal animal = new Animal();
 
         if(numVeterinarios > 0){
-            System.out.printf("\nDigite o indice do veterinario acima para cadastrar um novo animal aos seus cuidados:\n >> ");
+            mostrarVeterinarios();
+            System.out.printf("\nDigite o indice do veterinario acima para cadastrar um novo animal aos seus cuidados:");
             Veterinario veterinario = getVeterinario();
 
             if(veterinario.getNumAnimais() < Veterinario.getMaxAnimais()){
@@ -183,27 +189,30 @@ public class SistemaPetShop {
     usuário deve escolher qual veterinario ele deseja visualizar os animais atendidos
     por ele, cada um contendo um número que o identifique (a posição no vetor).
     */
-    public static void mostrarAnimais(){
+    public static Veterinario mostrarAnimais(){
         if(numVeterinarios > 0){
             mostrarVeterinarios();
-            System.out.printf("\nDigite o indice do veterinario acima para visualizar os animais sob seus cuidados:\n >> ");
+            System.out.print("\nDigite o indice do veterinario acima para visualizar os animais sob seus cuidados:");
             Veterinario veterinario = getVeterinario();
 
             if(veterinario.getNumAnimais() > 0){
                 for(int a=0; a<veterinario.getNumAnimais(); a++){
                     System.out.printf(a+":\n"+veterinario.getAnimais()[a].toString()+'\n');
                 }
+                return veterinario;
             }
             else{
-                    System.out.println(" Nao há animais cadastrados.");
+                System.out.printf(" %s nao possui animais cadastrados.", veterinario.getNome());
             }
         }
         else{System.out.println(" Nao ha veterinarios cadastrados.");}
+        return null;
     }
 
     public static Animal getAnimal(Veterinario veterinario){
         int id;
         while(true){
+            System.out.printf("\n >> ");
             id = Integer.parseInt(inputer.nextLine());
 
             if(0 <= id && id < veterinario.getNumAnimais()){
@@ -223,34 +232,22 @@ public class SistemaPetShop {
     Após digitadas essas informações, o dono é cadastrado ao animal escolhido.
     */
     public static void cadastrarDono(){
-        int id;
-        Dono dono = new Dono();
+        if(numVeterinarios > 0){
+            Veterinario veterinario = mostrarAnimais();
+            if(veterinario != null){
+                System.out.printf("\nDigite o indice do animal acima para cadastrar o seu dono:");
+                Animal animal = getAnimal(veterinario);
 
-        while(true){
-            if(mostrarAnimais()){
-                System.out.printf("\nDigite o indice do animal acima para cadastrar o seu dono:\n >> ");
-                id = Integer.parseInt(inputer.nextLine());
+                Dono dono = new Dono();
 
-                if(0 <= id && id < veterinarios[id].getNumAnimais()){
-                    if(veterinarios[id]){
-                        System.out.printf("Informacoes do dono:\n");
-                        System.out.printf(veterinarios[id].getAnimais()[id].getDono().toString());
-                    }
-                    System.out.printf("Digite o nome do dono: ");
-                    dono.setNome(inputer.nextLine());
-                    System.out.printf("CPF: ");
-                    dono.setCPF(inputer.nextLine());
+                System.out.printf("Digite o nome do dono: ");
+                dono.setNome(inputer.nextLine());
+                System.out.printf("CPF: ");
+                dono.setCPF(inputer.nextLine());
 
-                    veterinarios[id].getAnimais()[id].setDono(dono);
-                    System.out.println(" Dono cadastrado com sucesso.");
-                    break;
-                }
-                else{
-                    System.out.println(" Digite um indice adequado.");
-                    continue;
-                }
+                animal.setDono(dono);
+                System.out.println(" Dono cadastrado com sucesso.");
             }
-            else{break;}
         }
     }
 
@@ -263,39 +260,36 @@ public class SistemaPetShop {
     ao dono do animal escolhido
     */
     public static void cadastrarEnderecoDono(){
-        int id;
+        if(numVeterinarios > 0){ 
+            Veterinario veterinario = mostrarAnimais();   
+            if(veterinario != null){        
+                System.out.printf("\nDigite o indice do animal acima para cadastrar o endereco do seu dono:");
+                Animal animal = getAnimal(veterinario);
 
-        while(true){
-            if(mostrarAnimais()){
-                System.out.printf("\nDigite o indice do animal acima para cadastrar o endereco do seu dono:\n >> ");
-                id = Integer.parseInt(inputer.nextLine());
+                if(animal.getDono() != null){
+                    Dono dono = animal.getDono();
+                    
+                    Endereco endereco = new Endereco();
 
-                if(0 <= id && id < veterinarios[id].getNumAnimais()){
                     System.out.printf("Informacoes do dono:\n");
-                    System.out.printf(veterinarios[id].getAnimais()[id].getDono().toString());
-    
-                    System.out.printf("Digite o nome da rua de %s: ", veterinarios[id].getAnimais()[id].getDono().getNome());
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setRua(inputer.nextLine());
-                    System.out.printf("Numero da casa/apartamento: ");
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setNumero(inputer.nextLine());
-                    System.out.printf("Bairro: ");
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setBairro(inputer.nextLine());
-                    System.out.printf("Cidade: ");
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setCidade(inputer.nextLine());
-                    System.out.printf("Estado: ");
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setEstado(inputer.nextLine());
-                    System.out.printf("CEP: ");
-                    veterinarios[id].getAnimais()[id].getDono().getEndereco().setCEP(inputer.nextLine());
+                    System.out.printf(dono.toString());
 
+                    System.out.printf("\n\nDigite o nome da rua de %s: ", dono.getNome());
+                    endereco.setRua(inputer.nextLine());
+                    System.out.printf("Numero da casa/apartamento: ");
+                    endereco.setNumero(inputer.nextLine());
+                    System.out.printf("Bairro: ");
+                    endereco.setBairro(inputer.nextLine());
+                    System.out.printf("Cidade: ");
+                    endereco.setCidade(inputer.nextLine());
+                    System.out.printf("Estado: ");
+                    endereco.setEstado(inputer.nextLine());
+                    System.out.printf("CEP: ");
+                    endereco.setCEP(inputer.nextLine());
                     System.out.println(" Endereco cadastrado com sucesso.");
-                    break;
                 }
-                else{
-                    System.out.println(" Digite um indice adequado.");
-                    continue;
-                }
+                else{System.out.printf(" %s nao possui nenhum dono cadastrado.", animal.getNome());}
             }
-            else{break;}
         }
     }
 }

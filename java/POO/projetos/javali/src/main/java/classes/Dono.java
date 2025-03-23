@@ -25,4 +25,13 @@ public class Dono{
     public void setCPF(String c){
         cpf = c;
     }
+
+    public String toString(){
+        if(endereco != null){
+            return "Nome: " + nome + "\nCPF: " + cpf + "\nEndereço: " + endereco;
+        }
+        else{
+            return "Nome: " + nome + "\nCPF: " + cpf;
+        }
+    }
 }

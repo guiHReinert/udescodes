@@ -1,12 +1,16 @@
 package classes;
 
 public class Veterinario{
+    private static final int maxAnimais = 7; // numero maximo permitido
     private String nome;
     private float salario;
     private Endereco endereco;
-    private Animal[] animais;
+    private Animal[] animais = new Animal[maxAnimais];
     private int numAnimais; // numero atual de animais
-    private final int maxAnimais = 7; // numero maximo permitido
+
+    public static int getMaxAnimais(){
+        return maxAnimais;
+    }
 
     public String getNome(){
         return nome;
@@ -29,7 +33,7 @@ public class Veterinario{
         endereco = e;
     }
 
-    public void newAnimal(Animal anim){
+    public void novoAnimal(Animal anim){
         if(numAnimais < maxAnimais){
             animais[numAnimais] = anim;
             numAnimais++;
@@ -37,11 +41,24 @@ public class Veterinario{
         else{System.out.println("Quantidade maxima de animais atingida.\n");}
     }
 
+    public Animal[] getAnimais(){
+        return animais;
+    }
+
     public int getNumAnimais(){
         return numAnimais;
     }
     public void setNumAnimais(int n){
         numAnimais = n;
+    }
+
+    public String toString(){
+        if(endereco != null){
+            return "Nome: "+nome+"\nSalario: "+salario+"\nEndereco: "+endereco;
+        }
+        else{
+            return "Nome: "+nome+"\nSalario: "+salario;
+        }
     }
 
 }

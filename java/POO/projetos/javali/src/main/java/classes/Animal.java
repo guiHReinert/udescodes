@@ -4,7 +4,7 @@ public class Animal {
     
     private String nome;
     private Dono dono;
-    private String cpf;
+    private String especie;
     private String descricao;
 
     public String getNome(){
@@ -21,11 +21,11 @@ public class Animal {
         dono = d;
     }
 
-    public String getCPF(){
-        return cpf;
+    public String getEspecie(){
+        return especie;
     }
-    public void setCPF(String c){
-        cpf = c;
+    public void setEspecie(String e){
+        especie = e;
     }
 
     public String getDescricao(){
@@ -33,5 +33,9 @@ public class Animal {
     }
     public void setDescricao(String d){
         descricao = d;
+    }
+
+    public String toString(){
+        return "Nome: "+nome+"\nEspecie: "+especie+"\nDescricao: "+descricao;
     }
 }

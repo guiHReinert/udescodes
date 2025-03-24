@@ -1,4 +1,10 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.sourcePaths": [
+        "POO/semanais",
+        "POO/projetos/listaexercicios1/src/main/java/questao2",
+        "POO/projetos/listaexercicios1/src/main/java/main",
+        "POO/projetos/listaexercicios1/src/main/java/questao1"
+    ]
 }

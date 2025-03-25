@@ -57,4 +57,14 @@ public class Reserva {
 	private void setNumReserva(int numReserva) {
 		this.numReserva = numReserva;
 	}
+	
+	public String toString() {
+		return "Numero da reserva: "+numReserva+
+				"\nData do voo: "+dataVoo+
+				"\nHorario do voo: "+horaVoo+
+				"\nPreco: "+preco+
+				"\nClasse: "+classeVoo+
+				"\nPassagem de ida e volta: "+idaEVolta+
+				"\nPoltrona: "+poltrona;
+	}
 }

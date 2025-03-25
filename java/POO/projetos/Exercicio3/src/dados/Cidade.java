@@ -10,10 +10,15 @@ public class Cidade {
 	private void setEstado(String estado) {
 		this.estado = estado;
 	}
+	
 	private String getNome() {
 		return nome;
 	}
 	private void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String toString() {
+		return nome+", "+estado;
 	}
 }

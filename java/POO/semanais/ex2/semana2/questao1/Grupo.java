@@ -3,7 +3,7 @@ package ex2.semana2.questao1;
 import java.util.Arrays;
 
 public class Grupo {
-    private int MAX = 7;
+    private final int MAX = 7;
 
     private Pessoa pessoas[] = new Pessoa[this.MAX];
     private float IMCs[] = new float[this.MAX];

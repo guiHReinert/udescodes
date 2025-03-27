@@ -4,7 +4,7 @@ public class Produto {
     private String nome;
     private String categoria;
     private float preco;
-    private int desconto; // Em porcentagem
+    private int desconto; // Multiplicador de porcentagem
     
     public Produto(){
         nome = "";

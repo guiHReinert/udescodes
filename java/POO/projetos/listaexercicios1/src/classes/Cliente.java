@@ -1,7 +1,7 @@
 package classes;
 
 public class Cliente {
-    private int cpf;
+    private long cpf;
     private String nome;
     private Endereco endereco;
     private float cashback;
@@ -13,17 +13,17 @@ public class Cliente {
         cashback = 0.0;
     }
 
-    public Cliente(int c, String n, Endereco e, float ca) {
+    public Cliente(long c, String n, Endereco e, float ca) {
         cpf = c;
         nome = n;
         endereco = e;
         cashback = ca;
     }
 
-    public int getCpf() {
+    public long getCpf() {
         return cpf;
     }
-    public void setCpf(int c) {
+    public void setCpf(long c) {
         cpf = c;
     }
 
@@ -68,7 +68,7 @@ public class Cliente {
                 return false;
         } else if (!endereco.equals(other.endereco))
             return false;
-        if (Float.floatToIntBits(cashback) != Float.floatToIntBits(other.cashback))
+        if (Float.floatTolongBits(cashback) != Float.floatTolongBits(other.cashback))
             return false;
         return true;
     }

@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Endereco casaPlaceholder = new Endereco();
         Endereco casaCheia = new Endereco(
-            "Ruanilda", 42, "Balthamos", "Stadtopolis",
+            "Ruanilda", 42, "Balthamos", "Stadtpolis",
             "Santa Catarina do Norte", 81726354
         );
         
@@ -15,17 +15,17 @@ public class Main {
             19128237301L, "Dagur Mannoroth", casaPlaceholder, 29.65 
         );
         Cliente cl3 = new Cliente(
-            919828737002L, "Bagram Jahaleor", casaCheia, 130.73
+            91982873702L, "Bagram Jahaelor", casaCheia, 130.73
         );
 
-        Produto produtoHolder = new Produto();
         Produto hotwheels1 = new Produto(
-            "Drone Padrao Legacy Acceleracers", "Artefato", 21.99,
-            0.15
+            "Drone Padrao Legacy Acceleracers", "Brinquedo", 21.99, 0.15
+        );
+        Produto hotwheels2 = new Produto(
+            "Corroca Platinada Cool", "Brinquedo", 21.99, 0.15
         );
         Produto enxspada = new Produto(
-            "Enxspada de Guerra Laboral", "Armerramenta", 72.89,
-            0.12
+            "Enxspada de Guerra Laboral", "Ferramenta", 72.89, 0.12
         );
         Produto pastel = new Pastel(
             "Pastel de Frango", "Comida", 4.99, 0.0
@@ -33,8 +33,21 @@ public class Main {
         Produto cardo = new Produto(
             "Caldo de Cana", "Bebida", 6.99, 0.1
         );
+        Produto[] objetos = {hotwheels1, hotwheels2, enxspada};
+        Produto[] lanche = {pastel, cardo};
 
-        
-
+        Compra compraAbandonada = new Compra();
+        Compra compraObjetos = new Compra(
+            objetos,
+            hotwheels1.getPrecoReal() + hotwheels2.getPrecoReal() + enxspada.getPrecoReal(),
+            0.1 * (hotwheels1.getPrecoReal() + hotwheels2.getPrecoReal() + enxspada.getPrecoReal()),
+            cl2
+        );
+        Compra pastelPromocao = new Compra(
+            lanche,
+            0.8* (pastel.getPreco() + cardo.getPreco()),
+            0.0 * (0.8 * pastel.getPrecoReal() + cardo.getPrecoReal()),
+            cl3
+        );
     }
 }

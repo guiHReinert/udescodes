@@ -40,11 +40,16 @@ public class Produto {
     public void setPreco(int p) {
         preco = p;
     }
+
     public float getDesconto() {
         return desconto;
     }
     public void setDesconto(int d) {
         desconto = d;
+    }
+
+    public float getPrecoReal(){
+        return preco * (1-desconto); 
     }
 
     public boolean equals(Object obj) {

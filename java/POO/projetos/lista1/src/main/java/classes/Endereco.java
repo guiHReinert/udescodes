@@ -33,10 +33,10 @@ public class Endereco{
         rua = r;
     }
 
-    public String getNumero(){
+    public int getNumero(){
         return numero;
     }
-    public void setNumero(String n){
+    public void setNumero(int n){
         numero = n;
     }
 
@@ -105,7 +105,7 @@ public class Endereco{
 
     public String toString(){
         return rua+", "+numero+", "+bairro+". "+cidade+", "+estado+
-        ".\nCEP: "+cep;
+        ".\nCEP: "+cep+'\n';
     }
 
 }

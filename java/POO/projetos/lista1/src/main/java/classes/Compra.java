@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class Compra {
     private final int maxNumProdutos = 99;
     private Produto[] produtos = new Produto[maxNumProdutos];
-    private float valorTotal;
-    private float newCashback;
+    private double valorTotal;
+    private double newCashback;
     private Cliente cliente;
 
     public Compra() {
@@ -15,7 +15,7 @@ public class Compra {
         cliente = new Cliente();
     }
 
-    public Compra(Produto[] p, float v, float n, Cliente c) {
+    public Compra(Produto[] p, double v, double n, Cliente c) {
         produtos = p;
         valorTotal = v;
         newCashback = n;
@@ -33,17 +33,17 @@ public class Compra {
         produtos = p;
     }
 
-    public float getValorTotal() {
+    public double getValorTotal() {
         return valorTotal;
     }
-    public void setValorTotal(float v) {
+    public void setValorTotal(double v) {
         valorTotal = v;
     }
 
-    public float getNewCashback() {
+    public double getNewCashback() {
         return newCashback;
     }
-    public void setNewCashback(float n) {
+    public void setNewCashback(double n) {
         newCashback = n;
     }
     
@@ -66,9 +66,9 @@ public class Compra {
             return false;
         if (!Arrays.equals(produtos, other.produtos))
             return false;
-        if (Float.floatToIntBits(valorTotal) != Float.floatToIntBits(other.valorTotal))
+        if (Double.doubleToLongBits(valorTotal) != Double.doubleToLongBits(other.valorTotal))
             return false;
-        if (Float.floatToIntBits(newCashback) != Float.floatToIntBits(other.newCashback))
+        if (Double.doubleToLongBits(newCashback) != Double.doubleToLongBits(other.newCashback))
             return false;
         if (cliente == null) {
             if (other.cliente != null)
@@ -79,9 +79,16 @@ public class Compra {
     }
 
     public String toString() {
+        String prod = new String();
+        for(Produto p : produtos){
+            if(p != null){
+                prod += p.toString()+'\n';
+            }
+        }
+
         return "Cliente:\n"+cliente+
-        "\nProdutos:\n"+Array.produtos.toString()+
-        "\nValor da compra: R$"+valorTotal+
-        "\nCashback: R$"+newCashback;
+        String.format("\nValor da compra: R$%.2f", valorTotal)+
+        "\nProdutos:\n"+prod+
+        String.format("Cashback (novo): R$%.2f\n", newCashback);
     }
 }

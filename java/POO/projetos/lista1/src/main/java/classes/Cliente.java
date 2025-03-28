@@ -4,16 +4,16 @@ public class Cliente {
     private long cpf;
     private String nome;
     private Endereco endereco;
-    private float cashback;
+    private double cashback;
 
     public Cliente()	{
     	cpf = 0; // 11 digitos
     	nome = "";
         endereco = new Endereco();
-        cashback = 0.0;
+        cashback = 0;
     }
 
-    public Cliente(long c, String n, Endereco e, float ca) {
+    public Cliente(long c, String n, Endereco e, double ca) {
         cpf = c;
         nome = n;
         endereco = e;
@@ -41,10 +41,10 @@ public class Cliente {
         endereco = e;
     }
 
-    public float getCashback() {
+    public double getCashback() {
         return cashback;
     }
-    public void setCashback(float c) {
+    public void setCashback(double c) {
         cashback = c;
     }
 
@@ -68,13 +68,16 @@ public class Cliente {
                 return false;
         } else if (!endereco.equals(other.endereco))
             return false;
-        if (Float.floatTolongBits(cashback) != Float.floatTolongBits(other.cashback))
+        if (Double.doubleToLongBits(cashback) != Double.doubleToLongBits(other.cashback))
             return false;
         return true;
     }
 
     public String toString() {
-        return "Nome: "+nome+"\nCPF: "+cpf+"\nEndereco: "+endereco.toString()+"\nCashback: R$"+cashback;
+        return "Nome: "+nome+
+        "\nCPF: "+cpf+
+        "\nEndereco: "+endereco.toString()+
+        String.format("Cashback: R$%.2f", cashback);
     }
     
 }

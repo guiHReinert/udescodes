@@ -1,10 +1,10 @@
 package classes;
 
 public class Funcionario {
-    private String cpf;
+    private long cpf;
     private String nome;
     private String funcao;
-    private float salario;
+    private double salario;
     private Endereco endereco;
     
     public Funcionario() {
@@ -15,7 +15,7 @@ public class Funcionario {
         endereco = new Endereco();
     }
 
-    public Funcionario(String c, String n, String f, float s, Endereco e) {
+    public Funcionario(long c, String n, String f, double s, Endereco e) {
         cpf = c;
         nome = n;
         funcao = f;
@@ -23,10 +23,10 @@ public class Funcionario {
         endereco = e;
     }
 
-    public String getCpf() {
+    public long getCpf() {
         return cpf;
     }
-    public void setCpf(String c) {
+    public void setCpf(long c) {
         cpf = c;
     }
 
@@ -44,10 +44,10 @@ public class Funcionario {
         funcao = f;
     }
 
-    public float getSalario() {
+    public double getSalario() {
         return salario;
     }
-    public void setSalario(float s) {
+    public void setSalario(double s) {
         salario = s;
     }
 
@@ -66,10 +66,7 @@ public class Funcionario {
         if (getClass() != obj.getClass())
             return false;
         Funcionario other = (Funcionario) obj;
-        if (cpf == null) {
-            if (other.cpf != null)
-                return false;
-        } else if (!cpf.equals(other.cpf))
+        if (cpf != other.cpf)
             return false;
         if (nome == null) {
             if (other.nome != null)
@@ -81,7 +78,7 @@ public class Funcionario {
                 return false;
         } else if (!funcao.equals(other.funcao))
             return false;
-        if (Float.floatToIntBits(salario) != Float.floatToIntBits(other.salario))
+        if (Double.doubleToLongBits(salario) != Double.doubleToLongBits(other.salario))
             return false;
         if (endereco == null) {
             if (other.endereco != null)
@@ -96,6 +93,6 @@ public class Funcionario {
         "\nNome: "+nome+
         "\nFuncao: "+funcao+
         "\nSalario: R$"+salario+
-        "\nEndereco: "+endereco;
+        "\nEndereco: "+endereco.toString();
     }
 }

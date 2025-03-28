@@ -3,17 +3,17 @@ package classes;
 public class Produto {
     private String nome;
     private String categoria;
-    private float preco;
-    private int desconto; // Multiplicador de porcentagem
+    private double preco;
+    private double desconto; // Multiplicador de porcentagem
     
     public Produto(){
         nome = "";
         categoria = "";
         preco = 0.0;
-        desconto = 100;
+        desconto = 1;
     }
     
-    public Produto(String n, String c, float p, int d) {
+    public Produto(String n, String c, double p, double d) {
         nome = n;
         categoria = c;
         preco = p;
@@ -34,21 +34,21 @@ public class Produto {
         categoria = c;
     }
     
-    public float getPreco() {
+    public double getPreco() {
         return preco;
     }
     public void setPreco(int p) {
         preco = p;
     }
 
-    public float getDesconto() {
+    public double getDesconto() {
         return desconto;
     }
-    public void setDesconto(int d) {
+    public void setDesconto(double d) {
         desconto = d;
     }
 
-    public float getPrecoReal(){
+    public double getPrecoReal(){
         return preco * (1-desconto); 
     }
 
@@ -70,9 +70,9 @@ public class Produto {
                 return false;
         } else if (!categoria.equals(other.categoria))
             return false;
-        if (Float.floatToIntBits(preco) != Float.floatToIntBits(other.preco))
+        if (Double.doubleToLongBits(preco) != Double.doubleToLongBits(other.preco))
             return false;
-        if (Float.floatToIntBits(desconto) != Float.floatToIntBits(other.desconto))
+        if (Double.doubleToLongBits(desconto) != Double.doubleToLongBits(other.desconto))
             return false;
         return true;
     }
@@ -80,7 +80,7 @@ public class Produto {
     public String toString() {
         return "Nome: "+nome+
         "\nCategoria: "+categoria+
-        "\nPreco: R$"+preco+
-        "\nDesconto: "+desconto+'%';
+        String.format("\nPreco: R$%.2f", preco)+
+        "\nDesconto: "+desconto+"%\n";
     }
 }

@@ -65,6 +65,6 @@ public class Reserva {
 				"\nPreco: "+preco+
 				"\nClasse: "+classeVoo+
 				"\nPassagem de ida e volta: "+idaEVolta+
-				"\nPoltrona: "+poltrona;
+				"\nPoltrona: "+poltrona+'\n';
 	}
 }

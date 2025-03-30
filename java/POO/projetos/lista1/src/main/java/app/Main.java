@@ -1,6 +1,10 @@
 package app;
 
-import classes.*;
+import classes.Cliente;
+import classes.Compra;
+import classes.Endereco;
+import classes.Funcionario;
+import classes.Produto;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,10 +27,7 @@ public class Main {
 
 
         // Funcionarios
-        System.out.printf("\n     Funcionarios        System.out.printf(\"\\n" + //
-                        "     Funcionarios\\n" + //
-                        "\");\n" + //
-                        "\n");
+        System.out.printf("\n     Funcionarios\n");
 
         Funcionario descarregador = new Funcionario(
             24680135701L, "Ronaldo", "Descarregador", 1517.99, porao

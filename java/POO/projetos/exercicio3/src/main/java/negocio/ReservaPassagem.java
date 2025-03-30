@@ -1,6 +1,8 @@
 package negocio;
 
-import dados.*;
+import dados.Cidade;
+import dados.Cliente;
+import dados.Reserva;
 
 public class ReservaPassagem {
 	public void cadastrarCidade(Cidade cidade) {

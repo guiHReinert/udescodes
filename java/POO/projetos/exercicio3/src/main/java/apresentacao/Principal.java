@@ -7,18 +7,18 @@ import java.util.Scanner;
 
 public class Principal {
 	private static Scanner scan = new Scanner(System.in);
+	private static ReservaPassagem reserva = new ReservaPassagem();
+	
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		ReservaPassagem reserva = new ReservaPassagem();
-
+		
 		int ans = 0;
 		while(ans != 5){
 			System.out.printf("""
 						SISTEMA DE RESERVA DE PASSAGENS AÉREAS - SIRPA
 							
 				1 - Fazer Reserva
-				2 - Cadastrar novo Cliente
-				3 - Cadastrar nova Cidade
+				2 - Cadastrar nova Cidade
+				3 - Cadastrar novo Cliente
 				4 - Mostrar Reservas
 				5 - Sair do SIRPA
 				""");
@@ -28,10 +28,10 @@ public class Principal {
 				fazerReserva();
 			}
 			else if(ans == 2){
-				cadastrarCliente();
+				cadastrarCidade();
 			}
 			else if(ans == 3){
-				cadastrarCidade();
+				cadastrarCliente();
 			}
 			else if(ans == 4){
 				mostrarReservas();
@@ -47,41 +47,27 @@ public class Principal {
 	}
 	
 	public static void fazerReserva() {
-		if(cliente.getNumReservas() < cliente.getReservas().length) {
-			Scanner scanner = new Scanner(System.in);
-			Cidade cidadeOrigem = new Cidade();
 
-			System.out.println("Digite o numero da reserva: ");
-			reserva.setNumReserva(Integer.parseInt(scanner.nextLine()));
-			System.out.println("Digite a data do voo (dd/mm/aaaa): ");
-			reserva.setDataVoo(scanner.nextLine());
-			System.out.println("Digite a hora do voo (hh:mm): ");
-			reserva.setHoraVoo(scanner.nextLine());
-			System.out.println("Digite o preco da passagem: ");
-			reserva.setPreco(Float.parseFloat(scanner.nextLine()));
-			System.out.println("Digite a classe do voo (economica/executiva): ");
-			reserva.setClasseVoo(scanner.nextLine());
-			System.out.println("Digite o numero da poltrona: ");
-			reserva.setPoltrona(Integer.parseInt(scanner.nextLine()));
-			System.out.println("Digite o nome da cidade de origem: ");
-			cidadeOrigem.setNome(scanner.nextLine());
-			System.out.println("Digite o estado da cidade de origem: ");
-			cidadeOrigem.setEstado(scanner.nextLine());
-			reserva.setCidade(cidadeOrigem);
-
-			System.out.println("Ida e volta? (true/false): ");
-			reserva.setIdaEVolta(Boolean.parseBoolean(scanner.nextLine()));
-			scanner.close();
-
-			reserva.setVolta(false);
-			cliente.reservaIda(reserva);
-			System.out.printf("Reserva realizada com sucesso!\n");
+		for(int j=0; j < reserva.getNumCidades(); j++){
+			if(reserva.getListaDeCidades()[j] != null){
+				System.out.println(reserva.getListaDeCidades()[j].toString());
+			}
 		}
-		else{
-			System.out.println(" Limite de reservas atingido.");
-		}
+
+
 	}
 	
+	public static void cadastrarCidade() {
+		Cidade cidade = new Cidade();
+
+		System.out.printf("Digite o nome da cidade: ");
+		cidade.setNome(scan.nextLine());
+		System.out.printf("Digite o estado da cidade: ");
+		cidade.setEstado(scan.nextLine());
+
+		System.out.printf("Nova cidade cadastrada com sucesso.\n");
+	}
+
 	public static void cadastrarCliente() {
 		Cliente cliente = new Cliente();
 
@@ -95,17 +81,6 @@ public class Principal {
 		cliente.setTelefone(Integer.parseInt(scan.nextLine()));
 
 		System.out.printf("Novo cliente cadastrado com sucesso.\n");
-	}
-	
-	public static void cadastrarCidade() {
-		Cidade cidade = new Cidade();
-
-		System.out.printf("Digite o nome da cidade: ");
-		cidade.setNome(scan.nextLine());
-		System.out.printf("Digite o estado da cidade: ");
-		cidade.setEstado(scan.nextLine());
-
-		System.out.printf("Nova cidade cadastrada com sucesso.\n");
 	}
 	
 	public static void mostrarReservas() {

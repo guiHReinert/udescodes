@@ -4,20 +4,40 @@ public class Cidade {
 	private String nome;
 	private String estado;
 	
-	private String getEstado() {
+	public String getEstado() {
 		return estado;
 	}
-	private void setEstado(String estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	
-	private String getNome() {
+	public String getNome() {
 		return nome;
 	}
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cidade other = (Cidade) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (estado == null) {
+			if (other.estado != null)
+				return false;
+		} else if (!estado.equals(other.estado))
+			return false;
+		return true;
+	}
 	public String toString() {
 		return nome+", "+estado;
 	}

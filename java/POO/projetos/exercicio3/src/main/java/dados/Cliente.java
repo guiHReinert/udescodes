@@ -1,48 +1,62 @@
 package dados;
 
+import java.util.Arrays;
+
 public class Cliente {
 	private int cpf;
 	private String nome;
 	private String endereco;
 	private int telefone;
+	private Reserva[] reservas = new Reserva[9];
+	private int numReservas = 0;
 	
-	private String getNome() {
+	public String getNome() {
 		return nome;
 	}
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	private int getTelefone() {
+	public int getTelefone() {
 		return telefone;
 	}
-	private void setTelefone(int telefone) {
+	public void setTelefone(int telefone) {
 		this.telefone = telefone;
 	}
-	private String getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
-	private void setEndereco(String endereco) {
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	private int getCpf() {
+	public int getCpf() {
 		return cpf;
 	}
-	private void setCpf(int cpf) {
+	public void setCpf(int cpf) {
 		this.cpf = cpf;
 	}
 	
-	public String toString() {
-		return "CPF: "+cpf+
-				"\nNome: "+nome+
-				"\nEndereco: "+endereco+
-				"\nTelefone: "+telefone;
-	}
-	
 	public void reservaIda(Reserva reserva) {
-		
+		reservas[numReservas] = reserva;
+		numReservas++;
 	}
-	
 	public void reservarVolta(Reserva ida, Reserva volta) {
-		
+		ida.setReservaVolta(volta);
+	}
+
+	public Reserva[] getReservas() {
+		return reservas;
+	}
+
+	public int getNumReservas() {
+		return numReservas;
+	}
+	public void setNumReservas(int r) {
+		numReservas = r;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [cpf=" + cpf + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone
+				+ ", reservas=" + Arrays.toString(reservas) + ", numReservas=" + numReservas + "]";
 	}
 }

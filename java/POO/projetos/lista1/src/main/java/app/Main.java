@@ -6,6 +6,8 @@ import classes.Endereco;
 import classes.Funcionario;
 import classes.Produto;
 
+import ex3Classes.*;
+
 public class Main {
     public static void main(String[] args) {
         // EnderecoscasaCheiacasaCheia
@@ -111,5 +113,34 @@ public class Main {
         System.out.printf("\nCompra de Objetos:\n%s", compraObjetos.toString());
         System.out.printf("\nCombo Decente:\n%s", pastelCombo.toString());
 
+        // Imobiliaria imobiliaria = new Imobiliaria();
+        // Imovel im1 = new Imovel(); im1.setComprimento(20); im1.setLargura(30); im1.setPreco(972418);
+        // Imovel im2 = new Imovel(); im2.setComprimento(30); im2.setLargura(20); im2.setPreco(853947);
+        // Imovel im3 = new Imovel(); im3.setComprimento(80); im3.setLargura(50); im3.setPreco(782347);
+        // Imovel im4 = new Imovel(); im4.setComprimento(50); im4.setLargura(80); im4.setPreco(619732);
+        // Imovel im5 = new Imovel(); im5.setComprimento(42); im5.setLargura(89); im5.setPreco(317729);
+
+        // imobiliaria.cadastrarImovel(im1);
+        // imobiliaria.cadastrarImovel(im2);
+        // imobiliaria.cadastrarImovel(im3);
+        // imobiliaria.cadastrarImovel(im4);
+        // imobiliaria.cadastrarImovel(im5);
+
+        // Imovel[] filtered1 = imobiliaria.filtrarPorArea(590);
+        // Imovel[] filtered2 = imobiliaria.filtrarPorArea(610);
+
+        // System.out.println(imobiliaria.toString());
+        // System.out.println("\nImoveis maiores que 590m²");
+        // for(Imovel imv : filtered1){
+        //     if(imv != null){
+        //         System.out.println(imv.toString());
+        //     }
+        // }
+        // System.out.println("\nImoveis maiores que 610m²");
+        // for(Imovel imv : filtered2){
+        //     if(imv != null){
+        //         System.out.println(imv.toString());
+        //     }
+        // }
     }
 }

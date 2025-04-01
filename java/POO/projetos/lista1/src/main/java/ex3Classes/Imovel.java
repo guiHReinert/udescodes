@@ -31,8 +31,8 @@ public class Imovel {
     }
 
     public String toString() {
-        return "Imovel [largura=" + largura + ", comprimento=" + comprimento + ", preco=" + preco + "]";
+        return "\nLargura: "+largura+" m"+
+        "\nComprimento: "+comprimento+" m"+
+        "\nPreco: R$"+preco;
     }
-
-    
 }

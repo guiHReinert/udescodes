@@ -1,7 +1,5 @@
 package dados;
 
-import java.util.Arrays;
-
 public class Cliente {
 	private int cpf;
 	private String nome;
@@ -35,11 +33,18 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 	
-	public void reservaIda(Reserva reserva) {
-		reservas[numReservas] = reserva;
+	public void reservarIda(Reserva ida) {
+		reservas[numReservas] = ida;
 		numReservas++;
 	}
 	public void reservarVolta(Reserva ida, Reserva volta) {
+		volta.setIdaEVolta(true);
+		volta.setVolta(true);
+		// Mesmo numero de reserva
+		volta.setNumReserva(ida.getNumReserva());
+		// Alternar as cidades de origem e de destino 
+		volta.setCidadeOrigem(ida.getCidadeDestino());
+		volta.setCidadeDestino(ida.getCidadeOrigem());
 		ida.setReservaVolta(volta);
 	}
 
@@ -54,9 +59,11 @@ public class Cliente {
 		numReservas = r;
 	}
 
-	@Override
 	public String toString() {
-		return "Cliente [cpf=" + cpf + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone
-				+ ", reservas=" + Arrays.toString(reservas) + ", numReservas=" + numReservas + "]";
+		return "CPF: "+cpf+
+		"\nNome: "+nome+
+		"\nEndereco: "+endereco+
+		"\nTelefone: "+telefone+
+		"\nReservas realizadas: "+numReservas+'\n';
 	}
 }

@@ -8,28 +8,21 @@ typedef struct nodados{
 } NoDados;
 
 int main(){
-    // 3A
+    // 3A para 3B
     {
-        NoDados *p, *q, a31, a32;
-        p = &a31;
-        q = &a32;
+        NoDados *p, *q;
         p->pt = NULL;
         q->pt = NULL;
+
+        p->pt = q;
     }
-    // 3B
+    // 3A para 3C
     {
-        NoDados *p, *q, b31, b32;
-        p = &b31;
-        q = &b32;
-        p->pt = &b32;
+        NoDados *p, *q;
+        p->pt = NULL;
         q->pt = NULL;
-    }
-    // 3C
-    {
-        NoDados *p, *q, c31, c32;
-        p = &c31;
-        q = &c32;
-        p->pt = &c32;
+
+        p->pt = q;
         q->pt = q;
     }
     return 0;

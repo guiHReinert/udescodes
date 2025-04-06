@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
-// 6A
+// 6
 struct nodo{
     int x;
     struct nodo *link;
@@ -24,20 +22,24 @@ int contaNodo(struct nodo *p){
 }
 
 int main(){
-    struct nodo s3;
-    struct nodo s2 = {&s3};
-    struct nodo s1 = {&s2};
+    // 6A
+        struct nodo s3;
+        struct nodo s2 = {&s3};
+        struct nodo s1 = {&s2};
+        return 0;
+
+        printf("QUANTOS NODO??? (%d)", contaNodo(&s1));
+
+
+    // 6B
+
+
+    // 6D
+    struct descritor{
+        unsigned int posicao;
+        struct nodo *primeiro, *ultimo, *link;
+    };
+
     return 0;
 
-    printf("QUANTOS NODO??? (%d)", contaNodo(&s1));
-
 }
-
-// 6B
-
-
-// 6D
-struct descritor{
-    unsigned int posicao;
-    struct nodo *primeiro, *ultimo, *link;
-};

@@ -18,38 +18,57 @@ struct data{
 };
 
 int reinicia(struct descritor *p){
-    struct nodo *sniffer, *old;
-    if(p){
+    struct nodo *sniffer;
+    if(p && p->tamanho != 0){
         sniffer = p->inicio;
         while(sniffer != NULL){
-            old = sniffer;
             sniffer = sniffer->link;
-            old = NULL;
+            free(p->inicio);
+            p->inicio = sniffer;
         }
-        sniffer = NULL;
+        p->tamanho = 0;
         return 1;
     }
     return 0;
 };
 
+// Assumindo posicao com intervalo de 0 a p->tamanho-1
 int insere(struct descritor *p, struct nodo *nd, int pos){
-    struct nodo *sniffer;
-    if(p){
-        p->tamanho = 1;
-        sniffer = p->inicio;
-        while(sniffer != NULL){
-            p->tamanho++;
-            sniffer = sniffer->link;
-        }
-        if(pos > p->tamanho){
+    struct nodo *holder, *walker;
+    if(p && nd){
+    //     p->tamanho = 1;
+    //     sniffer = p->inicio;
+    //     while(sniffer != NULL){
+    //         p->tamanho++;
+    //         sniffer = sniffer->link;
+    //     }
+        if(p->inicio == NULL || pos < 0 || pos >= p->tamanho){
             return 0;
         }
         else{
-            for(int c=0; c < p->tamanho; c++){
-                
+            if(pos == 0){
+                nd->link = p->inicio;
+                p->inicio = nd;esc
             }
+            else{
+                walker = p->inicio;
+                for(int c=1; c < p->tamanho; c++){
+                    if(c == pos){
+                        // Armazenar a cadeia dependente do nodo anterior a pos
+                        holder = (struct nodo*)realloc(walker, sizeof(walker)*(p->tamanho-pos));
+                        // Insere o nodo nd
+                        walker = nd;
+                        // Retorno da cadeia contida em holder para a cadeia original
+                        walker->link = holder;
+                        free(holder);
+                    }
+                    else{
+                        walker = walker->link;
+                    }
+                }
+            }
+            return 1;
         }
-        return 1;
     }
     return 0;
 }

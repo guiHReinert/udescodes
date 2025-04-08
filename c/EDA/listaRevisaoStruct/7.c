@@ -36,8 +36,8 @@ int contarDescritor(struct descritor *p){
 };
 
 int reinicia(struct descritor *p){
-    struct nodo *sniffer;
     if(p && p->tamanho > 0){
+        struct nodo *sniffer;
         sniffer = p->inicio;
         while(sniffer != NULL){
             if(sniffer->link = sniffer){
@@ -58,27 +58,25 @@ int reinicia(struct descritor *p){
 
 // Assumindo posicao com intervalo de 0 a p->tamanho-1
 int insere(struct descritor *p, struct nodo *nd, int pos){
-    struct nodo *holder;
     if(p && nd){
-        if(p->inicio == NULL || pos < 0 || pos >= p->tamanho){
+        struct nodo *holder;
+        if(pos < 0 || pos > p->tamanho){
             return 0;
         }
-        else{
-            if(pos == 0){
-                nd->link = p->inicio;
-                p->inicio = nd;
-            }
-            else{
-                holder = p->inicio;
-                for(int c=1; c < pos; c++){
-                    holder = holder->link;
-                }
-                nd->link = holder;
-                holder = nd;
-                p->tamanho++;
-                return 1;
-            }
+        else if(pos == 0){
+            nd->link = p->inicio;
+            p->inicio = nd;
         }
+        else{
+            holder = p->inicio;
+            for(int c=1; c < pos; c++){
+                holder = holder->link;
+            }
+            nd->link = holder->link;
+            holder->link = nd;
+        }
+        p->tamanho++;
+        return 1;
     }
     return 0;
 }
@@ -97,39 +95,21 @@ int main(){
     struct descritor desc = {0, NULL};
     struct descritor *p = &desc;
     p->inicio = &nd1;
-    { // Teste com last->link == NULL
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor de teste 1: %d\n", p->tamanho);
-        reinicia(p);
-        printf("descritor reiniciado: %d\n", p->tamanho);
-        insere(p, &nd1, 0);
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor com insercao: %d\n\n", p->tamanho);
-    }
-    { // Teste com last->link == teste->inicio
-        nd4.link = &nd4;
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor de teste 2: %d\n", p->tamanho);
-        reinicia(p);
-        printf("descritor reiniciado: %d\n", p->tamanho);
-        insere(p, &nd1, 0);
-        insere(p, &nd2, 1);
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor com 2 insercoes: %d\n\n", p->tamanho);
+    p->tamanho = contarDescritor(p);
 
-    }
-    { // Teste com last->link == last
-        nd4.link = &nd1;
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor de teste 3: %d\n", p->tamanho);
-        reinicia(p);
-        printf("descritor reiniciado: %d\n", p->tamanho);
-        insere(p, &nd1, 0);
-        insere(p, &nd2, 1);
-        insere(p, &nd3, 2);
-        p->tamanho = contarDescritor(p);
-        printf("Tamanho do descritor com 3 insercoes: %d\n\n", p->tamanho);
+    printf("Tamanho do descritor de teste 1: %d\n", p->tamanho);
 
-    }
+    reinicia(p);
+    printf("Descritor reiniciado: %d\n", p->tamanho);
+
+    insere(p, &nd1, 0);
+    p->tamanho = contarDescritor(p);
+    printf("Tamanho do descritor com 1 insercao: %d\n\n", p->tamanho);
+
+    insere(p, &nd2, 1);
+    insere(p, &nd3, 2);
+    insere(p, &nd4, 3);
+    printf("Tamanho do descritor com 3 insercoes: %d\n\n", p->tamanho);
+
     return 0;
 }

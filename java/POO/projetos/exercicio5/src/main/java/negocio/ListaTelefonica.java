@@ -1,25 +1,52 @@
 package negocio;
 
 import dados.Contato;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.HashMap;
 
 public class ListaTelefonica {
-    // private Map<List<>>;    
+    private Map<Character, List<Contato>> contatos;
 
-    public void adicionarContatos(Contato contato){
-
+    public ListaTelefonica() {
+        contatos = new HashMap<Character, List<Contato>>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            contatos.put(c, new LinkedList<Contato>());
+        }
     }
 
-    public void removerContato(Contato contato){
-
+    public void adicionarContato(Contato contato) {
+        char inicial = contato.getNome().toUpperCase().charAt(0);
+        List<Contato> lista = contatos.get(inicial);
+        lista.add(contato);
+        Collections.sort(lista, (c1, c2) -> c1.getNome().compareTo(c2.getNome()));
     }
 
-    // public List<Contato> buscarContatos(char letra){
-    //     return contatos.get(Character.toUpperCase(inicial));
-    // }
+    public void removerContato(Contato contato) {
+        char inicial = contato.getNome().toUpperCase().charAt(0);
+        List<Contato> lista = contatos.get(inicial);
+        lista.remove(contato);
+    }
 
-    // public Map<Character, List<Contato>> buscarContatos(){
-    //     return contatos;
-    // }
+    public List<Contato> buscarContatos(char letra) {
+        return contatos.get(Character.toUpperCase(letra));
+    }
+
+    public Map<Character, List<Contato>> buscarContatos() {
+        return contatos;
+    }
+
+    public String toString() {
+        StringBuffer str = new StringBuffer();
+        contatos.forEach((chave, valores) -> {
+            str.append(chave + ":\n");
+            valores.forEach((valor) -> {
+                str.append(valor + ":\n");
+            });
+        });
+        return "ListaTelefonica [contatos=" + contatos + "]";
+    }
 }

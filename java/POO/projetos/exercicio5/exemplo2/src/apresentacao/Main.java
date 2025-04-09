@@ -4,7 +4,6 @@ import dados.Contato;
 import negocio.ListaTelefonica;
 
 import java.util.Scanner;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.List;
 
@@ -62,31 +61,36 @@ public class Main {
     }
 
     public static void removerContato() {
+        Character inicial;
         System.out.printf("Digite a inicial do contato a ser removido: ");
-        List<Contato> lista = listaTel.buscarContatos(scan.nextLine().charAt(0));
+        inicial = scan.nextLine().charAt(0);
+        List<Contato> lista = listaTel.buscarContatos(inicial);
         System.out.println("");
-
-        for (int c = 0; c < lista.size(); c++) {
-            System.out.printf(c + " - " + lista.get(c).toString());
+        if(lista.isEmpty()){
+            System.out.printf(" Nao ha contatos com a letra " + Character.toUpperCase(inicial) + ".\n");
         }
+        else{
 
-        System.out.printf("\nDigite o indice respectivo ao contato a ser removido:");
-        listaTel.removerContato(lista.get(Integer.parseInt(scan.nextLine())));
-        System.out.printf("Contato removido com sucesso!\n");
+            for (int c = 0; c < lista.size(); c++) {
+                System.out.printf(c + " - " + lista.get(c).toString());
+            }
+
+            System.out.printf("\nDigite o indice respectivo ao contato a ser removido:");
+            listaTel.removerContato(lista.get(Integer.parseInt(scan.nextLine())));
+            System.out.printf("Contato removido com sucesso!\n");
+    
+        }
     }
 
     public static void exibirContatos() {
         System.out.println("");
         Map<Character, List<Contato>> contatos = listaTel.buscarContatos();
-        for (Iterator itK = contatos.keySet().iterator(); itK.hasNext();) {
-            Character k = (Character) itK.next();
-            System.out.printf(k + ":\n");
-
-            List<Contato> lista = contatos.get(k);
-            for (Iterator itL = lista.iterator(); itL.hasNext();) {
-                System.out.printf("- " + itL.next().toString());
+        contatos.forEach((carac, lista) -> {
+            System.out.printf(carac + ":\n");
+            for(Contato contato : lista){
+                System.out.printf("- " + contato.getNome() + ": "+ contato.getTelefone() +'\n');
             }
-        }
+        });
     }
 
     public static void exibirContatos(char letra) {

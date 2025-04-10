@@ -1,0 +1,39 @@
+package ex2.classes;
+
+public class Dono {
+    private String nome;
+    private Endereco endereco;
+    private String cpf;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String n) {
+        nome = n;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco e) {
+        endereco = e;
+    }
+
+    public String getCPF() {
+        return cpf;
+    }
+
+    public void setCPF(String c) {
+        cpf = c;
+    }
+
+    public String toString() {
+        if (endereco != null) {
+            return "Nome: " + nome + "\nCPF: " + cpf + "\nEndereço: " + endereco;
+        } else {
+            return "Nome: " + nome + "\nCPF: " + cpf;
+        }
+    }
+}

@@ -1,8 +1,0 @@
-INDEX VERSION 1.134+/home/gui/udesc/java/POO/projetos/.metadata/.plugins/org.eclipse.jdt.core
-1865797976.index
-3765638706.index
-4086819398.index
-900586112.index
-2274746109.index
-1405306826.index
-3255484198.index

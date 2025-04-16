@@ -8,14 +8,15 @@ public class Animal {
     protected float largura;
     protected float comprimento;
     protected float altura;
-    
-    public float calculaEspacoOcupado(){
+
+    public float calculaEspacoOcupado() {
         return largura * comprimento;
     }
 
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -23,6 +24,7 @@ public class Animal {
     public String getCor() {
         return cor;
     }
+
     public void setCor(String cor) {
         this.cor = cor;
     }
@@ -30,6 +32,7 @@ public class Animal {
     public String getEspecie() {
         return especie;
     }
+
     public void setEspecie(String especie) {
         this.especie = especie;
     }
@@ -37,6 +40,7 @@ public class Animal {
     public int getIdade() {
         return idade;
     }
+
     public void setIdade(int idade) {
         this.idade = idade;
     }
@@ -44,6 +48,7 @@ public class Animal {
     public float getLargura() {
         return largura;
     }
+
     public void setLargura(float largura) {
         this.largura = largura;
     }
@@ -51,6 +56,7 @@ public class Animal {
     public float getComprimento() {
         return comprimento;
     }
+
     public void setComprimento(float comprimento) {
         this.comprimento = comprimento;
     }
@@ -58,6 +64,7 @@ public class Animal {
     public float getAltura() {
         return altura;
     }
+
     public void setAltura(float altura) {
         this.altura = altura;
     }
@@ -96,5 +103,4 @@ public class Animal {
         return true;
     }
 
-    
 }

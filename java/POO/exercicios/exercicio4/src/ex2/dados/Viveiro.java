@@ -7,30 +7,29 @@ public class Viveiro {
     protected float comprimento;
     protected float largura;
     protected ArrayList<Animal> animais;
-    
-    public float calculaEspaco(){
+
+    public float calculaEspaco() {
         return comprimento * largura;
     }
-    
-    private float espacoOcupado(){
-        float sum=0;
-        for(Animal a : animais){
+
+    private float espacoOcupado() {
+        float sum = 0;
+        for (Animal a : animais) {
             sum += a.calculaEspacoOcupado();
         }
         return sum;
 
     }
-    
-    public float espacoDisponivel(){
+
+    public float espacoDisponivel() {
         return calculaEspaco() - espacoOcupado();
     }
-    
-    public boolean adicionarAnimal(Animal animal){
-        if(espacoOcupado()/calculaEspaco() <= 70){
+
+    public boolean adicionarAnimal(Animal animal) {
+        if (espacoOcupado() / calculaEspaco() <= 70) {
             animais.add(animal);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -38,6 +37,7 @@ public class Viveiro {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -45,6 +45,7 @@ public class Viveiro {
     public float getComprimento() {
         return comprimento;
     }
+
     public void setComprimento(float comprimento) {
         this.comprimento = comprimento;
     }
@@ -52,6 +53,7 @@ public class Viveiro {
     public float getLargura() {
         return largura;
     }
+
     public void setLargura(float largura) {
         this.largura = largura;
     }

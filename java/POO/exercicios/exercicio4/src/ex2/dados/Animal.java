@@ -2,12 +2,26 @@ package ex2.dados;
 
 public class Animal {
     private String nome;
-    private String cor;
-    private String especie;
-    private int idade;
+    private String cor;       
+    private String especie;   
+    private int idade;        
     protected float largura;
     protected float comprimento;
     protected float altura;
+
+    public Animal(){
+    }
+
+    public Animal(String nome, String cor, String especie, int idade,
+    float largura, float comprimento, float altura){
+        this.nome = nome;
+        this.cor = cor;
+        this.especie = especie;
+        this.idade = idade;
+        this.largura = largura;
+        this.comprimento = comprimento;
+        this.altura = altura;
+    }
 
     public float calculaEspacoOcupado() {
         return largura * comprimento;
@@ -103,4 +117,13 @@ public class Animal {
         return true;
     }
 
+    public String toString() {
+        return "Nome: " + nome +
+        "\nCor: " + cor +
+        "\nEspecie: " + especie +
+        "\nIdade: " + idade +
+        "\nLargura: " + largura +
+        "\nComprimento: " + comprimento +
+        "\nAltura: " + altura+'\n';
+    }
 }

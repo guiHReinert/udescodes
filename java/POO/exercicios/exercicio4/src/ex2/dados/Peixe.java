@@ -1,12 +1,19 @@
 package ex2.dados;
 
 public class Peixe extends Animal {
-
     private float temperaturaIdeal;
 
-    // public float calcularEspacoOcupado(){
+    public Peixe(){
+    }
+    public Peixe(String no, String cor, String es, int id,
+    float la, float com, float al, float te){
+        super(no, cor, es, id, la, com, al);
+        temperaturaIdeal = te;
+    }
 
-    // }
+    public float calcularEspacoOcupado(){
+        return largura * comprimento * altura;
+    }
 
     public float getTemperaturaIdeal() {
         return temperaturaIdeal;
@@ -28,5 +35,10 @@ public class Peixe extends Animal {
         if (Float.floatToIntBits(temperaturaIdeal) != Float.floatToIntBits(other.temperaturaIdeal))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Temperatura ideal: " + temperaturaIdeal + '\n';
     }
 }

@@ -18,7 +18,6 @@ public class Viveiro {
             sum += a.calculaEspacoOcupado();
         }
         return sum;
-
     }
 
     public float espacoDisponivel() {
@@ -26,7 +25,7 @@ public class Viveiro {
     }
 
     public boolean adicionarAnimal(Animal animal) {
-        if (espacoOcupado() / calculaEspaco() <= 70) {
+        if(animal instanceof Animal && espacoOcupado() / calculaEspaco() <= 0.7){
             animais.add(animal);
             return true;
         } else {
@@ -85,5 +84,17 @@ public class Viveiro {
         } else if (!animais.equals(other.animais))
             return false;
         return true;
+    }
+
+    public String toString(){
+        String animaisStr = new String();
+        for(Animal animal : animais){
+            animaisStr += '\n' + animal.toString();
+        }
+        
+        return "Nome: " + nome +
+        "\nComprimento: " + comprimento +
+        "\nLargura: " + largura +
+        animaisStr +'\n';
     }
 }

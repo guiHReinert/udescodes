@@ -52,6 +52,7 @@ public class Main {
                 }
             }
         }
+        scan.close();
     }
 
     public static ArrayList<Pessoa> lerArquivo() {

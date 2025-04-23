@@ -7,6 +7,12 @@ public class Aluno {
     private int idade;
     private ArrayList<Double> notas;
 
+    public Aluno(String nome, int idade, ArrayList<Double> notas){
+        this.nome = nome;
+        this.idade = idade;
+        this.notas = new ArrayList<Double>(notas);
+    }
+
     public Double calcularMedia(){
         double sum = 0;
         for(Double nota : notas){
@@ -41,6 +47,6 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return nome + ","  + idade + ", " + notas + "\n";
+        return nome + ", "  + idade + ", " + notas + "\n";
     }
 }

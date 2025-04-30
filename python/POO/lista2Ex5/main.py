@@ -1,29 +1,21 @@
 from classes import *
 
-print("OLA MUNDO!")
+import json
+from operator import itemgetter
 
-filme1 = {
-    "titulo": "A Rainy Day in New York",
-    "ano": 2019,
-    "classificacao": "PG−13",
-    "nota": 6.6
-}
-filme2 = {
-    "titulo": "Jurassic World: Fallen Kingdom",
-    "ano": 2018,
-    "classificacao": "PG−13",
-    "nota": 6.2
-}
-filme3 = {
-    "titulo": "2001: A Space Odyssey",
-    "ano": 1968,
-    "classificacao": "G",
-    "nota": 8.3
-}
-filme4 = {
-    "titulo":"Toy Story 4",
-    "ano":2019,
-    "classificacao":"G",
-    "nota":7.8
-}
+pathJSON = "exemplos/filmes_teste.json"
+lista_json = []
+lista_filmes = []
+
+with open(pathJSON) as f:
+    lista_json = json.load(f)
+    # Sort na lista
+    lista_json = sorted(lista_json, key=itemgetter("nota"))
+    for item in lista_json:
+        filme = Filme()
+        filme.importarJSON(item)
+        lista_filmes.append(filme)
+
+for filme in lista_filmes:
+    print(filme)
 

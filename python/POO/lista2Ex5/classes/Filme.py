@@ -13,6 +13,13 @@ class Filme:
         self.classificacao = classificacao
         self.nota = nota
 
-    def importarJSON(strFilme):
-        dictFilme = json.loads(strFilme)
-        return dictFilme
+    def importarJSON(self, dictJSON):
+        self.titulo = dictJSON["titulo"]
+        self.ano = dictJSON["ano"]
+        self.classificacao = dictJSON["classificacao"]
+        self.nota  = dictJSON["nota"]
+
+    def __str__(self):
+        return "{}, {}, {}, {}".format(self.titulo, self.ano, self.classificacao, self.nota)
+
+

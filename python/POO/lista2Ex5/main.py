@@ -7,7 +7,7 @@ pathJSON = "exemplos/filmes_teste.json"
 lista_json = []
 lista_filmes = []
 
-with open(pathJSON) as f:
+with open(pathJSON, 'r') as f:
     lista_json = json.load(f)
     # Sort na lista
     lista_json = sorted(lista_json, key=itemgetter("nota"))

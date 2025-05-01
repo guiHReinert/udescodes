@@ -1,7 +1,11 @@
 package dados;
+
 public enum Geradores{
     ABUNDANTES,
     FATORIAIS,
-    FIBONACCI;
-
+    FIBONACCI,
+    NATURAIS,
+    NUMEROSPRIMOS,
+    PERFEITOS,
+    QUADRADOS;
 }

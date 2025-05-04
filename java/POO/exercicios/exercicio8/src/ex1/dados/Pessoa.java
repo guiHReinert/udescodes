@@ -9,6 +9,7 @@ public class Pessoa {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -16,6 +17,7 @@ public class Pessoa {
     public int getIdade() {
         return idade;
     }
+
     public void setIdade(int idade) {
         this.idade = idade;
     }
@@ -23,6 +25,7 @@ public class Pessoa {
     public float getMassa() {
         return massa;
     }
+
     public void setMassa(float massa) {
         this.massa = massa;
     }
@@ -30,38 +33,23 @@ public class Pessoa {
     public float getAltura() {
         return altura;
     }
+
     public void setAltura(float altura) {
         this.altura = altura;
     }
-    
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(Object o) {
+        Pessoa p = (Pessoa) (o);
+        if (p.getNome() == this.getNome()) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pessoa other = (Pessoa) obj;
-        if (nome == null) {
-            if (other.nome != null)
-                return false;
-        } else if (!nome.equals(other.nome))
-            return false;
-        if (idade != other.idade)
-            return false;
-        if (Float.floatToIntBits(massa) != Float.floatToIntBits(other.massa))
-            return false;
-        if (Float.floatToIntBits(altura) != Float.floatToIntBits(other.altura))
-            return false;
-        return true;
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return nome + ", " + idade +  ", " + massa + "kg, " + altura + "m\n";
+        return nome + ", " + idade + ", " + massa + "kg, " + altura + "m\n";
     }
 
-    
-    
 }

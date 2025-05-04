@@ -83,7 +83,7 @@ public class Main {
 
     public static void exibirContatos() {
         System.out.println("");
-        Map<Character, List<Contato>> contatos = listaTel.buscarContatos();
+        Map<Character, List<Contato>> contatos = listaTel.listarContatos();
         contatos.forEach((carac, lista) -> {
             System.out.printf(carac + ":\n");
             for (Contato contato : lista) {

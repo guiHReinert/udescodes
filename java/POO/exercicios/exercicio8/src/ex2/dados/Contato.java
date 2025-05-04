@@ -20,6 +20,7 @@ public class Contato {
         this.telefone = telefone;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -38,6 +39,7 @@ public class Contato {
         return true;
     }
 
+    @Override
     public String toString() {
         return nome + ": " + telefone + '\n';
     }

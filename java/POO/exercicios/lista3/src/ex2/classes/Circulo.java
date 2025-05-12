@@ -27,6 +27,6 @@ public class Circulo extends FormaGeometrica{
 
     @Override
     public String toString() {
-        return "Circulo: %d, (Area: %d, Circunf: %d)".formatted(medida1, calcularArea(), calcularPerimetro()); 
+        return "Circulo: " + medida1 + ", (Area: "+ calcularArea() + ", Circunf: " + calcularPerimetro() + ")"; 
     }
 }

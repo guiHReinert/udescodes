@@ -36,6 +36,6 @@ public class Losango extends FormaGeometrica{
 
     @Override
     public String toString() {
-        return "Losango: %d, %d (Area: %d, Per: %d)".formatted(medida1,  medida2, calcularArea(), calcularPerimetro()); 
+        return "Losango: " + medida1 + ", " + medida2 + " (Area: " + calcularArea() + ", Per: " + calcularPerimetro() + ")"; 
     }
 }

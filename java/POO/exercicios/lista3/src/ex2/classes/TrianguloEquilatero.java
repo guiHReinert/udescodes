@@ -27,6 +27,6 @@ public class TrianguloEquilatero extends FormaGeometrica {
 
     @Override
     public String toString() {
-        return "Triangulo Equilatero: %d, (Area: %d, Per: %d)".formatted(medida1, calcularArea(), calcularPerimetro()); 
+        return "Triangulo Equilatero: " + medida1 + ", (Area: " + calcularArea() + ", Per: " + calcularPerimetro() + ")"; 
     }
 }

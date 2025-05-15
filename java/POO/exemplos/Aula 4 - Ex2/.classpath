@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/guilherme-hoerning-reinert/udesc/java/POO/teste_projeto/src/main/lib/jlayer1.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/guilherme-hoerning-reinert/udesc/java/POO/teste_projeto/src/main/lib/play-mp3-java-master.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

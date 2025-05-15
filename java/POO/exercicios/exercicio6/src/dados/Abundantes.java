@@ -11,7 +11,7 @@ public class Abundantes extends Gerador{
                     sum += d;
                 }
                 if(c < sum){
-                    this.sequencia.add(c);
+                    this.sequencia.add((Integer)c);
                     break;
                 }
                 c++;

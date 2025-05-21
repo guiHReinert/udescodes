@@ -1,8 +1,10 @@
 #include "arq.h"
-#include "math.h"
+#include "math.h" // round()
 
-void main(void)
-{	int tamVet, i;
+// TERMINAL: gcc aplicacao.c FES.c -o app
+
+void main(){
+	int tamVet, i;
 	info data[] = {
 		{23,"Pedro"},{32,"Maria"},{18,"Ana"},{81,"Vania"}
 	}, tmp;
@@ -11,35 +13,35 @@ void main(void)
 	tamVet = sizeof(data)/sizeof(info);
 
 	p = cria(tamVet);
-	for(i=0;i<tamVet;i++)
+	for(i=0; i < tamVet; i++)
 		insere(&data[i], p);
 			 
 	i = tamanhoDaFila(p);
 	printf("tamanho da fila %i\n", i);
 
-	buscaCauda(&tmp,p);
+	buscaCauda(&tmp, p);
 	printf("final da fila %i %s \n", tmp.idade,tmp.nome);
 
-	buscaFrente(&tmp,p);
+	buscaFrente(&tmp, p);
 	printf("frente da fila %i %s \n", tmp.idade,tmp.nome);
 
-	for(i=0; i<round(tamVet/2);i++)
-		if (remove_(&tmp,p) == FRACASSO)
+	for(i=0; i < round(tamVet/2); i++)
+		if (remove_(&tmp, p) == FRACASSO)
 			printf("erro na remocao\n");
 		else
 			printf("Removido da fila %i %s \n", tmp.idade,tmp.nome);
 	
-	buscaCauda(&tmp,p);
+	buscaCauda(&tmp, p);
 	printf("final da fila %i %s \n", tmp.idade,tmp.nome);
 
-	buscaFrente(&tmp,p);
+	buscaFrente(&tmp, p);
 	printf("frente da fila %i %s \n", tmp.idade,tmp.nome);
-	i= tamanhoDaFila(p);
+	i = tamanhoDaFila(p);
 	printf("tamanho da fila %i, tamanho do vetor %i\n", i, tamVet);
-	if(insere(&data[0], p)==FRACASSO)
+	if(insere(&data[0], p) == FRACASSO)
 		printf("Erro na tentativa de insercao");
 	getchar();
-	p=destroi(p);
+	p = destroi(p);
 }
 
 

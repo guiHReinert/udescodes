@@ -6,17 +6,17 @@
 #define SUCESSO 1
 #define FRACASSO 0
 
-
-typedef struct{ int idade;
-		char nome[30];
-	}info;
+typedef struct{
+	int idade;
+	char nome[30];
+}info;
 			
-struct descFES{ int cauda;
-		int frente;
-              	info *vet; 
-              	int tamVet;
-                };
-
+struct descFES{
+	int cauda;
+	int frente;
+	info *vet; 
+	int tamVet;
+};
 
 //======================APLICACAO=====================
 

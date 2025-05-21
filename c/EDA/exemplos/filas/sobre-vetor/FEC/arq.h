@@ -7,16 +7,18 @@
 #define FRACASSO 0
 #define DEBUG
 
-typedef struct{ int idade;
-		char nome[30];
-	}info;
+typedef struct{
+	int idade;
+	char nome[30];
+}info;
 			
-struct descFEC{ int cauda;
-		int frente;
-              	info *vet; 
-              	int tamVet;
-		int tamFila;
-                };
+struct descFEC{
+	int cauda;
+	int frente;
+	info *vet; 
+	int tamVet;
+	int tamFila;
+};
 
 
 //======================APLICACAO=====================

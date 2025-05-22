@@ -1,14 +1,23 @@
 #include "arq.h"
 
+int compara(info *a, info *b){
+   if (a->chave > b->chave)
+      return MAIOR;
+   else
+      if (a->chave < b->chave)
+         return MENOR;
+      else
+         return IGUAL;
+}
 
 int main(void)
 {
   struct descF *ptr = NULL; 
 
-  if((ptr=cria(sizeof(info))) == FRACASSO)
-      puts("erro fatal durante a criação do tda");
+  if((ptr = cria(sizeof(info))) == FRACASSO)
+      puts("erro fatal durante a criaï¿½ï¿½o do tda");
   else
-  	menu(ptr);
+  menu(ptr);
   return 1;
 }
 
@@ -62,16 +71,4 @@ void menu(struct descF *p)
         getchar();
    }while(opc != '0');
    puts("tchau");
-
-}
-
-
-int compara(info *a, info *b)
-{ if (a->chave > b->chave)
-     return MAIOR;
-  else
-     if (a->chave < b->chave)
-             return MENOR;
-     else
-        return IGUAL;
 }

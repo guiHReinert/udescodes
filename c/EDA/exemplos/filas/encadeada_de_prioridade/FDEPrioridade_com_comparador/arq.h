@@ -1,3 +1,7 @@
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+
 #define LIVRE 0
 #define OCUPADA 1
 #define FRACASSO 0
@@ -6,34 +10,33 @@
 #define VERDADEIRO 1
 #define NAO 0
 #define SIM 1
-#define MAIOR 1
-#define IGUAL 0
 #define MENOR -1
-#include "stdlib.h"
-#include "stdio.h"
-#include "string.h"
+#define IGUAL 0
+#define MAIOR 1
 
-#define debugging  1
+#define debugging 1
 
-typedef struct{ int chave;
-		char nome[30];
-}info;
+typedef struct{
+	int chave;
+	char nome[30];
+} info;
 
+struct noFila{
+	info dados;
+	struct noFila *atras;
+	struct noFila *defronte;
+};
 
-struct noFila{ info dados;
-		       struct noFila *atras;
-                       struct noFila *defronte;
-	      };
-
-struct descF{ 	struct noFila *frente;
-		struct noFila *cauda;
-                int tamInfo;
-		};
-
+struct descF{
+	struct noFila *frente;
+	struct noFila *cauda;
+	int tamInfo;
+};
 
 //======================APLICACAO=====================
 int compara(info * inf1, info *inf2); 
 void menu(struct descF *p);
+
 //======================FILA=====================
 struct descF * cria(int tamInfo);
 int insere(info *novo,struct descF *p, int(*compara)(info *novo,info *visitado));

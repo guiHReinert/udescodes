@@ -5,14 +5,14 @@ void status(struct descFEC *pF){
 }
 
 int cheia(struct descFEC *pF){ 	
-	if (pF->tamFila==pF->tamVet)
+	if (pF->tamFila == pF->tamVet)
 		return SIM;
 	else
 		return NAO;
 }
 
 int vazia(struct descFEC *pF){
-    if (pF->tamFila==0)
+    if (pF->tamFila == 0)
         return SIM;
     else
         return NAO;
@@ -20,24 +20,24 @@ int vazia(struct descFEC *pF){
 
 struct descFEC * cria(int tamVet){
     struct descFEC *p=NULL;
-	p = (struct descFEC*)malloc(sizeof(struct descFEC));
+	p = (struct descFEC*) malloc(sizeof(struct descFEC));
     if (p){
-        p->vet=(info *)malloc(sizeof(info)*tamVet);//<<<<<<
+        p->vet=(info*) malloc(sizeof(info) * tamVet);//<<<<<<
         if (p->vet) {
-            p->cauda=-1;
-            p->frente=0;
-            p->tamVet=tamVet;
-            p->tamFila=0;
+            p->cauda = -1;
+            p->frente = 0;
+            p->tamVet = tamVet;
+            p->tamFila = 0;
         };
     }
     return p;
 }
 
 int remove_(info *reg, struct descFEC *pF){  
-    if (pF->tamFila==0)
+    if (pF->tamFila == 0)
     	return FRACASSO; //fila vazia
     else{	
-		memcpy(reg,&(pF->vet[pF->frente]),sizeof(info)); //*reg=pF->vet[pF->frente];	
+		memcpy(reg, &(pF->vet[pF->frente]), sizeof(info)); //*reg=pF->vet[pF->frente];	
 		pF->frente = (pF->frente+1) % pF->tamVet; // <<<<<<<<<<<<
         pF->tamFila--; //<<<<<<<<<<<<<<<<<
         return SUCESSO;
@@ -48,7 +48,7 @@ int remove_(info *reg, struct descFEC *pF){
 int insere(info *reg, struct descFEC *pF){    
     if (pF->tamFila < pF->tamVet){	 
 	    pF->cauda = (pF->cauda+1) % pF->tamVet; //<<<<<<<<<<<<<
-	    memcpy(&(pF->vet[pF->cauda]),reg,sizeof(info)); //pF->vet[pF->cauda]=*reg;
+	    memcpy(&(pF->vet[pF->cauda]), reg, sizeof(info)); //pF->vet[pF->cauda]=*reg;
 	    pF->tamFila++; // <<<<<<<<<<<<<< 
         return SUCESSO;
     }
@@ -67,7 +67,7 @@ int buscaCauda(info *reg, struct descFEC *pF){
 
 int buscaFrente(info *reg, struct descFEC *pF){  
     if (pF->tamFila > 0){
-        memcpy(reg, &(pF->vet[pF->frente]),sizeof(info)); //<<<<<<<<<<<
+        memcpy(reg, &(pF->vet[pF->frente]), sizeof(info)); //<<<<<<<<<<<
         return SUCESSO;
     }
     else
@@ -85,43 +85,3 @@ struct descFEC* destroi(struct descFEC *pF){
 int tamanhoDaFila(struct descFEC *pF){
     return pF->tamFila;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -47,7 +47,7 @@ void main(void)
 	getchar();
 	
 	printf("\n\n----------------- Verificando se está Cheia???? ------------------\n\n");
-	if (cheia(p)==SIM)
+	if (cheia(p) == SIM)
 		printf(" \n\n Fila cheia\n\n");
 
 	printf("\n\n tecle alguma coisa...\n");
@@ -59,7 +59,7 @@ void main(void)
 		status(p);
 	#endif		
 	
-	if(insere(&data[0], p)==FRACASSO)
+	if(insere(&data[0], p) == FRACASSO)
 		printf("Erro na tentativa de insercao");
 	
 	printf("\n\n tecle alguma coisa...\n");
@@ -70,8 +70,8 @@ void main(void)
 	printf("\n\n -----------------removendo metade dos itens----------------------\n\n");
 
 	tam=tamanhoDaFila(p)/2.0;	
-	for(i=0; i<round(tam);i++)
-		if (remove_(&tmp,p) == FRACASSO)
+	for(i=0; i < round(tam); i++)
+		if (remove_(&tmp, p) == FRACASSO)
 			printf("erro na remocao\n");
 		else
 			exibeInfo("\n\n Removido da fila",&tmp);//printf("\n Removido da fila: %i %s \n", tmp.idade,tmp.nome);
@@ -80,22 +80,22 @@ void main(void)
 	#endif	
 	
 	printf("\n\n -----------------Verificando Cauda/Frente----------------------\n\n");	
-	if (buscaCauda(&tmp,p) == SUCESSO)
+	if (buscaCauda(&tmp, p) == SUCESSO)
 			exibeInfo("\n\n cauda da fila",&tmp);//printf("\n\n final da fila %i %s \n", tmp.nome);
 
-	if (buscaFrente(&tmp,p)==SUCESSO)
+	if (buscaFrente(&tmp, p) == SUCESSO)
 			exibeInfo("\n\n frente da fila",&tmp);//printf(" frente da fila %i %s \n\n", tmp.nome);
 
 	printf("\n\n tecle alguma coisa...\n");
 	getchar();
 	
 	printf("\n\n----------------- inserção *CIRCULANDO* a fila --------------\n");
-	tmp.idade=99;
+	tmp.idade = 99;
 	strcpy(tmp.nome,"Pancho");
-	if(insere(&tmp, p)==FRACASSO)
+	if(insere(&tmp, p) == FRACASSO)
 		printf("Erro na tentativa de insercao");
 	else
-		exibeInfo("inseriu",&tmp); 
+		exibeInfo("inseriu", &tmp); 
 			
 
 	
@@ -110,7 +110,7 @@ void main(void)
 	printf("\n\n----------------- Remoção de todos os itens *CIRCULANDO* a fila----------------------\n\n");
 		
 
-	while(remove_(&tmp,p) == SUCESSO)
+	while(remove_(&tmp, p) == SUCESSO)
 		printf("Removido da fila %s \n", tmp.nome);
 	
 	#ifdef DEBUG	
@@ -122,7 +122,7 @@ void main(void)
 	
 
 	printf("\n tentativa de remocao:\n");
-	if(remove_(&tmp,p) ==FRACASSO)
+	if(remove_(&tmp, p) ==FRACASSO)
 		printf("\n Erro na tentativa de remocao");
 	else
 		printf("\n Removido da fila %i %s \n", tmp.idade,tmp.nome);
@@ -131,7 +131,7 @@ void main(void)
 
 
 	getchar();
-	p=destroi(p);
+	p = destroi(p);
 }
 
 

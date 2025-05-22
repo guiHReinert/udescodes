@@ -1,8 +1,8 @@
 #include "arq.h"
 #include "math.h"
 
-int main(void)
-{	int tamData, i;
+int main(void){
+	int tamData, i;
 	info data[]={{23,"Pedro"},{32,"Maria"},{18,"Ana"},{81,"Vania"}}, tmp;
 	struct descF *p=NULL;
 

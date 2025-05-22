@@ -20,7 +20,6 @@ struct descFEC{
 	int tamFila;
 };
 
-
 //======================APLICACAO=====================
 void exibeInfo(char *msg, info *reg);
 

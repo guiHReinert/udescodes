@@ -1,7 +1,5 @@
 #include "arq.h"
 
-
-
 /*************** CRIA ***************/
 struct descF * cria(int tamInfo)
 {   	
@@ -15,63 +13,51 @@ struct descF * cria(int tamInfo)
 }
 
 /*************** INSERE A PARTIR DA FRENTE ***************/
-int insere(info *pInfo, struct descF *p)
-{ int result;
-  struct noFila *novoNoFila=NULL, *visitado=NULL;
-  if ((novoNoFila = (struct noFila *) malloc(sizeof(struct noFila))) != NULL)
-    { 
-	memcpy(&(novoNoFila->dados),pInfo, p->tamInfo);
-  	if(p->frente == NULL && p->cauda == NULL) /*fila vazia*/
-    	 {  novoNoFila->atras = novoNoFila->defronte = NULL;
+int insere(info *pInfo, struct descF *p){
+	int result;
+	struct noFila *novoNoFila=NULL, *visitado=NULL;
+	if ((novoNoFila = (struct noFila *) malloc(sizeof(struct noFila))) != NULL){ 
+		memcpy(&(novoNoFila->dados),pInfo, p->tamInfo);
+		// Fila vazia
+  		if(p->frente == NULL && p->cauda == NULL) {
+			novoNoFila->atras = novoNoFila->defronte = NULL;
     	    p->frente = p->cauda = novoNoFila;
-    	    	
-    	 }
-        else
-    	 { // 
-    	 	if(novoNoFila->dados.idade < p->cauda->dados.idade) /*novo elemento é o de menor prioridade */
-    	 	{ 	novoNoFila->atras=NULL;
-    	 		novoNoFila->defronte=p->cauda;
-    	 		p->cauda->atras=novoNoFila;
-    	 		p->cauda=novoNoFila;
-    	 		
+		}
+        else{ 
+			// Novo elemento eh o de menor prioridade que o da cauda
+    	 	if(novoNoFila->dados.idade < p->cauda->dados.idade) {
+				novoNoFila->atras=NULL;
+    	 		novoNoFila->defronte = p->cauda;
+    	 		p->cauda->atras = novoNoFila;
+    	 		p->cauda = novoNoFila; // Inseriu na cauda da lista
     	 	}
-    	 	else
-    	 	{    	 
-		   visitado = p->frente; /*maior prioridade na frente */
-       	   while(visitado->atras != NULL && (visitado->dados.idade >= novoNoFila->dados.idade)) 
-  				visitado= visitado->atras; /* A(idade) <= B(idade) */
-
-           
-       	   if(visitado->dados.idade < novoNoFila->dados.idade)   /* novo item fica a frente do visitado */
-         	   {   	
+			// Possui prioridade maior que o da cauda
+    	 	else{
+		   		visitado = p->frente;
+				// Cancela quando visitado chegar na cauda E a idade do visitado for menor que a do novo item
+				// Ou seja, o novo item eh imediatamente o de maior prioridade
+       	   		while(visitado->atras != NULL && (visitado->dados.idade >= novoNoFila->dados.idade)) 
+  					visitado = visitado->atras; /* A(idade) <= B(idade) */
+				// Novo item fica a frente do visitado
+       	   		if(visitado->dados.idade < novoNoFila->dados.idade) {   	
 					novoNoFila->atras = visitado;
-      				if (visitado->defronte != NULL)
-      				{       novoNoFila->defronte = visitado->defronte;
-      				        visitado->defronte->atras = novoNoFila;
+      				if (visitado->defronte != NULL){
+						// Encaixar o novo nodo entre o visitado e o sucessor do visitado
+						novoNoFila->defronte = visitado->defronte;
+						visitado->defronte->atras = novoNoFila;
       				} 
-      				else
-      				   {  // novo item é o de maior prioridade de todos na fila, sendo a nova frente
-						   novoNoFila->defronte = NULL;      
-						  p->frente = novoNoFila;
-				   }	   
+					// Novo item eh o de maior prioridade de todos na fila, sendo a nova frente
+      				else{
+						novoNoFila->defronte = NULL;      
+						p->frente = novoNoFila;
+				    }	   
 					visitado->defronte = novoNoFila;  
-		   }	
-		   //else //<<- novo item é o de menor prioridade de todos na fila, sendo a nova cauda
-		   	  //Essa é uma condicao ja tratada 
-			//{
-			//		novoNoFila->defronte = visitado;
-			//		novoNoFila->atras = NULL;
-			//		visitado->atras = novoNoFila;
-			//		p->cauda = novoNoFila; 
-			//}	
-         	}   
-			
-	}//
-	return SUCESSO;
+				}	
+         	}   	
+		}
+		return SUCESSO;
     }
-    
 	return FRACASSO;
-
 }
 
 
@@ -182,5 +168,5 @@ struct descF * destroi(struct descF *p)
 {
     reinicia(p);
     free(p);
-    return NULL; // aterra o ponteiro externo, declarado na aplicação
+    return NULL; // aterra o ponteiro externo, declarado na aplicaï¿½ï¿½o
 }

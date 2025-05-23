@@ -23,7 +23,7 @@ Para cada uma das bases extraídas do arquivo csv, carregue cada FDE e calcule o
 número médio de iterações de laço para a inserção de todos os itens na base em
 questão utilizando a funcionalidade de inserção disponível na interface de cada fila.
 
-4. Utilizar os valores de ranking da matricula como prioridade
+4. Utilizar os valores de ranking e da matricula como prioridade
 
 5.1 Implementar graficos comparando o numero de interacoes entre as duas filas
 

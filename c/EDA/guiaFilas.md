@@ -381,7 +381,7 @@ struct descF * cria(int tamInfo){
     if(desc != NULL) {
         desc->cauda = NULL;
         desc->frente = NULL;
-	desc->tamInfo= tamInfo;
+	desc->tamInfo = tamInfo;
     }
     return desc;
 }
@@ -405,7 +405,7 @@ struct descF * destroi(struct descF *p){
 ```c
 // Inserir nodos na fila a partir da cauda
 // (Com a implementacao do ponteiro da funcao compara())
-int insere(info *novo,struct descF *p, int(*compara)(info *novo,info *visitado)){
+int insere(info *novo, struct descF *p, int(*compara)(info *novo,info *visitado)){
 	int result;
   	struct noFila *novoNoFila=NULL, *visitado=NULL;
  	if ((novoNoFila = (struct noFila *) malloc(sizeof(struct noFila))) != NULL){ 

@@ -2,16 +2,16 @@
 #include "stdio.h"
 #include "string.h"
 
-#define LIVRE 0
+#define LIVRE 0    
 #define OCUPADA 1
-#define FRACASSO 0
+#define FRACASSO 0  
 #define SUCESSO 1
-#define FALSO 0
+#define FALSO 0     
 #define VERDADEIRO 1
-#define NAO 0
+#define NAO 0       
 #define SIM 1
-#define MENOR -1
-#define IGUAL 0
+#define MENOR -1    
+#define IGUAL 0     
 #define MAIOR 1
 
 #define debugging 1
@@ -38,11 +38,11 @@ int compara(info * inf1, info *inf2);
 void menu(struct descF *p);
 
 //======================FILA=====================
-struct descF * cria(int tamInfo);
+struct descF *cria(int tamInfo);
 int insere(info *novo,struct descF *p, int(*compara)(info *novo,info *visitado));
 int tamanhoDaFila(struct descF *p);
 int reinicia(struct descF *p);
-struct descF * destroi(struct descF *p);
+struct descF *destroi(struct descF *p);
 int buscaNaCauda(info *reg, struct descF *p);
 int buscaNaFrente(info *reg, struct descF *p);
 int remove_(info *reg, struct descF *p);

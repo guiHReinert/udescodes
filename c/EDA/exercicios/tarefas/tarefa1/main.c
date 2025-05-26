@@ -89,6 +89,5 @@ int main(){
         printf("Base %d\tNumero de repeticoes: %d\tMedia de repeticoes: %.2f\n",
             range, (&descritores[b])->numRep, (float) descritores[b].numRep / range);        
     }
-
     return 0;
 }

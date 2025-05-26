@@ -10,8 +10,8 @@
 #define OCUPADA 1
 #define FRACASSO 0  
 #define SUCESSO 1
-#define FALSO 0     
-#define VERDADEIRO 1
+// #define FALSO 0     
+// #define VERDADEIRO 1
 #define NAO 0       
 #define SIM 1
 #define MENOR -1    
@@ -83,8 +83,8 @@ int compararMat(info *a, info *b);
 */
 descS *criaDescF(int tamInfo);
 descS *destroiDescF(descS *desc);
-int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker));
-
+int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old));
+int reiniciaS(descS *desc);
 
 /*
     Manipulacao de filas COM referencial movel
@@ -92,7 +92,7 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker)
 */
 descM *criaDescM(int tamInfo);
 descM *destroiDescM(descM *desc);
-int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *walker), int *count);
+int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old));
 int remove_(info *reg, descM  *desc);
 int reinicia(descM *desc);
 int buscaNaFrente(info *reg, descM *desc);

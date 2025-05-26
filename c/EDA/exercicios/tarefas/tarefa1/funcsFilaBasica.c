@@ -19,10 +19,11 @@ descS *criaDescF(int tamInfo){
 
 // Remover descritor da memoria
 descS *destroiDescF(descS *desc){
-    reinicia(desc);
+    reiniciaS(desc);
     free(desc);
     return NULL; // Aterra o ponteiro externo, declarado na aplicacao
 }
+
 /*
     Insere nodos na fila a partir da cauda, com base nas suas prioridades:
     - <novo>      dados do novo nodo (chamado de <newNodo>);
@@ -35,10 +36,10 @@ descS *destroiDescF(descS *desc){
     entre nodos. Bem como descS->cauda->anterior == NULL e
     descS->frente->posterior == NULL.
 */
-int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker)){
-
+int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old)){
+    
     // Definicao dos nodos uteis ah funcao.
-  	nodo *newNodo=NULL, *walker=NULL;
+    nodo *newNodo=NULL, *walker=NULL;
       
     // Alocar dinamicamente o novo nodo vazio, e verificar se a alocacao funcionou.
     newNodo = (nodo*) malloc(sizeof(nodo));
@@ -51,29 +52,33 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker)
     memcpy(&(newNodo->dados), novo, desc->tamInfo);
     newNodo->anterior = NULL;
     newNodo->posterior = NULL;
-
+    
     /*
         Fila vazia:
         - Ponteiros de <newNodo> vazios, frente e cauda apontam para <newNodo>.
     */
-    if(desc->frente == NULL && desc->cauda == NULL){
-        desc->frente = newNodo;
-        desc->cauda = newNodo;
+   if(desc->frente == NULL && desc->cauda == NULL){
+       desc->frente = newNodo;
+       desc->cauda = newNodo;
     }
-
+    
     // Fila com pelo menos 1 nodo
     else{
 
+        // Comparacao entre os dados de <newNodo> com os da cauda e da frente.
+        int compCauda = compara(novo, &(desc->cauda->dados)),
+            compFrente = compara(novo, &(desc->frente->dados));
+        
         /*
-            <newNodo> eh de menor prioridade que a cauda.
+            <newNodo> possui priidade menor ou igual que a da cauda.
             - <newNodo->anterior>   aponta para NULL;
             - <newNodo->posterior>  aponta para a cauda;
             - <desc->cauda>         aponta para <newNodo>;
         */
-        if(compara(novo, &(desc->cauda->dados)) == MENOR || compara(novo, &(desc->cauda->dados)) == IGUAL){
-            newNodo->posterior = desc->cauda;
-            desc->cauda->anterior = newNodo;
-            desc->cauda = newNodo;
+       if(compCauda == MENOR || compCauda == IGUAL){
+           newNodo->posterior = desc->cauda;
+           desc->cauda->anterior = newNodo;
+           desc->cauda = newNodo;
             // printf("Inserido na cauda\n");
         }
 
@@ -83,12 +88,11 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker)
             - <newNodo->posterior>  aponta para NULL;
             - <desc->frente>        aponta para <newNodo>;
         */
-        else if(compara(novo, &(desc->frente->dados)) == MAIOR){
+        else if(compFrente == MAIOR){
             newNodo->anterior = desc->frente;
             desc->frente->posterior = newNodo;
             desc->frente = newNodo;
             // printf("Inserido na frente\n");
-
         }
         
         // <newNodo> possui prioridade maior que a da cauda e menor que a da frente
@@ -119,4 +123,24 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *walker)
         }	
     }
     return SUCESSO;
+}
+
+
+// Reiniciar fila
+int reiniciaS(descS *desc){
+	int ret=FRACASSO;
+    nodo *aux=NULL;
+    if(desc->frente != NULL && desc->cauda != NULL){  
+        aux = desc->cauda->posterior;
+        while(aux != NULL) {
+            free(desc->cauda);
+            desc->cauda = aux;
+            aux = aux->posterior;
+        }
+        free(desc->cauda);
+        desc->frente = NULL;
+        desc->cauda = NULL;
+        ret=SUCESSO; 
+    }
+    return ret;	
 }

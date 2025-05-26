@@ -26,7 +26,7 @@ descM *destroiDescM(descM *desc){
     return NULL; // Aterra o ponteiro externo, declarado na aplicacao
 }
 
-int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *walker), int *count){
+int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old)){
     
     // Definicao dos nodos uteis ah funcao.
   	nodo *newNodo=NULL, *walker=NULL;
@@ -62,21 +62,76 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *walker)
             - <newNodo->anterior>   aponta para NULL;
             - <newNodo->posterior>  aponta para a cauda;
             - <desc->cauda>         aponta para <newNodo>;
-            - <desc->ref>           aponta para <newNodo>;
             - <desc->tamFila>       incrementa.
         */
         if(compara(novo, &(desc->cauda->dados)) == MENOR || compara(novo, &(desc->cauda->dados)) == IGUAL){
             newNodo->posterior = desc->cauda;
             desc->cauda->anterior = newNodo;
             desc->cauda = newNodo;
-            desc->ref = newNodo;
             desc->tamFila++;
             printf("Inserido na cauda\n");
         }
         
-        // Caso nodo na frente
+        /*
+            <nodo> eh de maior prioridade que a frente.compara
+            - <newNodo->anterior>   aponta para a frente;
+            - <newNodo->posterior>  aponta para NULL;
+            - <desc->frente>        aponta para <newNodo>;
+            - <desc->tamFila>       incrementa.
+        */
+        else if(compara(novo, &(desc->cauda->dados)) == MAIOR){
+            newNodo->anterior = desc->frente;
+            desc->frente->posterior = newNodo;
+            desc->frente = newNodo;
+            desc->tamFila++;
+            printf("Inserido na frente\n");
+
+        }
         
-        // Caso intermediario
+        // <newNodo> possui prioridade maior que a da cauda e menor que a da frente
+        else{
+
+            // Comparacao entre os dados de <newNodo> com os da cauda e da frente.
+            int compCauda = compara(novo, &(desc->cauda->dados)),
+                compFrente = compara(novo, &(desc->frente->dados)),
+                compRef = compara(novo, &(desc->ref->dados));
+
+            /*
+                Verifica a posicao de <newNodo> em relacao ao referencial movel
+                - <sobre>       newNodo->prior == ref->prior;
+                - <esquerda>    newNodo->prior <= cauda->prior &&
+                                ref->prior <= newNodo->prior;
+                
+            */
+            int sobre = compara(novo, &(desc->ref->dados)) == IGUAL,
+                esquerda =  (compCauda == MAIOR || compCauda == IGUAL) &&
+                            (compRef == MENOR || compRef == IGUAL),
+                direita =   (compFrente == MENOR || compFrente == IGUAL) &&
+                            (compRef == MAIOR || compRef == IGUAL);
+
+            /*
+                <newNodo> possui prioridade igual ao referencial movel.
+                -
+            */
+            if(sobre){
+
+            }
+            /*
+                <newNodo> possui prioridade entre a cauda e o referencial movel.
+                - 
+            */
+            else if(esquerda){
+
+            }
+
+            /*
+                <newNodo> possui prioridade entre o referencial movel e a frente.
+                - 
+            */
+            else{
+
+            }
+        }
         
     }
     return SUCESSO;
@@ -102,6 +157,7 @@ int remove_(info *reg, descM  *desc){
 	}
 	return ans;
 }
+
 // Reiniciar fila
 int reinicia(descM *desc){
 	int ret=FRACASSO;

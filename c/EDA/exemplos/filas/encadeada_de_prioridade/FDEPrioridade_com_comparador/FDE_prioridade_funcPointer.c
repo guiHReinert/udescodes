@@ -12,7 +12,7 @@ struct descF * cria(int tamInfo){
 }
 
 /*************** INSERE NA CAUDA ***************/
-int insere(info *novo,struct descF *p, int(*compara)(info *novo,info *visitado)){
+int insere(info *novo, struct descF *p, int(*compara)(info *novo, info *visitado)){
 	int result;
   	struct noFila *novoNoFila=NULL, *visitado=NULL;
  	if ((novoNoFila = (struct noFila *) malloc(sizeof(struct noFila))) != NULL){ 

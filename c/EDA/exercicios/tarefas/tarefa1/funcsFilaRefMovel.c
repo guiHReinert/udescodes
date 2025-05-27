@@ -55,7 +55,7 @@ char menorCaminho(nodo *start, nodo *end, nodo *newNodo, int (*compara)(info *no
             break;
 
         case RANKING:
-            distEsquerda = abs(newNodo->dados.matricula - start->dados.matricula);
+            distEsquerda = abs(newNodo->dados.ranking - start->dados.ranking);
             distDireita = abs(newNodo->dados.ranking - end->dados.ranking);
             break;
 
@@ -119,8 +119,11 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
         newNodo->posterior = desc->cauda;
         desc->cauda->anterior = newNodo;
         desc->cauda = newNodo;
+
+        // Nodo inserido: o referencial eh atualizado e o tamanho da fila incrementado.
+        desc->ref = newNodo;
         desc->tamFila++;
-        printf("Inserido na cauda\n");
+        // printf("Inserido na cauda\n");
 
         return SUCESSO;
     }
@@ -132,12 +135,15 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
         - <desc->frente>        aponta para <newNodo>;
         - <desc->tamFila>       incrementa.
     */
-    else if(compara(novo, &(desc->cauda->dados), tag) == MAIOR){
+    else if(compara(novo, &(desc->frente->dados), tag) == MAIOR){
         newNodo->anterior = desc->frente;
         desc->frente->posterior = newNodo;
         desc->frente = newNodo;
+
+        // Nodo inserido: o referencial eh atualizado e o tamanho da fila incrementado.
+        desc->ref = newNodo;
         desc->tamFila++;
-        printf("Inserido na frente\n");
+        // printf("Inserido na frente\n");
 
         return SUCESSO;
     }
@@ -239,7 +245,7 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
                 walker->anterior->posterior = newNodo;
             }
             walker->anterior = newNodo;
-            printf("Inserido na regiao ESQUERDA pela CAUDA\n");
+            // printf("Inserido na regiao ESQUERDA pela CAUDA\n");
         }
 
         /*
@@ -259,7 +265,7 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
                 walker->posterior->anterior = newNodo;
             }
             walker->posterior = newNodo;
-            printf("Inserido na regiao ESQUERDA pelo REFERENCIAL MOVEL\n");
+            // printf("Inserido na regiao ESQUERDA pelo REFERENCIAL MOVEL\n");
         }
 
         /*
@@ -268,7 +274,8 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
         */
         else{return FRACASSO;}
 
-        // Nodo inserido, logo o tamanho da fila eh incrementado.
+        // Nodo inserido: o referencial eh atualizado e o tamanho da fila incrementado.
+        desc->ref = newNodo;
         desc->tamFila++;
 
         return SUCESSO;
@@ -278,6 +285,7 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
                 PRIORIDADE ENTRE O REFERENCIAL MOVEL E A FRENTE
     */
     else{
+        int saida = 0;
         char way = menorCaminho(desc->ref, desc->frente, newNodo, compara, tag);
         
         /*
@@ -297,28 +305,53 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
                 walker->anterior->posterior = newNodo;
             }
             walker->anterior = newNodo;
-            printf("Inserido na regiao DIREITA pelo REFERENCIAL MOVEL\n");
+            // printf("Inserido na regiao DIREITA pelo REFERENCIAL MOVEL\n");
         }
-
+        
+        /*
+                    REGIAO DIREITA, INSERCAO PELA DIREITA
+            Com <walker> de prioridade imediatamente MENOR que a de <newNodo>.
+        */
         else if(way == PELA_DIREITA){
             nodo *walker = desc->frente;
 
-            /*
-                        REGIAO DIREITA, INSERCAO PELA DIREITA
-                Com <walker> de prioridade imediatamente MENOR que a de <newNodo>.
-            */
             while(walker->anterior != NULL && compara(novo, &(walker->dados), tag) == MENOR){
                 walker = walker->anterior;
                 desc->numRep++;
             }
 
-            newNodo->anterior = walker;
-            newNodo->posterior = walker->posterior;
-            if(walker->posterior->anterior != NULL){
-                walker->posterior->anterior = newNodo;
+            /*
+                Caso <walker> seja a frente (<newNodo> e <walker> possuem a 
+                mesma prioridade), logo <newNodo> serah inserido antes da
+                frente. 
+            */
+            if(walker->posterior == NULL){
+
+                newNodo->anterior = walker->anterior;
+                newNodo->posterior = walker;
+
+                // Caso <walker> possua um nodo anterior a ele.
+                if(walker->anterior->posterior != NULL){
+                    walker->anterior->posterior = newNodo;
+                }
+
+                walker->anterior = newNodo;
             }
-            walker->posterior = newNodo;
-            printf("Inserido na regiao DIREITA pela FRENTE\n");
+
+            // <walker> nao eh a frente.
+            else{
+                
+                newNodo->anterior = walker;
+                newNodo->posterior = walker->posterior;
+
+                // Caso <walker> possua um nodo anterior a ele.
+                if(walker->posterior->anterior != NULL){
+                    walker->posterior->anterior = newNodo;
+                }
+                walker->posterior = newNodo;
+            }
+
+            // printf("Inserido na regiao DIREITA pela FRENTE\n");
         }
 
         /*
@@ -327,7 +360,8 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
         */
         else{return FRACASSO;}
 
-        // Nodo inserido, logo o tamanho da fila eh incrementado.
+        // Nodo inserido: o referencial eh atualizado e o tamanho da fila incrementado.
+        desc->ref = newNodo;
         desc->tamFila++;
 
         return SUCESSO;

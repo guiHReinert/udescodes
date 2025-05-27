@@ -74,6 +74,10 @@ nodo *criarNodo(info *dados);
 void printarNodo(nodo *nodo);
 void printarFilaSem(descS *desc);
 void printarFilaCom(descM *desc);
+void implementarBaseSem(char **arquivo, int tamanhoDataset, int range,
+    descS *desc, char tag);
+void implementarBaseCom(char **arquivo, int tamanhoDataset, int range,
+    descM *desc, char tag);
 
 /*
     Funcoes de comparacao de nodos 

@@ -73,12 +73,18 @@ int comparar(info *a, info *b, char tag) {
         - <tag>:           criterio de comparacao.
 */
 void implementarBaseSem(char **arquivo, int tamanhoDataset, int range, descS *desc, char tag) {
+
+    // Aloca dinamicamente a base de dados com <range> strings.
     char **base = criarBase(arquivo, tamanhoDataset, range);
     if(base == NULL){
         printf("Erro ao criar base\n");
         return;
     }
 
+    /*
+        Para cada linha de base, aloca dinamicamente um novo struct <info> desta
+        linha e insere na fila sem referencial movel.
+    */
     for(int l=0; l < range; l++){
         if(base[l] != NULL){
             info *dados = criarDados(base[l]);
@@ -86,7 +92,57 @@ void implementarBaseSem(char **arquivo, int tamanhoDataset, int range, descS *de
                 printf("Erro ao criar dados\n");
                 return;
             }
+
+            // Prints de debug do comportamento da fila na insercao de nodos.
+            // printf("\n NOVO NODO: ");
+            // printarNodo(criarNodo(dados));
+
             inserirSem(dados, desc, comparar, tag);
+            // printarFilaSem(desc);
+        }
+    }
+}
+
+/*
+    Utilizada em main.c para implementar uma base em uma fila COM referencial
+    movel. Para tal seguem-se os parâmetros adotados:
+        - <arquivo>:       array de strings contendo todas as linhas do dataset;
+        - <tamanhoDataset> quantidade de linhas do dataset;
+        - <range>:         quantidade nodos a serem inseridos na fila;
+        - <desc>:          descritor da fila com referencial movel;
+        - <tag>:           criterio de comparacao.
+*/
+void implementarBaseCom(char **arquivo, int tamanhoDataset, int range, descM *desc, char tag) {
+
+    // Aloca dinamicamente a base de dados com <range> strings.
+    char **base = criarBase(arquivo, tamanhoDataset, range);
+    if(base == NULL){
+        printf("Erro ao criar base\n");
+        return;
+    }
+
+    /*
+        Para cada linha de base, aloca dinamicamente um novo struct <info> desta
+        linha e insere na fila com referencial movel.
+    */
+    for(int l=0; l < range; l++){
+        if(base[l] != NULL){
+            info *dados = criarDados(base[l]);
+            if(dados == NULL){
+                printf("Erro ao criar dados\n");
+                return;
+            }
+
+            // Prints de debug do comportamento da fila na insercao de nodos.
+            // printf("\n NOVO NODO: ");
+            // printarNodo(criarNodo(dados));
+            // if(desc->ref){
+            //     printf(" REF. MOVEL:");
+            //     printarNodo(desc->ref);
+            // }
+
+            inserirCom(dados, desc, comparar, tag);
+            // printarFilaCom(desc);
         }
     }
 }

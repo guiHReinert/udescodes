@@ -67,28 +67,53 @@ int main(){
         bases[i] = (i + 1) * 500;
     }
     
-    descS descritores[NUM_BASES];
+    /*
+        Array contendo os decritores de cada fila sem referencial movel. Cada
+        descritor ou elemento de <descritores> eh uma fila separada e possui a
+        propria base.
+    */
+    descS descritoresSem[NUM_BASES];
+
+    /*
+        Array contendo os descritores de cada fila com referencial movel.
+    */
+    descM descritoresCom[NUM_BASES];
 
     for(int b=0; b < NUM_BASES; b++){
         
-        descritores[b] = *criaDescF(sizeof(info));
+        // Base atual.
         int range = bases[b];
-        
-        implementarBaseSem(arquivo, tamanhoDataset, range, &descritores[b], RANKING);
 
-        char **base = criarBase(arquivo, tamanhoDataset, range);
-        for(int l=0; l < range; l++){
-            if(base[l] != NULL){
-                info *dados = criarDados(base[l]);
-                if(dados == NULL){
-                    printf("Erro ao criar dados\n");
-                    return 0;
-                }
-                inserirSem(dados, &descritores[b], comparar, RANKING);
-            }
-        }
-        printf("Base %d\tNumero de repeticoes: %d\tMedia de repeticoes: %.2f\n",
-            range, (&descritores[b])->numRep, (float) descritores[b].numRep / range);        
+        /*
+            Criacao de um novo descritor para cada elemento das arrays. Apos a
+            chamada de cada implementarBase(), a fila resultante da base
+            carregarah este descritor para que entao sejam trabalhados os seus
+            dados
+        */
+        descritoresSem[b] = *criaDescF(sizeof(info));
+        
+        implementarBaseSem(arquivo, tamanhoDataset, range, &descritoresSem[b], RANKING);
+
+        descS *descritorSem = &(descritoresSem[b]);
+        
+        printf("\n(SEM REF) Base %d\tNumero de repeticoes: %d\tMedia de repeticoes: %.2f\n",
+            range, descritorSem->numRep, (float) descritorSem->numRep / range);
+            
+        descritoresCom[b] = *criaDescM(sizeof(info));
+        
+        implementarBaseCom(arquivo, tamanhoDataset, range, &descritoresCom[b], RANKING);
+
+        descM *descritorCom = &(descritoresCom[b]);
+
+        printf("(COM REF): Base %d\tNumero de repeticoes: %d\tMedia de repeticoes: %.2f\n",
+            range, descritorCom->numRep, (float) descritorCom->numRep / range);
+
+        printf("numRep_sem / numRep_com: %.2f vezes mais repeticoes\n",
+            descritorSem->numRep / (float) descritorCom->numRep);
+        printf("numRep_com / numRep_sem: %.2f%% de repeticoes\n",
+            (descritorCom->numRep / (float) descritorSem->numRep) * 100);   
+
     }
+
     return 0;
 }

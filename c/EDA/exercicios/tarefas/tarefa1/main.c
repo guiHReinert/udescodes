@@ -41,7 +41,7 @@ FDE_PrioRefMovel?
 main.c:         Importa <> e instancia os objetos declarados dentro de void main(void){}
 aqr.h:          Declara todas as funcoes em functions.c, structs e definicoes utilizadas em main.c e em functions.c
 functions.c:    Declara todas as funcoes de manipulacao de nodos utilizados nos objetos de fila instanciados em main.c
-    (REVISAR)
+    (COMPLETAR)
 */
 
 int main(){
@@ -74,16 +74,17 @@ int main(){
         descritores[b] = *criaDescF(sizeof(info));
         int range = bases[b];
         
+        implementarBaseSem(arquivo, tamanhoDataset, range, &descritores[b], RANKING);
+
         char **base = criarBase(arquivo, tamanhoDataset, range);
         for(int l=0; l < range; l++){
             if(base[l] != NULL){
                 info *dados = criarDados(base[l]);
                 if(dados == NULL){
                     printf("Erro ao criar dados\n");
-                    return 1;
+                    return 0;
                 }
-                
-                inserirSem(dados, &descritores[b], compararRank);
+                inserirSem(dados, &descritores[b], comparar, RANKING);
             }
         }
         printf("Base %d\tNumero de repeticoes: %d\tMedia de repeticoes: %.2f\n",

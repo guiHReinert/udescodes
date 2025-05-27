@@ -10,13 +10,19 @@
 #define OCUPADA 1
 #define FRACASSO 0  
 #define SUCESSO 1
-// #define FALSO 0     
-// #define VERDADEIRO 1
 #define NAO 0       
 #define SIM 1
 #define MENOR -1    
 #define IGUAL 0     
 #define MAIOR 1
+
+// #define NOME 'n'
+#define MATRICULA 'm'
+#define RANKING 'r'
+// #define CURSO 'c'
+
+#define PELA_ESQUERDA 'e'
+#define PELA_DIREITA 'd'
 
 #define TAM_LINHA 42
 
@@ -73,8 +79,7 @@ void printarFilaCom(descM *desc);
     Funcoes de comparacao de nodos 
     (contidas em funcsGerais.c)   
 */
-int compararRank(info *a, info *b);
-int compararMat(info *a, info *b);
+int comparar(info *a, info *b, char tag);
 
 //=============== FUNCOES DE MANIPULACAO DE FILAS ===============
 /*
@@ -83,7 +88,8 @@ int compararMat(info *a, info *b);
 */
 descS *criaDescF(int tamInfo);
 descS *destroiDescF(descS *desc);
-int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old));
+int inserirSem(info *novo, descS *desc,
+    int (*compara)(info *novo, info *old, char tag), char tag);
 int reiniciaS(descS *desc);
 
 /*
@@ -92,11 +98,11 @@ int reiniciaS(descS *desc);
 */
 descM *criaDescM(int tamInfo);
 descM *destroiDescM(descM *desc);
-int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old));
-int remove_(info *reg, descM  *desc);
+char menorCaminho(nodo *start, nodo *end, nodo *newNodo,
+    int (*compara)(info *novo, info *old, char tag), char tag);
+int inserirCom(info *novo, descM *desc,
+    int (*compara)(info *novo, info *old, char tag), char tag);
+int removerNodoM(info *reg, descM  *desc);
 int reinicia(descM *desc);
-int buscaNaFrente(info *reg, descM *desc);
-int buscaNaCauda(info *reg, descM *desc);
-int testaVazia(descM *desc);
 
 #endif

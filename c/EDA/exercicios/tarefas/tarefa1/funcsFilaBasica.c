@@ -36,7 +36,7 @@ descS *destroiDescF(descS *desc){
     entre nodos. Bem como descS->cauda->anterior == NULL e
     descS->frente->posterior == NULL.
 */
-int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old)){
+int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old, char tag), char tag){
     
     // Definicao dos nodos uteis ah funcao.
     nodo *newNodo=NULL, *walker=NULL;
@@ -54,74 +54,77 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old)){
     newNodo->posterior = NULL;
     
     /*
-        Fila vazia:
+                                FILA VAZIA
         - Ponteiros de <newNodo> vazios, frente e cauda apontam para <newNodo>.
     */
    if(desc->frente == NULL && desc->cauda == NULL){
        desc->frente = newNodo;
        desc->cauda = newNodo;
+
+       return SUCESSO;
     }
     
-    // Fila com pelo menos 1 nodo
-    else{
+    /*
+                        FILA COM PELO MENOS 1 NODO
+                        
+        Comparacao entre os dados de <newNodo> com os da cauda e da frente.
+    */
+    int compCauda = compara(novo, &(desc->cauda->dados), tag),
+        compFrente = compara(novo, &(desc->frente->dados), tag);
+    
+    /*
+                        MENOR PRIORIDADE QUE A CAUDA
+        - <newNodo->anterior>   aponta para NULL;
+        - <newNodo->posterior>  aponta para a cauda;
+        - <desc->cauda>         aponta para <newNodo>;
+    */
+    if(compCauda == MENOR || compCauda == IGUAL){
+        newNodo->posterior = desc->cauda;
+        desc->cauda->anterior = newNodo;
+        desc->cauda = newNodo;
+        // printf("Inserido na cauda\n");
 
-        // Comparacao entre os dados de <newNodo> com os da cauda e da frente.
-        int compCauda = compara(novo, &(desc->cauda->dados)),
-            compFrente = compara(novo, &(desc->frente->dados));
-        
-        /*
-            <newNodo> possui priidade menor ou igual que a da cauda.
-            - <newNodo->anterior>   aponta para NULL;
-            - <newNodo->posterior>  aponta para a cauda;
-            - <desc->cauda>         aponta para <newNodo>;
-        */
-       if(compCauda == MENOR || compCauda == IGUAL){
-           newNodo->posterior = desc->cauda;
-           desc->cauda->anterior = newNodo;
-           desc->cauda = newNodo;
-            // printf("Inserido na cauda\n");
-        }
-
-        /*
-            <newNodo> eh de maior prioridade que a frente.
-            - <newNodo->anterior>   aponta para a frente;
-            - <newNodo->posterior>  aponta para NULL;
-            - <desc->frente>        aponta para <newNodo>;
-        */
-        else if(compFrente == MAIOR){
-            newNodo->anterior = desc->frente;
-            desc->frente->posterior = newNodo;
-            desc->frente = newNodo;
-            // printf("Inserido na frente\n");
-        }
-        
-        // <newNodo> possui prioridade maior que a da cauda e menor que a da frente
-        else{
-            
-            /*
-                while_1: <walker> irah percorrer a fila pela cauda ate que
-                a sua prioridade seja imediatamente maior que a de <newNodo>.
-            */
-            walker = desc->cauda; 
-            while(walker->posterior != NULL && (*compara)(novo, &(walker->dados)) == MAIOR){
-                walker = walker->posterior;
-                desc->numRep++;
-            }
-
-            /*
-                Sempre valerah quando:
-                - <newNodo->anterior>   apontar para a cauda;
-                - <newNodo->posterior>  apontar para a frente;
-                - <newNodo>             estiver em qualquer outra posicao entre
-                                        os dois.
-            */
-            newNodo->posterior = walker;
-            newNodo->anterior = walker->anterior;
-            walker->anterior->posterior = newNodo;
-            walker->anterior = newNodo;
-            // printf("Inserido no intermediario\n");
-        }	
+        return SUCESSO;
     }
+
+    /*
+                        MAIOR PRIORIDADE QUE A FRENTE
+        - <newNodo->anterior>   aponta para a frente;
+        - <newNodo->posterior>  aponta para NULL;
+        - <desc->frente>        aponta para <newNodo>;
+    */
+    else if(compFrente == MAIOR){
+        newNodo->anterior = desc->frente;
+        desc->frente->posterior = newNodo;
+        desc->frente = newNodo;
+        // printf("Inserido na frente\n");
+
+        return SUCESSO;
+    }
+    
+    /*
+                    PRIORIDADE ENTRE A CAUDA E A FRENTE.
+        Sempre valerah quando:
+        - <newNodo->anterior>   apontar para a cauda;
+        - <newNodo->posterior>  apontar para a frente;
+        - <newNodo>             estiver em qualquer outra posicao entre
+                                os dois.
+
+        while_1: <walker> irah percorrer a fila pela cauda ate que
+        a sua prioridade seja imediatamente maior que a de <newNodo>.
+    */
+    walker = desc->cauda; 
+    while(walker->posterior != NULL && (*compara)(novo, &(walker->dados), tag) == MAIOR){
+        walker = walker->posterior;
+        desc->numRep++;
+    }
+
+    newNodo->posterior = walker;
+    newNodo->anterior = walker->anterior;
+    walker->anterior->posterior = newNodo;
+    walker->anterior = newNodo;
+    // printf("Inserido no intermediario\n");
+    
     return SUCESSO;
 }
 

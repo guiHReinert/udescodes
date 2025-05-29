@@ -1,6 +1,6 @@
 #include "arq.h"
 
-// Criar novo descritor com referencial movel
+// Cria novo descritor com referencial movel, alocado dinamicamente
 descM *criaDescM(int tamInfo){   	
     descM *desc = (descM*) malloc(sizeof(descM));
     
@@ -19,7 +19,10 @@ descM *criaDescM(int tamInfo){
     return desc;
 }
 
-// Remover descritor da memoria
+/*
+    Remove o descritor da memoria. Nao inclusa em main.c, pois a remocao do
+    descritor na memoria inutilizaria a maioria das funcoes do menu.
+*/
 descM *destroiDescM(descM *desc){
     reinicia(desc);
     free(desc);
@@ -368,40 +371,86 @@ int inserirCom(info *novo, descM *desc, int (*compara)(info *novo, info *old, ch
     }
 }
 
-// Remover nodos na fila (iteracao comecando pela cauda)
-int removerNodoM(info *reg, descM  *desc){
-	int ans = FRACASSO;
-	nodo *aux = desc->cauda;
+// Remove o nodo de maior prioridade da fila (frente).
+int removerNodoM(descM *desc){
+
     // Fila nao vazia
-    if(desc->cauda != NULL && desc->frente != NULL){
-       	memcpy(reg, &(desc->frente->dados), desc->tamInfo);
-		if(aux == desc->frente) { // Caso tenha 1 elemento apenas
-			free(desc->frente);
-			desc->frente = desc->cauda = NULL;
-		}
-		else {
-			desc->frente= desc->frente->anterior;
-            free(desc->frente->posterior); 
+    if(desc->tamFila > 0){
+
+        // Fila com somente 1 elemento.
+        if(desc->tamFila == 1){
+            desc->cauda = NULL;
+            desc->frente = NULL;
+            desc->ref = NULL;
+
+            desc->tamFila--;
+            return SUCESSO;
+        }
+
+        // Fila com mais de 1 elemento.
+       else{
+
+            /*
+                Caso a frente da fila tambem for o referencial, ele serah a nova
+                frente.
+            */ 
+            if(desc->ref == desc->frente){
+                desc->ref = desc->frente->anterior;
+            }
+
+            desc->frente = desc->frente->anterior;
+            free(desc->frente->posterior);
             desc->frente->posterior = NULL;
-		}
-		ans = SUCESSO;
+
+            desc->tamFila--;
+            return SUCESSO;
+        }
 	}
-	return ans;
+	return FRACASSO;
+}
+
+// Buscar informacoes do nodo na cauda.
+int buscaNaCauda(info *reg, descM *desc){  
+    if(desc->cauda != NULL) { 	
+        memcpy(reg, &(desc->cauda->dados), desc->tamInfo);
+        return SUCESSO;
+    }
+    return FRACASSO;
+}
+
+// Buscar informacoes do nodo da frente.
+int buscaNaFrente(info *reg, descM *desc){
+    if(desc->frente != NULL) {
+        memcpy(reg, &(desc->frente->dados), desc->tamInfo);
+		return SUCESSO;
+    }
+    return FRACASSO;
 }
 
 // Reiniciar fila
 int reinicia(descM *desc){
-    nodo *aux = NULL;
+    nodo *walker = NULL;
+
     if(desc->frente != NULL && desc->cauda != NULL){  
-        aux = desc->cauda->posterior;
-        while(aux != NULL) {
+
+        /*
+            <walker> percorre por toda a fila pelo sentido da cauda, e o seu
+            nodo anterior eh liberado da memoria.
+        */
+        walker = desc->cauda->posterior;
+        while(walker != NULL) {
             free(desc->cauda);
-            desc->cauda = aux;
-            aux = aux->posterior;
+            desc->cauda = walker;
+            walker = walker->posterior;
         }
+
         free(desc->cauda);
         desc->frente = NULL;
         desc->cauda = NULL;
+        desc->ref = NULL;
+        desc->tamFila = 0;
+        desc->numRep = 0;
+
         return SUCESSO; 
     }
     return FRACASSO;	

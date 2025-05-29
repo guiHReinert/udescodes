@@ -5,7 +5,7 @@ void printarNodo(nodo *nodo){
     printf("{\tNome: %s, ",     nodo->dados.nome);
     printf("\tMatricula: %d, ", nodo->dados.matricula);
     printf("\tRanking: %d, ",   nodo->dados.ranking);
-    printf("\tCurso: %s}\n",    nodo->dados.curso);
+    printf("\tCurso: %-13s%3s}\n",    nodo->dados.curso, "");
 }
 
 /*
@@ -17,7 +17,7 @@ void printarFilaSem(descS *desc){
         int i = 0;
         nodo *walker = desc->cauda;
         do{
-            printf("[%d]", i + 1);
+            printf("[%d]\t", i + 1);
             printarNodo(walker);
             i++;
             walker = walker->posterior;
@@ -34,7 +34,7 @@ void printarFilaCom(descM *desc){
         int i = 0;
         nodo *walker = desc->cauda;
         do{
-            printf("[%d]", i + 1);
+            printf("[%d]\t", i);
             printarNodo(walker);
             i++;
             walker = walker->posterior;
@@ -53,10 +53,14 @@ int comparar(info *a, info *b, char tag) {
             else if (a->matricula == b->matricula){return IGUAL;}
             else    {return MAIOR;}
 
+        /*
+            A o criterio de ranking serah considerado por ordem decrescente. Ou
+            seja, serao trocadas as constantes de MENOR com MAIOR.
+        */
         case RANKING:
-            if      (a->ranking < b->ranking){return MENOR;}
+            if      (a->ranking < b->ranking){return MAIOR;}
             else if (a->ranking == b->ranking){return IGUAL;}
-            else    {return MAIOR;}
+            else    {return MENOR;}
 
         default:
             return FRACASSO;

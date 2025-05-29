@@ -127,23 +127,3 @@ int inserirSem(info *novo, descS *desc, int (*compara)(info *novo, info *old, ch
     
     return SUCESSO;
 }
-
-
-// Reiniciar fila
-int reiniciaS(descS *desc){
-	int ret=FRACASSO;
-    nodo *aux=NULL;
-    if(desc->frente != NULL && desc->cauda != NULL){  
-        aux = desc->cauda->posterior;
-        while(aux != NULL) {
-            free(desc->cauda);
-            desc->cauda = aux;
-            aux = aux->posterior;
-        }
-        free(desc->cauda);
-        desc->frente = NULL;
-        desc->cauda = NULL;
-        ret=SUCESSO; 
-    }
-    return ret;	
-}

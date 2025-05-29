@@ -6,12 +6,8 @@
 #include "string.h"
 #include "time.h"
 
-#define LIVRE 0     
-#define OCUPADA 1
 #define FRACASSO 0  
 #define SUCESSO 1
-#define NAO 0       
-#define SIM 1
 #define MENOR -1    
 #define IGUAL 0     
 #define MAIOR 1
@@ -57,6 +53,14 @@ typedef struct{
     int numRep;     // Numero de repeticoes
 } descM;
 
+//=============== FUNCOES DE INTERACAO ===============
+/*
+    (contidas em main.c)
+*/
+int main();
+void printarBase(char **base, int *range);
+void compararDesempenho(char **arquivo, int *tamanhoDataset, char tag);
+
 //=============== FuUNCOES DE TRATAMENTO DE CSV ===============
 /*
     (contidas em funcsCSV.c)
@@ -94,7 +98,6 @@ descS *criaDescF(int tamInfo);
 descS *destroiDescF(descS *desc);
 int inserirSem(info *novo, descS *desc,
     int (*compara)(info *novo, info *old, char tag), char tag);
-int reiniciaS(descS *desc);
 
 /*
     Manipulacao de filas COM referencial movel
@@ -106,7 +109,9 @@ char menorCaminho(nodo *start, nodo *end, nodo *newNodo,
     int (*compara)(info *novo, info *old, char tag), char tag);
 int inserirCom(info *novo, descM *desc,
     int (*compara)(info *novo, info *old, char tag), char tag);
-int removerNodoM(info *reg, descM  *desc);
+int removerNodoM(descM  *desc);
+int buscaNaCauda(info *reg, descM *desc);  
+int buscaNaFrente(info *reg, descM *p);  
 int reinicia(descM *desc);
 
 #endif

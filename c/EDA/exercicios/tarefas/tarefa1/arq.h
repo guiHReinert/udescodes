@@ -95,7 +95,6 @@ int comparar(info *a, info *b, char tag);
     (contidas em funcsFilaBasica.c)
 */
 descS *criaDescF(int tamInfo);
-descS *destroiDescF(descS *desc);
 int inserirSem(info *novo, descS *desc,
     int (*compara)(info *novo, info *old, char tag), char tag);
 

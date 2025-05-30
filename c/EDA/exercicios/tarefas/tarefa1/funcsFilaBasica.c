@@ -17,13 +17,6 @@ descS *criaDescF(int tamInfo){
     return desc;
 }
 
-// Remover descritor da memoria
-descS *destroiDescF(descS *desc){
-    reiniciaS(desc);
-    free(desc);
-    return NULL; // Aterra o ponteiro externo, declarado na aplicacao
-}
-
 /*
     Insere nodos na fila a partir da cauda, com base nas suas prioridades:
     - <novo>      dados do novo nodo (chamado de <newNodo>);

@@ -11,9 +11,9 @@ gcc main.c funcsCSV.c funcsGerais.c funcsFilaBasica.c funcsFilaRefMovel.c -o app
 int main(){
 
     /*
-            Leitura de dataset_v1.csv:
-            - <arquivo>         array de strings contendo todas as linhas do dataset;
-            - <tamanhoDataset>  quantidade de linhas do dataset.
+        Leitura de dataset_v1.csv:
+        - <arquivo>         array de strings contendo todas as linhas do dataset;
+        - <tamanhoDataset>  quantidade de linhas do dataset.
     */
     int tamanhoDataset, ans=-1, *range, id=0, count=0;
     char **arquivo = lerDataset("dataset_v1.csv", &tamanhoDataset), **base;

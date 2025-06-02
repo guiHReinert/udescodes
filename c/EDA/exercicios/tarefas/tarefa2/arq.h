@@ -11,12 +11,16 @@
 #define FRACASSO 0
 #define VAZIA 0
 #define CHEIA 0
+
 #define PILHA_DIRETA 'd'
 #define PILHA_INVERSA 'i'
 
+#define TAM_LINHA 128
+#define TAM_TAG 51
+
 // Informacoes da pilha
 typedef struct dados{
-    int num;
+    char *nome;
 }info;
 
 // Noh de uma pilha e, por consequencia, da multipilha.
@@ -54,16 +58,18 @@ int main();
 /*
     (contidas em funcsMPE.c)
 */
-descMP *criarDescMP(descMP *desc, int L);
+descMP *criarDescMP(int L);
 descMP* destruirDescMP(descMP *desc);
 int reiniciarPilha(descMP *desc, char pilha);
 int empilhar(descMP *desc, info *novo, char pilha);
 int desempilhar(descMP *desc, char pilha);
 
-// =============== FUNCOES ===============
+// =============== FUNCOES DE LEITURA E ANALISE DE HTML POR MPE ===============
 /*
     (contidas em funcsMPE_HTML.c)
 */
-
+char **lerHTML(char *path, int *tamanho);
+char *lerTag(char* linha);
+int analisarHTML(char **html, int tamanho);
 
 #endif

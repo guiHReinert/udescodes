@@ -72,13 +72,13 @@ int main(){
                 scanf("%d", &tamVet);
 
                 if(tamVet > 0){
-                    descritor = criarDescMP(descritor, tamVet);
+                    descritor = criarDescMP(tamVet);
                     
                     if(descritor){
                         printf("Descritor criado com sucesso.\n");
                     }
                     else{
-                        printf(" Nao foi possivel criar o descritor.\n");
+                        printf(" Erro ao criar o descritor.\n");
                     }
                 }
                 else{
@@ -99,7 +99,7 @@ int main(){
                     printf("Fila removida com sucesso.\n");
                 }
                 else{
-                    printf(" Nao foi possivel remover a pilha.\n");
+                    printf(" Erro ao remover a pilha.\n");
                 }
             }
             else{
@@ -121,7 +121,7 @@ int main(){
                         printf("Pilha reiniciada com sucesso.\n");
                     }
                     else{
-                        printf(" Nao foi possivel reiniciar a pilha");
+                        printf(" Erro ao reiniciar a pilha.");
                     }
                 }
                 else{
@@ -140,17 +140,23 @@ int main(){
                     
                     info *dados = (info *) malloc(sizeof(info));
                     if(!dados){
-                        printf(" Nao foi possivel alocar memoria para os dados do nodo.");
+                        printf(" Erro ao alocar memoria para os dados do nodo.");
                     }
                     
-                    int pilha, num;
+                    dados->nome = (char *) malloc(TAM_LINHA * sizeof(char));
+                    if(!dados->nome){
+                        printf(" Erro ao alocar memoria para o nome do nodo.");
+                    }
                     
-                    // Insercao de dados no novo nodo.
-                    printf("\nDigite o numero do nodo a ser empilhado: ");
-                    scanf("%d", &num);
+                    char nome[TAM_LINHA];
 
-                    dados->num = num;
+                    // Insercao de dados no novo nodo.
+                    printf("\nDigite o nome do nodo a ser empilhado, sem espacos: ");
+                    scanf(" %s", nome);
+
+                    memcpy(dados->nome, nome, TAM_LINHA * sizeof(char));
                     
+                    int pilha;
                     printf("Deseja empilhar em qual sentido? (0 para direto e 1 para inverso): ");
                     scanf("%d", &pilha);
                     
@@ -158,7 +164,7 @@ int main(){
                         printf("Pilha empilhada com sucesso.\n");
                     }
                     else{
-                        printf(" Nao foi possivel empilhar.");
+                        printf(" Erro ao empilhar.");
                     }
                 }
                 else{
@@ -184,7 +190,7 @@ int main(){
                         printf("Pilha desempilhada com sucesso.\n");
                     }
                     else{
-                        printf(" Nao foi possivel desempilhar.");
+                        printf(" Erro ao desempilhar.");
                     }
                 }
                 else{
@@ -203,7 +209,7 @@ int main(){
         */
         else if(ans == 6){
             if(descritor){
-                if(descritor->topo1 = 1 >= descritor->topo2){
+                if(descritor->topo1 == 1 >= descritor->topo2){
                     printf("A MPE estah cheia.\n");
                 }
                 else{
@@ -229,7 +235,7 @@ int main(){
                 if(pilha == PILHA_DIRETA && descritor->topo1 == -1){
                     printf("A pilha do sentido DIRETO estah vazia.\n");
                 }
-                else if(pilha == PILHA_DIRETA && descritor->topo2 == descritor->tamVet){
+                else if(pilha == PILHA_INVERSA && descritor->topo2 == descritor->tamVet){
                     printf("A pilha do sentido INVERSO estah vazia.\n");
                 }
                 else{
@@ -245,6 +251,22 @@ int main(){
         else if(ans == 8){
             if(descritor){
 
+                int pilha;
+
+                printf("Digite o numero referente ah pilha ver o seu topo (0 para direta e 1 para inversa): ");
+                scanf("%d", &pilha);
+
+                pilha = pilha ? PILHA_INVERSA : PILHA_DIRETA;
+
+                if(pilha == PILHA_DIRETA && descritor->topo1 > -1){
+                    printf("O topo da pilha DIRETA eh %s.\n", descritor->vet[descritor->topo1].dados->nome);
+                }
+                else if(pilha == PILHA_INVERSA && descritor->topo2 < descritor->tamVet){
+                    printf("O topo da pilha INVERSA eh %s.\n", descritor->vet[descritor->topo2].dados->nome);
+                }
+                else{
+                    printf(" A pilha estah vazia.");
+                }
             }
             else{
                 printf(" Descritor nao criado.");
@@ -273,6 +295,17 @@ int main(){
 
         // Analise de HTML.
         else if(ans == 11){
+            int tamanho;
+            char path[TAM_LINHA]="", nome[TAM_LINHA]="";
+            strcat(path, "html/");
+
+            printf("\nEscreva o nome do arquivo HTML contido na pasta \"html\": ");
+            scanf("%s", nome);
+            strcat(path, nome);
+
+            char **arquivo = lerHTML(path, &tamanho);
+
+            analisarHTML(arquivo, tamanho);
 
         }
 

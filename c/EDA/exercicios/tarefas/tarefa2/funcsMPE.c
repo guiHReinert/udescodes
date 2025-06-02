@@ -3,13 +3,13 @@
 /*
     Cria o descritor da multipilha.
 */
-descMP *criarDescMP(descMP *desc, int L){
+descMP *criarDescMP(int L){
 
     // Declaracao valida para a criacao da MP.
     if (L > 0){
 
         // Aloca a memoria para a MP e verifica se foi bem sucedido.
-        desc = (descMP *) malloc(sizeof(descMP));
+        descMP *desc = (descMP *) malloc(sizeof(descMP));
         if(!desc){
             return FRACASSO;
         }
@@ -30,9 +30,21 @@ descMP *criarDescMP(descMP *desc, int L){
     }
 }
 
-// Destroi a MPE.
+// Destroi a MPE, liberando todos os seus dados alocados dinamicamente.
 descMP* destruirDescMP(descMP *desc) { 
+    if(!desc){
+        return NULL;
+    }
+
+    for(int i=0; i <= desc->topo1; i++){
+        if (desc->vet[i].dados) {
+            free(desc->vet[i].dados->nome);
+            free(desc->vet[i].dados);
+        }
+    }
+
 	free(desc->vet);
+    free(desc);
 	return NULL;
 }
 
@@ -42,7 +54,8 @@ int reiniciarPilha(descMP *desc, char pilha) {
 
         for (int i = 0; i <= desc->topo1; i++) {
 
-            if (desc->vet[i].dados != NULL) {
+            if (desc->vet[i].dados) {
+                free(desc->vet[i].dados->nome);
                 free(desc->vet[i].dados);
             }
         }
@@ -56,6 +69,7 @@ int reiniciarPilha(descMP *desc, char pilha) {
         for (int i = desc->tamVet - 1; i > desc->topo2; i--) {
 
             if (desc->vet[i].dados != NULL) {
+                free(desc->vet[i].dados->nome);
                 free(desc->vet[i].dados);
             }
         }
@@ -130,23 +144,3 @@ int desempilhar(descMP *desc, char pilha){
         return FRACASSO;
     }
 }
-
-// int consultaTopo(descMP*p, int pilhaAlvo, info* consultado)
-// {
-//     int topo, inicioParticao; 
-//     topo = desc->vet[pilhaAlvo-1].descritor.topo;
-//     inicioParticao = desc->vet[pilhaAlvo-1].descritor.inicioParticao;
-//     if(pilhaAlvo < 1 || pilhaAlvo > desc->N){
-//         printf("\n%s Nao existe #pilha = %d! \n","\U0001F4E2", pilhaAlvo);
-//         return FRACASSO;
-//     }
-       
-//     if(topo == -1) {
-//         printf("\nA pilha %d esta vazia\n", pilhaAlvo);
-//         return FRACASSO;
-//     }
-
-//     memcpy(consultado, &(desc->vet[inicioParticao + topo]), desc->tamInfo);
-
-//     return SUCESSO;
-// }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SUCESSO 1
 #define FRACASSO 0
@@ -13,13 +14,13 @@ typedef struct informacao{
 
 
 //======================MODELO DE DADOS=====================
-/* Nó descritor de uma pilha */
+/* Nï¿½ descritor de uma pilha */
 typedef struct descpilha{
     int topo;
     int inicioParticao;
 } DescPilha;
 
-/* Nó da Multi-Pilha */
+/* Nï¿½ da Multi-Pilha */
 typedef union nomp{
     DescPilha descritor;
     info* dados;
@@ -27,8 +28,8 @@ typedef union nomp{
 
 /* Descritor da Multi-Pilha */
 typedef struct mp {
-    int N; /* N = Número de Pilhas*/
-    int L; /* L = Tamanho máximo da partição de cada Pilha*/
+    int N; /* N = Nï¿½mero de Pilhas*/
+    int L; /* L = Tamanho mï¿½ximo da partiï¿½ï¿½o de cada Pilha*/
     int tamInfo;
     NoMP *vet;
 } MP;

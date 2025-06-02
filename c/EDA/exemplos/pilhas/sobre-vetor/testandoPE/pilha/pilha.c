@@ -1,14 +1,13 @@
 #include "arq.h"
 
 /*
-Pilha vazia: topo < 0
-Pilha não vazia: topo >= 0
-Pilha cheia: topo >= tamVet
+    Pilha vazia: topo < 0
+    Pilha não vazia: topo >= 0
+    Pilha cheia: topo >= tamVet
 */
 
-
-int cheia(struct pilha *pil)
-{ 	int a,b;
+int cheia(struct pilha *pil){
+    int a, b;
 
 	a=pil->topo;
 	b=pil->tamVet-1;

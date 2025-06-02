@@ -3,6 +3,7 @@
         "python.defaultInterpreterPath": "/home/guihreinert/udesc/python/POO/lista1Ex5/venv/bin/python3.10",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "arq.h": "c"
+        "arq.h": "c",
+        "string.h": "c"
     }
 }

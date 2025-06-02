@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
- 
 #include "arq.h"
 
 void exibeTamanhoMP(MP *desc)
@@ -25,7 +21,7 @@ MP * cria(MP *p, int N, int L, int tamInfo)
             ret= NULL;
         else  
             if( ( desc->vet = (NoMP*) malloc((M+N)* sizeof(info)) )==NULL) 
-	     { 	// Alocação de memória para a multipilha (vetor de unions) constituida de N*L nós de dados (N*L = M) 			//e os N nós descritores das respectivas pilhas; 
+	     { 	// Alocaï¿½ï¿½o de memï¿½ria para a multipilha (vetor de unions) constituida de N*L nï¿½s de dados (N*L = M) 			//e os N nï¿½s descritores das respectivas pilhas; 
                 free(desc);
                 ret= NULL;
             }
@@ -34,11 +30,11 @@ MP * cria(MP *p, int N, int L, int tamInfo)
                 	desc->N = N; /* Iniciando os atributos gerais da multi-pilha; */
                 	desc->L = L;
                         desc->tamInfo = tamInfo;
-        	        aux = desc->vet; /* Ponteiro auxiliar aux apontando para a área de descritores; */
+        	        aux = desc->vet; /* Ponteiro auxiliar aux apontando para a ï¿½rea de descritores; */
         	        for(i = 0; i < N ; i++) 
         	        { /* Formatando a MpE: iniciando os descritores das pilhas; */
         	            (aux + i)->descritor.topo = -1;
-        	            //Os topos são iniciados com valores que não indexam as partições das respectivas 				    //pilhas, indicando que a considerada pilha está vazia. Perceba que também é possível 				    //utilizar a sintaxe (*pp)->vet[i].descritor ou ((*pp)->vet + i).descritor para acesso 				    //ao i-ésimo descritor. 
+        	            //Os topos sï¿½o iniciados com valores que nï¿½o indexam as partiï¿½ï¿½es das respectivas 				    //pilhas, indicando que a considerada pilha estï¿½ vazia. Perceba que tambï¿½m ï¿½ possï¿½vel 				    //utilizar a sintaxe (*pp)->vet[i].descritor ou ((*pp)->vet + i).descritor para acesso 				    //ao i-ï¿½simo descritor. 
         	            (aux + i)->descritor.inicioParticao = N + i*L;
 	
                 	}
@@ -61,11 +57,11 @@ int insereNaPilha(MP *p, int nPilha, info* novo)
     }
 
     if(p->vet[nPilha-1].descritor.topo == (p->L)-1) {
-        printf(">>Erro ao inserir, a pilha %d está cheia\n", nPilha);
+        printf(">>Erro ao inserir, a pilha %d estï¿½ cheia\n", nPilha);
         return FRACASSO;
     }
 
-    /*se a pilha existe e não está cheia, inserção pode ocorrer normalmente*/
+    /*se a pilha existe e nï¿½o estï¿½ cheia, inserï¿½ï¿½o pode ocorrer normalmente*/
     inicioParticao = p->vet[nPilha-1].descritor.inicioParticao;
     p->vet[nPilha-1].descritor.topo += 1;
     topo = p->vet[nPilha-1].descritor.topo;

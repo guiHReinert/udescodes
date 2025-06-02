@@ -15,7 +15,7 @@ int main(void)
      
     if( (ptr=cria(ptr, nPilha, lPilha, sizeof(info))) != NULL ) 
 	{	printf(">>criadas %d pilhas de tamanho maximo = %d\n\n", nPilha, lPilha);
-		printf("Tecle! %s", "\U0001F64F");
+		printf("Tecle! %s ", "\U0001F64F");
 
 	}	
     else 

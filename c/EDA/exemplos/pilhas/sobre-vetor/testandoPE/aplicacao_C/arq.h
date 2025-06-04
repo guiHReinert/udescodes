@@ -1,24 +1,22 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+
 #define SIM 1
 #define NAO 0
 #define SUCESSO 1
 #define FRACASSO 0
 
-
-typedef struct aluno{  char palavra[20];
-			int tamanhoPalavra;
-		}info;
+typedef struct aluno{
+  char palavra[20];
+  int tamanhoPalavra;
+}info;
 			
-struct pilha{ int topo;
-              info *vet; 
-              int tamVet;
-            };
-
-
-
-
+struct pilha{
+  int topo;
+  info *vet; 
+  int tamVet;
+};
 
 //======================PILHA=====================
 struct pilha * cria(int tamVet);

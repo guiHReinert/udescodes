@@ -24,13 +24,12 @@ int printarPilhaDireta(descMP *desc){
 
         for(int i=0; i <= desc->topo1; i++){
             if(desc->vet[i].dados){
-                printf("\n 1 [%d] Nome: %s", i, desc->vet[i].dados->nome);
+                printf("\n 0 [%d] Nome: %s", i, desc->vet[i].dados->nome);
             }    
             else{
-                printf("\n 1 [%d] Nome: vazio", i);
+                printf("\n 0 [%d] Nome: vazio", i);
             }
         }
-
         return SUCESSO;
     }
     else{
@@ -44,13 +43,12 @@ int printarPilhaInversa(descMP *desc){
 
         for(int i=desc->topo2; i < desc->tamVet; i++){
             if(desc->vet[i].dados){
-                printf("\n 2 [%d] Nome: %s", i, desc->vet[i].dados->nome);
+                printf("\n 1 [%d] Nome: %s", i, desc->vet[i].dados->nome);
             }    
             else{
-                printf("\n 2 [%d] Nome: vazio", i);
+                printf("\n 1 [%d] Nome: vazio", i);
             }
         }
-
         return SUCESSO;
     }
     else{

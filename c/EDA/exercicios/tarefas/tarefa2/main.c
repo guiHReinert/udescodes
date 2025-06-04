@@ -35,10 +35,11 @@ Operacoes:
 Cada tag deve possuir as suas tags internas completamente contidas nela. Ou seja, dentro de uma tag,
 caso outra tag for aberta, esta deve ser fechada dentro desta tag superior e nao depois do fim de
 seu corpo.
-
 */
 
-int main(){
+int main(int argc, char *argv[ ]){
+
+    // Cria o descritor da MPE usada nas operacoes entre 1 e 10.
     descMP *descritor=NULL;
     
     int ans=1;
@@ -56,7 +57,8 @@ int main(){
         \n9 - Calcular tamanho da pilha\
         \n10 - Mostrar MPE;\
         \n11 - Verificar estrutura de arquivo HTML;\
-        \n12 - Sair.";
+        \n12 - Limpar terminal;\
+        \n13 - Sair.";
         
         printf("\n%s\n", menu);
         while(1){
@@ -96,7 +98,7 @@ int main(){
                 descritor = destruirDescMP(descritor);
 
                 if(!descritor){
-                    printf("Fila removida com sucesso.\n");
+                    printf("MPE removida com sucesso.\n");
                 }
                 else{
                     printf(" Erro ao remover a pilha.\n");
@@ -150,9 +152,10 @@ int main(){
                     
                     char nome[TAM_LINHA];
 
-                    // Insercao de dados no novo nodo.
+                    // Insercao de dado(os) no novo nodo.
                     printf("\nDigite o nome do nodo a ser empilhado, sem espacos: ");
-                    scanf(" %s", nome);
+                    fgets(nome, TAM_LINHA, stdin);
+                    scanf ("%[^\n]%*c", nome);
 
                     memcpy(dados->nome, nome, TAM_LINHA * sizeof(char));
                     
@@ -209,7 +212,7 @@ int main(){
         */
         else if(ans == 6){
             if(descritor){
-                if(descritor->topo1 == 1 >= descritor->topo2){
+                if(abs(descritor->topo1 - descritor->topo2) <= 1){
                     printf("A MPE estah cheia.\n");
                 }
                 else{
@@ -300,17 +303,23 @@ int main(){
             strcat(path, "html/");
 
             printf("\nEscreva o nome do arquivo HTML contido na pasta \"html\": ");
-            scanf("%s", nome);
+            fgets(nome, TAM_LINHA, stdin);
+            scanf ("%[^\n]%*c", nome);
             strcat(path, nome);
 
             char **arquivo = lerHTML(path, &tamanho);
 
             analisarHTML(arquivo, tamanho);
+        }
 
+        // Limpar o terminal durante a execucao.
+        else if(ans == 12){
+            system("clear");
+            printf("\n%s\n", menu);
         }
 
         // Sair do menu.
-        else if(ans == 12){
+        else if(ans == 13){
             printf("\n Saindo...\n");
             break;
         }

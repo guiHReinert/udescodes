@@ -48,6 +48,9 @@ descMP* destruirDescMP(descMP *desc) {
 	return NULL;
 }
 
+/*
+    Reinicia uma das pilhas da MPE por vez;
+*/
 int reiniciarPilha(descMP *desc, char pilha) {
     if (pilha == PILHA_DIRETA) {
         if (desc->topo1 == -1) return VAZIA;
@@ -121,6 +124,9 @@ int empilhar(descMP *desc, info *novo, char pilha){
     }
 }
 
+/*
+    Desempilha uma das pilhas da MPE.
+*/
 int desempilhar(descMP *desc, char pilha){
 
     // Caso o vetor nao existir.

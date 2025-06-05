@@ -15,16 +15,39 @@ public class Pilha <T>{
         if(elementos.size() < limite){
             elementos.add(objeto);
         }
+        else{
+            throw new PilhaCheiaException();
+        }
     }
 
     public T remover() throws PilhaVaziaException{
-        T objeto = elementos.get(elementos.size() - 1);
-        elementos.remove(objeto);
-        return objeto;
+        if(elementos.size() > 0){
+            T objeto = elementos.get(elementos.size() - 1);
+            elementos.remove(objeto);
+            return objeto;
+        }
+        else{
+            throw new PilhaVaziaException();
+        }
     }
 
     public int getSize(){
         return elementos.size();
     }
-    
+
+    public int getLimite() {
+        return limite;
+    }
+
+    public void setLimite(int limite) {
+        this.limite = limite;
+    }
+
+    public List<T> getElementos() {
+        return elementos;
+    }
+
+    public void setElementos(List<T> elementos) {
+        this.elementos = elementos;
+    }
 }

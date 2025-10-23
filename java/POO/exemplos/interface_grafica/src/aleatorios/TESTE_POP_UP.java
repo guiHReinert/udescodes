@@ -2,7 +2,6 @@ package aleatorios;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 public class TESTE_POP_UP {

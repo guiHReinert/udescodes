@@ -1,5 +1,5 @@
 import sys
-import array
+import numpy as np
 
 class SimuladorMealy:
     def __init__(self):
@@ -105,21 +105,20 @@ class SimuladorMealy:
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Uso: python SimuladorMealy.py <arquivo_MM.txt> <arquivo_w.txt>")
+        print("Uso: python3 SimuladorMealy.py <arquivo_MM.txt> <arquivo_w.txt>")
         sys.exit(1) 
 
-    arquivo_mm_path = sys.argv[1]
-    arquivo_palavra_path = sys.argv[2]
+    maquina_path = sys.argv[1]
+    palavra_path = sys.argv[2]
 
     simulador = SimuladorMealy()
-    simulador.carregar_maquina(arquivo_mm_path)
-    saida_bruta = simulador.simular(arquivo_palavra_path)
+    simulador.carregar_maquina(maquina_path)
+    saida_bruta = simulador.simular(palavra_path)
     imagem_ppm = simulador.gerar_ppm(saida_bruta)
-    print(imagem_ppm)
+    imagem_nome = maquina_path[:maquina_path.find(".txt")]+'_'+palavra_path[:palavra_path.find(".txt")]
     
-    # imagem = array.array(imagem_ppm.get[0],
-    #                      )
-    # with open("teste", "wb") as f:
-    #     f.write(bytearray(imagem_ppm, "ascii"))
-    #     imagem_ppm.tofile(imagem)
-        
+    print(f"Arquivo gerado: {imagem_nome}.ppm")
+    print(imagem_ppm)
+    with open("output/"+imagem_nome+".ppm", "w") as f:
+        f.write(imagem_ppm)
+            

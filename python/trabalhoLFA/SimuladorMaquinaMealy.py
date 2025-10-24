@@ -2,56 +2,61 @@ import sys
 
 class SimuladorMealy:
     def __init__(self):
-        self.transicoes = {}
-        self.estado_inicial = ""
         self.estados = set()
+        self.estado_inicial = ""
+        self.estado_final = ""
         self.alfabeto_entrada = set()
         self.alfabeto_saida = set()
+        self.transicoes = {}
 
-    def carregar_maquina(self, arquivo_mm):
+    def carregar_maquina(self, arquivo_nome):
         try:
-            #aqq abre o arquivo
-            #vou mudar pra abrir qualquer nome de arquivo
-            with open(arquivo_mm, 'r') as f:
+            # Extracao das caracteristicas da maquina no arquivo
+            with open(arquivo_nome, 'r') as f:
                 self.estados = set(f.readline().strip().split())
                 self.estado_inicial = f.readline().strip()
-                #linha 3, estados finais
-                f.readline() 
+                self.estado_final = f.readline().strip()
                 self.alfabeto_entrada = set(f.readline().strip().split())
                 self.alfabeto_saida = set(f.readline().strip().split())
 
-                #transicoes
-                for linha in f:
+                # Alimentacao do dicionario de transicoes
+                for pos, linha in enumerate(f):
                     partes = linha.strip().split()
                     
+                    # Garante o acesso ao segmento das transicoes
                     if len(partes) == 4:
-                        q_atual, s_in, q_prox, s_out = partes
-                        
-                        #'\n'
-                        if s_out == "\\n":
-                            s_out = "\n"
-                        #movmento vazio (epsilon)
-                        elif s_out == "e" or s_out == "eps" or s_out == "ε": 
-                            s_out = "" 
+                        q, x, r, y = partes
 
-                        #armazena transicao no dicionario
-                        self.transicoes[(q_atual, s_in)] = (q_prox, s_out)
+                        # Verificacao de entrada para quebra de pagina e movimentos vazios
+                        if y == "\\n":
+                            y = '\n'
+                        elif y == 'e' or y == "eps" or y == 'ε': 
+                            y = "" 
+
+                        self.transicoes[(q, x)] = (r, y)
                     
-                    elif len(partes)>0:
-                        print(f"Aviso: Ignorando linha de transicaoo mal formatada: '{linha.strip()}'", file=sys.stderr)
+                    # elif len(partes)>0:
+                    #     print(f"  Linha de transicao {pos} mal formatada: '{linha.strip()}'", file=sys.stderr)
 
         except FileNotFoundError:
-            print(f"Erro: O arquivo de definicaoo '{arquivo_mm}' nao foi encontrado.", file=sys.stderr)
+            print(f"Erro: O arquivo de definicao '{arquivo_nome}' nao foi encontrado.", file=sys.stderr)
             sys.exit(1)
         except Exception as e:
             print(f"Erro ao ler o arquivo de definicao: {e}", file=sys.stderr)
             sys.exit(1)
+        finally:
+            print(f"""
+                  Q =     {self.estados}
+                  SIGMA = {self.alfabeto_entrada}
+                  q0 =    {self.estado_inicial}
+                  F =     {self.estado_final}
+                  DELTA = {self.alfabeto_saida}""")
 
     def simular(self, arquivo_palavra):
-        #saida eh o simbolo saida definido na transicaos
+        # Saida eh o simbolo de saida definido na transicao
         try:
             with open(arquivo_palavra, 'r') as f:
-                palavra_entrada = f.read() 
+                palavra = f.read() 
         
         except FileNotFoundError:
             print(f"Erro: O arquivo de palavra '{arquivo_palavra}' nao foi encontrado.", file=sys.stderr)
@@ -60,19 +65,19 @@ class SimuladorMealy:
         estado_atual = self.estado_inicial
         saida_total = ""
 
-        for simbolo in palavra_entrada:
+        for simbolo in palavra:
             if simbolo == '\n' or simbolo == '\r': 
                 continue
             
+            # Computacao da funcao programa no estado atual
             chave_transicao = (estado_atual, simbolo)
-            
             if chave_transicao in self.transicoes:
                 proximo_estado, simbolo_saida = self.transicoes[chave_transicao]
                 saida_total += simbolo_saida
                 estado_atual = proximo_estado
             else:
                 if simbolo in self.alfabeto_entrada:
-                    print(f"Erro: Transicao no definida para (Estado: {estado_atual}, Simbolo: '{simbolo}')", file=sys.stderr)
+                    print(f"Erro: Transicao nao definida para ({estado_atual}, {simbolo})", file=sys.stderr)
                     sys.exit(1)
                 else:
                     print(f"Aviso: Ignorando simbolo '{simbolo}' nao pertencente ao alfabeto.", file=sys.stderr)
@@ -105,6 +110,6 @@ if __name__ == "__main__":
     simulador = SimuladorMealy()
     simulador.carregar_maquina(arquivo_mm_path)
     saida_bruta = simulador.simular(arquivo_palavra_path)
-    imagem_ppm = simulador.generar_ppm(saida_bruta)
+    imagem_ppm = simulador.gerar_ppm(saida_bruta)
 
     print(imagem_ppm)

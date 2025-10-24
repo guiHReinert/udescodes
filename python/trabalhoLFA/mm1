@@ -3,6 +3,8 @@ q0
 qf
 1 2 3 4 . N
 0 1 \n
+q0 2 q0 e
+q0 4 q0 e
 q0 3 q1 e
 q0 1 q2 e
 q0 N qf \n

@@ -7,6 +7,8 @@ q0 N q0 \n
 q0 . q0 1
 q0 1 q1 e
 q0 3 q1 e
+q0 2 q2 e
+q0 4 q2 e
 q1 2 q0 e
 q1 4 q0 e
 q1 . q0 0

@@ -45,13 +45,13 @@ class SimuladorMealy:
         except Exception as e:
             print(f"Erro ao ler o arquivo de definicao: {e}", file=sys.stderr)
             sys.exit(1)
-        # finally:
-            # print(f"""
-            #       Q =     {self.estados}
-            #       SIGMA = {self.alfabeto_entrada}
-            #       q0 =    {self.estado_inicial}
-            #       F =     {self.estado_final}
-            #       DELTA = {self.alfabeto_saida}""")
+        finally:
+            print(f"""
+                  Q =     {self.estados}
+                  SIGMA = {self.alfabeto_entrada}
+                  q0 =    {self.estado_inicial}
+                  F =     {self.estado_final}
+                  DELTA = {self.alfabeto_saida}""")
 
     def simular(self, arquivo_palavra):
         # Saida eh o simbolo de saida definido na transicao
@@ -65,6 +65,7 @@ class SimuladorMealy:
 
         estado_atual = self.estado_inicial
         saida_total = ""
+        # primeiro_ponto = True
 
         for simbolo in palavra:
             if simbolo == '\n' or simbolo == '\r': 
@@ -79,7 +80,11 @@ class SimuladorMealy:
                     estado_atual = proximo_estado
                 else:
                     estado_atual = self.estado_inicial
+                    # primeiro_ponto = False
             else:
+                # # Le o simbolo "N" apenas quando passar do primeiro ponto
+                # if simbolo == 'N':
+                #     continue
                 if simbolo in self.alfabeto_entrada:
                     print(f"Erro: Transicao nao definida para ({estado_atual}, {simbolo})", file=sys.stderr)
                     sys.exit(1)
@@ -88,7 +93,7 @@ class SimuladorMealy:
 
         return saida_total
 
-    #ainda nao testei pra ver se funciona, peguei do gemini essa funcao!!
+    # Gera a matriz bruta da imagem
     def gerar_ppm(self, saida_maquina):
         saida_limpa = saida_maquina.strip()
         linhas = saida_limpa.split('\n')
@@ -105,7 +110,7 @@ class SimuladorMealy:
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Uso: python3 SimuladorMealy.py <arquivo_MM.txt> <arquivo_w.txt>")
+        print("Uso: python3 SimuladorMaquinaMealy.py <arquivo_MM.txt> <arquivo_w.txt>")
         sys.exit(1) 
 
     maquina_path = sys.argv[1]
@@ -115,10 +120,11 @@ if __name__ == "__main__":
     simulador.carregar_maquina(maquina_path)
     saida_bruta = simulador.simular(palavra_path)
     imagem_ppm = simulador.gerar_ppm(saida_bruta)
+    # Gera o nome do arquivo da imagem, separando os pedacos anteriores ao .txt
     imagem_nome = maquina_path[:maquina_path.find(".txt")]+'_'+palavra_path[:palavra_path.find(".txt")]
     
     print(f"Arquivo gerado: {imagem_nome}.ppm")
     print(imagem_ppm)
-    with open("output/"+imagem_nome+".ppm", "w") as f:
+    with open(""+imagem_nome+".ppm", "w") as f:
         f.write(imagem_ppm)
             

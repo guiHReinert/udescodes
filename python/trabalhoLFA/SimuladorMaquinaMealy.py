@@ -117,9 +117,9 @@ if __name__ == "__main__":
     imagem_ppm = simulador.gerar_ppm(saida_bruta)
     print(imagem_ppm)
     
-    imagem = array.array(imagem_ppm.get[0],
-                         )
-    with open("teste", "wb") as f:
-        f.write(bytearray(imagem_ppm, "ascii"))
-        imagem_ppm.tofile(imagem)
+    # imagem = array.array(imagem_ppm.get[0],
+    #                      )
+    # with open("teste", "wb") as f:
+    #     f.write(bytearray(imagem_ppm, "ascii"))
+    #     imagem_ppm.tofile(imagem)
         

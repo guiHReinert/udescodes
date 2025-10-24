@@ -1,4 +1,5 @@
 import sys
+import array
 
 class SimuladorMealy:
     def __init__(self):
@@ -44,13 +45,13 @@ class SimuladorMealy:
         except Exception as e:
             print(f"Erro ao ler o arquivo de definicao: {e}", file=sys.stderr)
             sys.exit(1)
-        finally:
-            print(f"""
-                  Q =     {self.estados}
-                  SIGMA = {self.alfabeto_entrada}
-                  q0 =    {self.estado_inicial}
-                  F =     {self.estado_final}
-                  DELTA = {self.alfabeto_saida}""")
+        # finally:
+            # print(f"""
+            #       Q =     {self.estados}
+            #       SIGMA = {self.alfabeto_entrada}
+            #       q0 =    {self.estado_inicial}
+            #       F =     {self.estado_final}
+            #       DELTA = {self.alfabeto_saida}""")
 
     def simular(self, arquivo_palavra):
         # Saida eh o simbolo de saida definido na transicao
@@ -74,7 +75,10 @@ class SimuladorMealy:
             if chave_transicao in self.transicoes:
                 proximo_estado, simbolo_saida = self.transicoes[chave_transicao]
                 saida_total += simbolo_saida
-                estado_atual = proximo_estado
+                if simbolo != '.':
+                    estado_atual = proximo_estado
+                else:
+                    estado_atual = self.estado_inicial
             else:
                 if simbolo in self.alfabeto_entrada:
                     print(f"Erro: Transicao nao definida para ({estado_atual}, {simbolo})", file=sys.stderr)
@@ -111,5 +115,11 @@ if __name__ == "__main__":
     simulador.carregar_maquina(arquivo_mm_path)
     saida_bruta = simulador.simular(arquivo_palavra_path)
     imagem_ppm = simulador.gerar_ppm(saida_bruta)
-
     print(imagem_ppm)
+    
+    imagem = array.array(imagem_ppm.get[0],
+                         )
+    with open("teste", "wb") as f:
+        f.write(bytearray(imagem_ppm, "ascii"))
+        imagem_ppm.tofile(imagem)
+        

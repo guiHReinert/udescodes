@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 
 class SimuladorMealy:
     def __init__(self):
@@ -45,13 +44,13 @@ class SimuladorMealy:
         except Exception as e:
             print(f"Erro ao ler o arquivo de definicao: {e}", file=sys.stderr)
             sys.exit(1)
-        finally:
-            print(f"""
-                  Q =     {self.estados}
-                  SIGMA = {self.alfabeto_entrada}
-                  q0 =    {self.estado_inicial}
-                  F =     {self.estado_final}
-                  DELTA = {self.alfabeto_saida}""")
+        # finally:
+        #     print(f"""
+        #           Q =     {self.estados}
+        #           SIGMA = {self.alfabeto_entrada}
+        #           q0 =    {self.estado_inicial}
+        #           F =     {self.estado_final}
+        #           DELTA = {self.alfabeto_saida}""")
 
     def simular(self, arquivo_palavra):
         # Saida eh o simbolo de saida definido na transicao
@@ -65,7 +64,6 @@ class SimuladorMealy:
 
         estado_atual = self.estado_inicial
         saida_total = ""
-        # primeiro_ponto = True
 
         for simbolo in palavra:
             if simbolo == '\n' or simbolo == '\r': 
@@ -73,29 +71,32 @@ class SimuladorMealy:
             
             # Computacao da funcao programa no estado atual
             chave_transicao = (estado_atual, simbolo)
+            # print(str(chave_transicao)+" -> "+str(self.transicoes[chave_transicao]))
             if chave_transicao in self.transicoes:
                 proximo_estado, simbolo_saida = self.transicoes[chave_transicao]
                 saida_total += simbolo_saida
-                if simbolo != '.':
-                    estado_atual = proximo_estado
-                else:
-                    estado_atual = self.estado_inicial
-                    # primeiro_ponto = False
+                # if estado_atual == 'N':
+                #     if (self.estado_inicial, 'N') in self.transicoes:
+                #         continue
+                #     else:
+                #         estado_atual = self.estado_inicial
+                # else:
+                estado_atual = proximo_estado
             else:
-                # # Le o simbolo "N" apenas quando passar do primeiro ponto
-                # if simbolo == 'N':
-                #     continue
                 if simbolo in self.alfabeto_entrada:
                     print(f"Erro: Transicao nao definida para ({estado_atual}, {simbolo})", file=sys.stderr)
                     sys.exit(1)
                 else:
                     print(f"Aviso: Ignorando simbolo '{simbolo}' nao pertencente ao alfabeto.", file=sys.stderr)
 
-        return saida_total
+        if estado_atual == self.estado_final:
+            return saida_total
+        else:
+            print("Erro: Ultimo estado acessado foi nao-final: "+estado_atual)
 
     # Gera a matriz bruta da imagem
     def gerar_ppm(self, saida_maquina):
-        saida_limpa = saida_maquina.strip()
+        saida_limpa = saida_maquina.rstrip('\r')
         linhas = saida_limpa.split('\n')
         
         altura = len(linhas)

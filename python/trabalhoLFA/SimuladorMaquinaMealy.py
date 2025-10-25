@@ -35,22 +35,12 @@ class SimuladorMealy:
 
                         self.transicoes[(q, x)] = (r, y)
                     
-                    # elif len(partes)>0:
-                    #     print(f"  Linha de transicao {pos} mal formatada: '{linha.strip()}'", file=sys.stderr)
-
         except FileNotFoundError:
             print(f"Erro: O arquivo de definicao '{arquivo_nome}' nao foi encontrado.", file=sys.stderr)
             sys.exit(1)
         except Exception as e:
             print(f"Erro ao ler o arquivo de definicao: {e}", file=sys.stderr)
             sys.exit(1)
-        # finally:
-        #     print(f"""
-        #           Q =     {self.estados}
-        #           SIGMA = {self.alfabeto_entrada}
-        #           q0 =    {self.estado_inicial}
-        #           F =     {self.estado_final}
-        #           DELTA = {self.alfabeto_saida}""")
 
     def simular(self, arquivo_palavra):
         # Saida eh o simbolo de saida definido na transicao
@@ -71,16 +61,9 @@ class SimuladorMealy:
             
             # Computacao da funcao programa no estado atual
             chave_transicao = (estado_atual, simbolo)
-            # print(str(chave_transicao)+" -> "+str(self.transicoes[chave_transicao]))
             if chave_transicao in self.transicoes:
                 proximo_estado, simbolo_saida = self.transicoes[chave_transicao]
                 saida_total += simbolo_saida
-                # if estado_atual == 'N':
-                #     if (self.estado_inicial, 'N') in self.transicoes:
-                #         continue
-                #     else:
-                #         estado_atual = self.estado_inicial
-                # else:
                 estado_atual = proximo_estado
             else:
                 if simbolo in self.alfabeto_entrada:
@@ -121,11 +104,12 @@ if __name__ == "__main__":
     simulador.carregar_maquina(maquina_path)
     saida_bruta = simulador.simular(palavra_path)
     imagem_ppm = simulador.gerar_ppm(saida_bruta)
+    
     # Gera o nome do arquivo da imagem, separando os pedacos anteriores ao .txt
     imagem_nome = maquina_path[:maquina_path.find(".txt")]+'_'+palavra_path[:palavra_path.find(".txt")]
     
     print(f"Arquivo gerado: {imagem_nome}.ppm")
     print(imagem_ppm)
-    with open(""+imagem_nome+".ppm", "w") as f:
+    with open("output/"+imagem_nome+".ppm", "w") as f:
         f.write(imagem_ppm)
             

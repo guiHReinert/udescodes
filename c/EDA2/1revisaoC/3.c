@@ -21,9 +21,12 @@ int main(){
         v[i] = num;
     }
 
-    int m[n], menor = v[0];
+    int m[n], menor=0;
     for(int i=0; i<n; i++){
-
+        if(m[i] < 0){
+            continue;
+        }
+        ;
     }
 
     return 0;

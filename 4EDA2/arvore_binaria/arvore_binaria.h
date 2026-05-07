@@ -17,21 +17,23 @@ int pesquisaBinaria(int chave, int v[], int n) {
     }
     return -1; // Indice invalido
 }
-
-// Definicao de arvore
+    
+// Definicao
 
 typedef struct nodo {
-    struct nodo* pai;       // Ponteiro para o nó pai
-    struct nodo* esquerda;  // Ponteiro para o nó filho a esquerda
-    struct nodo* direita;   // Ponteiro para o nó filho a direita
+    struct nodo *pai;       // Ponteiro para o nó pai
+    struct nodo *esquerda;  // Ponteiro para o nó filho a esquerda
+    struct nodo *direita;   // Ponteiro para o nó filho a direita
     float v;                // Conteúdo de um nó arbitrário da árvore
+    // void *valor;            //conteúdo genérico do nó
 } Nodo;
 
 typedef struct arvore {
-    struct nodo* raiz;
+    struct nodo *raiz;
+    int tamanho;
 } Arvore;
 
-// Algoritmos de arvore binaria
+// Funcoes
 
 Arvore *cria() {
     Arvore *arvore;
@@ -40,11 +42,19 @@ Arvore *cria() {
     return arvore;
 }
 
-int vazia(Arvore* arvore) {
+int vazia(Arvore *arvore) {
     return (arvore->raiz == NULL);
 }
 
-Nodo* adiciona(Arvore* arvore, Nodo* pai, float valor) {
+void percorrer(Nodo *no) {
+    if (no != NULL) {
+        printf("%f", no->valor);
+    percorrer(no->esquerda);
+    percorrer(no->direita);
+    }
+}
+
+Nodo *adiciona(Arvore *arvore, Nodo *pai, float valor) {
     Nodo *no = (Nodo*) malloc(sizeof(Nodo));
     no->pai = pai;
     no->esquerda = NULL;
@@ -56,4 +66,18 @@ Nodo* adiciona(Arvore* arvore, Nodo* pai, float valor) {
     return no;
 }
 
-
+void remove(Arvore *arvore, Nodo *no) {
+    if (no->esquerda != NULL)
+        remove(arvore, no->esquerda);
+    if (no->direita != NULL)
+        remove(arvore, no->direita);
+    if (no->pai == NULL) {
+        arvore->raiz = NULL;
+    } else {
+    if (no->pai->esquerda == no)
+        no->pai->esquerda = NULL;
+    else
+        no->pai->direita = NULL;
+    }
+    free(no);
+}

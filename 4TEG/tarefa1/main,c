@@ -1,0 +1,15 @@
+#include "arq.h"
+
+/*
+    Como compilar este projeto:
+
+gcc main.c funcoes.c -o main main.c
+
+*/
+
+int main(){
+    char *arquivo = "teste2.csv";
+    int **lista = listaAdjacencias(arquivo, TAMANHO_CSV);
+
+    return 0;
+}

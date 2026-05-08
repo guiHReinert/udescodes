@@ -31,7 +31,7 @@ char **lerDataset(char *path, int *tamanho){
     int pos = 0;
     /*
         Aloca espaco na memoria para a array contendo as linhas do CSV e 
-        verifica de a alocacao foi possivel.
+        verifica se a alocacao foi possivel.
         */
     char **pessoas = (char **) malloc((*tamanho) * sizeof(char *));
     if(!pessoas){

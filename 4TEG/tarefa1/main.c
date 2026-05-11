@@ -9,14 +9,21 @@ gcc -o main main.c
 
 int main(){
     char *arquivo = "teste2.csv";
-    int tamanho=0;
-    
+    int num_vertices=0;
 
-    for(int i=0; i<tamanho; i++){
-        for(int j=0; j<tamanho; j++){
-            printf("%c", matriz[i][j]);
-        }
-    }
+    varreduraListaAdjacencias(arquivo, &num_vertices);
+
+    Grafo *grafo = novoGrafo(num_vertices);
+    printf("Criado o grafo.\n");
+    printf("\tmax_vertices:\t%d\n", num_vertices);
+
+    carregarListaAdjacencias(grafo, arquivo);
+    printf("Carregada a lista.\n");
+
+    printf("\tGrau maximo:\t%d\n", grauMaximo(grafo));
+    printf("\tGrau minimo:\t%d\n", grauMinimo(grafo));
+
+    printarListaAdjacencias(grafo);
 
     return 0;
 }

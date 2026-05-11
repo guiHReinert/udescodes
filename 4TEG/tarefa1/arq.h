@@ -5,81 +5,206 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ARESTAS 1000
+#define BUFFER 1024
 
+typedef struct Vertice{
+    struct Vertice* anterior;
+    struct Vertice* posterior;
+    int valor;
+} Nodo, Vertice;
+
+/*
+    O grafo apresenta uma lista de adjacencias composta por todos os vertices
+    encadeados ordenadamente com os vertices com arestas em comum..
+*/
 typedef struct{
-    int *matriz; 
-} grafo;
+    Vertice* lista;
+    int* graus;                 // Graus de cada vertice.
+    int num_vertices;
+} Grafo;
 
 int main();
 
+Vertice* novoVertice(int valor){
+    Vertice* vertice = (Vertice*)malloc(sizeof(Vertice));
+    if(!vertice){
+        printf("Nao foi possivel criar o vertice.");
+    }
+    vertice->anterior = NULL;
+    vertice->posterior = NULL;
+    vertice->valor = valor;
 
-// Grafo como uma matriz de adjacencias
-int *criarGrafo(int numVertices){
-
+    return vertice;
 }
 
-//  Carrega o arquivo CSV em uma matriz de adjacencias no grafo.
-int **matrizAdjacencias(grafo graf, char *path, int *tamanho);
-int **matrizAdjacencias(grafo graf, char *path, int *tamanho){
-    
-    // Verifica se o arquivo foi aberto
-    FILE *file = fopen(path, "r");
+Grafo* novoGrafo(int max_vertices){
+    Grafo* grafo = (Grafo*)malloc(sizeof(Grafo));
+    if(!grafo){
+        printf("Nao foi possivel criar o grafo.");
+    }
+    grafo->lista = (Vertice*)malloc(max_vertices*sizeof(Vertice));
+    if(!grafo->lista){
+        printf("Nao foi possivel criar a lista de adjacencias.");
+    }
+    grafo->graus = (int*)calloc(max_vertices, sizeof(int));
+    if(!grafo->graus){
+        printf("Nao foi possivel criar a lista e graus do grafo.");
+    }
+    for(int i=0; i<max_vertices; i++){
+        grafo->lista[i].anterior = NULL;
+        grafo->lista[i].posterior = NULL;
+        grafo->lista[i].valor = i;
+    }
+    grafo->num_vertices = max_vertices;
+
+    return grafo;
+}
+/*
+    "origem" se refere ao valor do grafo da lista de adjacencia, enquanto
+    "destino" serah o valor do novo vertice a ser encadeado.
+*/
+void inserirVertice(Grafo* grafo, int origem, int destino){
+    Vertice* v_origem = &(grafo->lista[origem]);
+    Vertice* v_destino = novoVertice(destino);     
+
+    // Caso o vertice de origem nao estiver encadeado a nenhum vertice.
+    if(v_origem->posterior == NULL){
+        v_destino->anterior = v_origem;
+        v_origem->posterior = v_destino;
+    }
+    else{
+        Vertice* walker = v_origem->posterior;
+        Vertice* v_anterior = v_origem;
+        while(walker != NULL && walker->valor < destino){
+            v_anterior = walker;
+            walker = walker->posterior;
+        }
+        v_destino->posterior = walker;
+        v_destino->anterior = v_anterior;
+        v_anterior->posterior = v_destino;
+    }
+    grafo->graus[origem]++;
+}
+
+/*
+    Adiciona a aresta no vertice "origem" e a aresta reciproca para o vertice
+    "destino". Aqui eh desconsiderado o vertice 0 na intepretacao do grafo, mas
+    computacionalmente ele serah utilizado apenas como um indice da lista.
+*/
+void adicionarAresta(Grafo* grafo, int origem, int destino){
+    if(origem <= 0 || destino <= 0){return;}
+    inserirVertice(grafo, origem, destino);
+    inserirVertice(grafo, destino, origem);
+}
+
+/*
+    Calcula a quantidade maxima de vertices presentes no arquivo CSV para uma
+    computacao mais exata do grafo.
+*/
+void varreduraListaAdjacencias(char* path, int* num_vertices){
+    FILE* file = fopen(path, "r");
     if(!file){
         printf("Erro ao abrir o arquivo\n");
-        return NULL;
     }
 
-    // Buffer para cada linha do arquivo e calcula o tamanho do arquivo
-    char buffer[MAX_ARESTAS];
-    *tamanho = 0;
-    while(fgets(buffer, MAX_ARESTAS, file)){
-        (*tamanho)++;
-    }
-    // Reposiciona o ponteiro de leitura do arquivo para a primeira linha
-    rewind(file);
+    // Coleta cada linha do arquivo a separando e multiplos "tokens".
+    char buffer[BUFFER];
+    while(fgets(buffer, BUFFER, file)){
+        char* token = strtok(buffer, " \n");
+        int num_arestas=0, maior_num;
 
-    int pos = 0;
-    /*
-        Alocar dinamicamente a matriz, pois a declaracao da matriz em main.c nao
-        conhece previsamente o tamanho maximo da matriz
-    */
-    char **matriz = (char**) malloc((*tamanho)*sizeof(char*));
-    if(!matriz){
-        printf("Nao foi possivel alocar a matriz.\n");
-        return NULL;
-    }
+        // Ignora a primeira linha (metadados?)
+        token = strtok(NULL, " \n");
+        
+        if(token == NULL){continue;}
 
-    /*
-        Aloca dinamicamente cada linha da matriz e copia as linhas do arquivo
-    */
-    while(fgets(buffer, MAX_ARESTAS, file)){
-        matriz[pos] = (char*) malloc(MAX_ARESTAS);
-        if(!matriz[pos]){
-            printf("Nao foi possivel alocar memoria para a linha %d", pos);
-            return NULL;
+        /*
+            num_vertices eh correspondente ao vertice de maior valor no arquivo,
+            e o mesmo valor serah usado para a quantidade maxima de arestas.
+        */
+        while(token != NULL){
+            maior_num = strtol(token, NULL, 10);
+            maior_num >* num_vertices ?* num_vertices = maior_num : 0;
+            token = strtok(NULL, " \n");     
         }
-        strcpy(matriz[pos++], buffer);
     }
-
-
-
+    (*num_vertices)++;  // Pois a primeira linha foi ignorada.
     fclose(file);
 }
 
-//  - Adicionar
-//  - Remover
+/*
+    Abre o arquivo CSV e posteriormente alimenta as lista de adjacencias no
+    grafo.
+*/
+void* *carregarListaAdjacencias(Grafo* grafo, char* path){
+    FILE* file = fopen(path, "r");
+    if(!file){
+        printf("Erro ao abrir o arquivo\n");
+    }
 
+    // Buffer para cada linha do arquivo e ignora a primeira linha (metadados?)
+    char buffer[BUFFER];
+    fgets(buffer, BUFFER, file);
 
-// Grau maximo
-// Grau minimo
+    while(fgets(buffer, BUFFER, file)){
+        char* token = strtok(buffer, " \n");
+    
+        if(token == NULL){continue;}
 
-// Eh um grafo simples?
-// Eh um multigrafo?
+        /*
+            Guarda o primeiro vertice de uma linha em "origem" e adiciona na
+            linha de adjacencia correspondente os vertices associados.        
+        */
+        int origem = strtol(token, NULL, 10);
+        token = strtok(NULL, " \n");
+        while(token != NULL){
+            adicionarAresta(grafo, origem, strtol(token, NULL, 10));  
+            token = strtok(NULL, " \n");     
+        }
+    }
+    fclose(file);
+}
+
+/*
+    Graus maximo e minimo do grafo. O vertice 0 eh novamente desconsiderado.
+*/
+int grauMaximo(Grafo* grafo){
+    int maior=grafo->graus[1];
+    for(int i=2; i<grafo->num_vertices; i++){
+        maior < grafo->graus[i] ? maior = grafo->graus[i] : 0;
+    }
+    return maior;
+}
+int grauMinimo(Grafo* grafo){
+    int menor=grafo->graus[1];
+    for(int i=2; i<grafo->num_vertices; i++){
+        menor > grafo->graus[i] ? menor = grafo->graus[i] : 0;
+    }
+    return menor;
+}
+
+// Eh um grafo simples ou multigrafo?
+// int ehMultigrafo(Grafo* grafo){
+
+// }
 
 // Quantidade, distribuição e tamanhos dos componentes conexos existentes no
 // grafo
 
+
+void printarListaAdjacencias(Grafo* grafo){
+    Vertice* walker = novoVertice(0);
+    for(int i=1; i<grafo->num_vertices; i++){
+        walker = &(grafo->lista[i]);
+
+        printf("(grau:%d) ", grafo->graus[i]);
+        while(walker != NULL){
+            printf("[%d] -> ", walker->valor);
+            walker = walker->posterior;
+        }
+        printf("NULL\n");
+    }
+}
 
 
 #endif

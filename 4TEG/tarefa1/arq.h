@@ -187,8 +187,9 @@ int grauMinimo(Grafo* grafo){
     return menor;
 }
 
-// Eh um grafo simples ou multigrafo?
 /*
+    fUncao booleana para determinar se o grafo eh multigrafo ou simples.
+
     Grafo simples: SSE nao ha arestas conectando um vertice a ele mesmo e nao há
     dois vertices conectados por mais de uma aresta. (sem lacos ou arestas
     iguais). 
@@ -219,9 +220,57 @@ int ehMultigrafo(Grafo* grafo, int* lacos, int* repeticoes){
     return 1;
 }
 
-// Quantidade, distribuição e tamanhos dos componentes conexos existentes no
-// grafo
+/*
+    Busca por DFS, com algumas alteracoes para a descricao dos componentes
+    conexos:
+        - tamanho: tamanho do componente encontrado pela DFS
+        - componente: vetor com as "raizes", ou seja, os valores dos vertices
+        que compoem um mesmo componente conexo (distribuicao).
+*/
+void DFS_G(Grafo* grafo, int raiz, int* vet_marca, int* tamanho, int*componente){
+    // Caso nao se queira retornar um vetor com os valores marcados.
+    if(vet_marca == NULL){
+        vet_marca = (int*)calloc(grafo->num_vertices, sizeof(int));
+    }
+    vet_marca[raiz] = 1;
+    // printf("%d ", raiz);
+    componente[*tamanho] = raiz;
+    (*tamanho)++;
+    
+    Vertice* walker = grafo->lista[raiz].posterior;
+    while(walker != NULL){
+        if(vet_marca[walker->valor] == 0){
+            DFS_G(grafo, walker->valor, vet_marca, tamanho, componente);
+        }
+        walker = walker->posterior;
+    }
+}
 
+
+/*
+    Deve-se descrever o(s) componente(s) conexo(s) contido(s) no grafo a partir
+    das características abaixo:
+        1. Distribuicao dos componentes conexos;
+        2. Quantidade de componentes conexos;
+        3. Tamanhos dos componentes conexos.
+*/
+int** componentesConexos(Grafo* grafo, int* num_componentes, int* tamanhos){
+    // Distribuicao dos vertices por componentes conexos
+    int** componentes = (int**)calloc(grafo->num_vertices, sizeof(int*));
+    // Vetor principal de comparacao dos vertices
+    int* marcados = (int*)calloc(grafo->num_vertices, sizeof(int));
+    *num_componentes = 0;
+
+    for(int i=1; i<grafo->num_vertices; i++){
+        componentes[*num_componentes] = (int*)calloc(grafo->num_vertices, sizeof(int));
+        if(!marcados[i]){
+            tamanhos[*num_componentes] = 0;
+            DFS_G(grafo, i, marcados, &(tamanhos[*num_componentes]), componentes[*num_componentes]);
+            (*num_componentes)++;
+        }
+    }
+    return componentes;
+}
 
 void printarListaAdjacencias(Grafo* grafo){
     Vertice* walker = novoVertice(0);

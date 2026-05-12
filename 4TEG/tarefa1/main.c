@@ -23,7 +23,12 @@ int main(){
     printf("\tGrau maximo:\t%d\n", grauMaximo(grafo));
     printf("\tGrau minimo:\t%d\n", grauMinimo(grafo));
 
-    printarListaAdjacencias(grafo);
+    int multigrafo_bool, lacos=0, repeticoes=0;
+    multigrafo_bool = ehMultigrafo(grafo, &lacos, &repeticoes);
+    printf("Eh um multigrafo? %s\n\tLacos:\t\t%d\n\tArestas rep.:\t%d\n",
+        multigrafo_bool ? "Sim." : "Nao.", lacos, repeticoes);
+
+    // printarListaAdjacencias(grafo);
 
     return 0;
 }

@@ -93,8 +93,12 @@ void inserirVertice(Grafo* grafo, int origem, int destino){
 */
 void adicionarAresta(Grafo* grafo, int origem, int destino){
     if(origem <= 0 || destino <= 0){return;}
+
     inserirVertice(grafo, origem, destino);
-    inserirVertice(grafo, destino, origem);
+
+    if(origem != destino){
+        inserirVertice(grafo, destino, origem);
+    }
 }
 
 /*
@@ -184,9 +188,36 @@ int grauMinimo(Grafo* grafo){
 }
 
 // Eh um grafo simples ou multigrafo?
-// int ehMultigrafo(Grafo* grafo){
+/*
+    Grafo simples: SSE nao ha arestas conectando um vertice a ele mesmo e nao há
+    dois vertices conectados por mais de uma aresta. (sem lacos ou arestas
+    iguais). 
+*/
+int ehMultigrafo(Grafo* grafo, int* lacos, int* repeticoes){
+    for(int i=1; i<grafo->num_vertices; i++){
+        Vertice* walker = grafo->lista[i].posterior;
+        
+        while(walker != NULL){
+            if(walker->valor == i){
+                (*lacos)++;
+            }
+            Vertice* skin = grafo->lista[i].posterior;
 
-// }
+            // Analogo a um for(){}, onde "walker" eh o limite de "skin".
+            while(walker != skin){
+                if(walker->valor == skin->valor){
+                    (*repeticoes)++;
+                    break;  // Na primeira nova occorencia de uma repeticao,
+                            // passa para o proximo walker e evita redundancia.
+                }
+                skin = skin->posterior;
+            }
+            walker = walker->posterior;
+        }
+    }
+    if(*lacos == 0 && *repeticoes == 0){return 0;}
+    return 1;
+}
 
 // Quantidade, distribuição e tamanhos dos componentes conexos existentes no
 // grafo

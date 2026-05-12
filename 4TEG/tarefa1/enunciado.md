@@ -27,7 +27,7 @@ informar quantos laços e/ou arestas múltiplas ocorrem;
 
 5. O sistema deve informar quantos componentes conexos existem no grafo.
 
-> *OBS: Determinar a distribuição dos compoennets conexos, quantidade de componentes e seus respectivos tamanhos.*
+> *OBS: Determinar a distribuição dos componentes conexos, quantidade de componentes e seus respectivos tamanhos.*
 
 ## Critérios de Correção
 

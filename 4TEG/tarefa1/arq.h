@@ -115,9 +115,9 @@ void varreduraListaAdjacencias(char* path, int* num_vertices){
     char buffer[BUFFER];
     while(fgets(buffer, BUFFER, file)){
         char* token = strtok(buffer, " \n");
-        int num_arestas=0, maior_num;
+        int maior_num;
 
-        // Ignora a primeira linha (metadados?)
+        // Ignora a primeira linha (metadados)
         token = strtok(NULL, " \n");
         
         if(token == NULL){continue;}
@@ -140,7 +140,7 @@ void varreduraListaAdjacencias(char* path, int* num_vertices){
     Abre o arquivo CSV e posteriormente alimenta as lista de adjacencias no
     grafo.
 */
-void* *carregarListaAdjacencias(Grafo* grafo, char* path){
+void carregarListaAdjacencias(Grafo* grafo, char* path){
     FILE* file = fopen(path, "r");
     if(!file){
         printf("Erro ao abrir o arquivo\n");

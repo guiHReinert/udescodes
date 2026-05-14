@@ -9,7 +9,7 @@ gcc -o main main.c
 
 int main(){
     char *arquivo = "teste2.csv";
-
+    
     int num_vertices=0;
 
     varreduraListaAdjacencias(arquivo, &num_vertices);

@@ -188,7 +188,7 @@ int grauMinimo(Grafo* grafo){
 }
 
 /*
-    fUncao booleana para determinar se o grafo eh multigrafo ou simples.
+    Funcao booleana para determinar se o grafo eh multigrafo ou simples.
 
     Grafo simples: SSE nao ha arestas conectando um vertice a ele mesmo e nao há
     dois vertices conectados por mais de uma aresta. (sem lacos ou arestas

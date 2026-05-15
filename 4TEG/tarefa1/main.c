@@ -3,7 +3,7 @@
 /*
     Como compilar este projeto:
 
-gcc -o main main.c
+gcc funcs.c main.c -o main
 
 */
 

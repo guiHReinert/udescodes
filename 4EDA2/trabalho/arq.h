@@ -6,6 +6,14 @@
 #include <string.h>
 
 /*
+    Tipos de arvores:
+    - AVL
+    - Rubro-negra
+    - B
+*/
+
+
+/*
     Definicao dos nodos
 */
 

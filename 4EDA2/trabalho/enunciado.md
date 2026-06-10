@@ -1,5 +1,5 @@
 
-# Trabalho de Desempenho de Árvores
+# Trabalho de Avaliação de Desempenho de Árvores
 
 **Integrantes**:
 

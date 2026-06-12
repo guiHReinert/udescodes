@@ -12,14 +12,14 @@ int main(){
     
     int num_vertices=0;
 
-    varreduraListaAdjacencias(arquivo, &num_vertices);
+    varredura_listaLadjacencias(arquivo, &num_vertices);
 
-    Grafo *grafo = novoGrafo(num_vertices);
-    carregarListaAdjacencias(grafo, arquivo);
+    Grafo *grafo = criar_grafo(num_vertices);
+    carregar_lista_adjacencias(grafo, arquivo);
 
     printf("\n----------------Dados sobre o Grafo----------------\n\n");
     printf("Quantidade de vertices:\t%d\nGrau maximo:\t%d\nGrau minimo:\t%d\n\n",
-        num_vertices-1, grauMaximo(grafo), grauMinimo(grafo));
+        num_vertices-1, grau_maximo(grafo), grau_minimo(grafo));
 
     int multigrafo_bool, lacos=0, repeticoes=0;
     multigrafo_bool = ehMultigrafo(grafo, &lacos, &repeticoes);

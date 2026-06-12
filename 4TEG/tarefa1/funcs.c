@@ -13,7 +13,7 @@ Vertice* novoVertice(int valor){
     return vertice;
 }
 
-Grafo* novoGrafo(int max_vertices){
+Grafo* criar_grafo(int max_vertices){
     Grafo* grafo = (Grafo*)malloc(sizeof(Grafo));
     if(!grafo){
         printf("Nao foi possivel criar o grafo.");
@@ -39,7 +39,7 @@ Grafo* novoGrafo(int max_vertices){
     "origem" se refere ao valor do grafo da lista de adjacencia, enquanto
     "destino" serah o valor do novo vertice a ser encadeado.
 */
-void inserirVertice(Grafo* grafo, int origem, int destino){
+void inserir_vertice(Grafo* grafo, int origem, int destino){
     Vertice* v_origem = &(grafo->lista[origem]);
     Vertice* v_destino = novoVertice(destino);     
 
@@ -67,13 +67,13 @@ void inserirVertice(Grafo* grafo, int origem, int destino){
     "destino". Aqui eh desconsiderado o vertice 0 na intepretacao do grafo, mas
     computacionalmente ele serah utilizado apenas como um indice da lista.
 */
-void adicionarAresta(Grafo* grafo, int origem, int destino){
+void adicionar_aresta(Grafo* grafo, int origem, int destino){
     if(origem <= 0 || destino <= 0){return;}
 
-    inserirVertice(grafo, origem, destino);
+    inserir_vertice(grafo, origem, destino);
 
     if(origem != destino){
-        inserirVertice(grafo, destino, origem);
+        inserir_vertice(grafo, destino, origem);
     }
 }
 
@@ -81,7 +81,7 @@ void adicionarAresta(Grafo* grafo, int origem, int destino){
     Calcula a quantidade maxima de vertices presentes no arquivo CSV para uma
     computacao mais exata do grafo.
 */
-void varreduraListaAdjacencias(char* path, int* num_vertices){
+void varredura_lista_adjacencias(char* path, int* num_vertices){
     FILE* file = fopen(path, "r");
     if(!file){
         printf("Erro ao abrir o arquivo\n");
@@ -116,7 +116,7 @@ void varreduraListaAdjacencias(char* path, int* num_vertices){
     Abre o arquivo CSV e posteriormente alimenta as lista de adjacencias no
     grafo.
 */
-void carregarListaAdjacencias(Grafo* grafo, char* path){
+void carregar_lista_adjacencias(Grafo* grafo, char* path){
     FILE* file = fopen(path, "r");
     if(!file){
         printf("Erro ao abrir o arquivo\n");
@@ -138,7 +138,7 @@ void carregarListaAdjacencias(Grafo* grafo, char* path){
         int origem = strtol(token, NULL, 10);
         token = strtok(NULL, " \n");
         while(token != NULL){
-            adicionarAresta(grafo, origem, strtol(token, NULL, 10));  
+            adicionar_aresta(grafo, origem, strtol(token, NULL, 10));  
             token = strtok(NULL, " \n");     
         }
     }
@@ -148,14 +148,14 @@ void carregarListaAdjacencias(Grafo* grafo, char* path){
 /*
     Graus maximo e minimo do grafo. O vertice 0 eh novamente desconsiderado.
 */
-int grauMaximo(Grafo* grafo){
+int grau_maximo(Grafo* grafo){
     int maior=grafo->graus[1];
     for(int i=2; i<grafo->num_vertices; i++){
         maior < grafo->graus[i] ? maior = grafo->graus[i] : 0;
     }
     return maior;
 }
-int grauMinimo(Grafo* grafo){
+int grau_minimo(Grafo* grafo){
     int menor=grafo->graus[1];
     for(int i=2; i<grafo->num_vertices; i++){
         menor > grafo->graus[i] ? menor = grafo->graus[i] : 0;

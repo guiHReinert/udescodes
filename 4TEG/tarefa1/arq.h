@@ -26,16 +26,16 @@ typedef struct{
 int main();
 
 Vertice* novoVertice(int valor);
-Grafo* novoGrafo(int max_vertices);
+Grafo* criar_grafo(int max_vertices);
 
-void inserirVertice(Grafo* grafo, int origem, int destino);
-void adicionarAresta(Grafo* grafo, int origem, int destino);
+void inserir_vertice(Grafo* grafo, int origem, int destino);
+void adicionar_aresta(Grafo* grafo, int origem, int destino);
 
-void varreduraListaAdjacencias(char* path, int* num_vertices);
-void carregarListaAdjacencias(Grafo* grafo, char* path);
+void varredura_listaLadjacencias(char* path, int* num_vertices);
+void carregar_lista_adjacencias(Grafo* grafo, char* path);
 
-int grauMaximo(Grafo* grafo);
-int grauMinimo(Grafo* grafo);
+int grau_maximo(Grafo* grafo);
+int grau_minimo(Grafo* grafo);
 
 int ehMultigrafo(Grafo* grafo, int* lacos, int* repeticoes);
 

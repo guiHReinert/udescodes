@@ -105,10 +105,10 @@ void RenderScene(void){
 //	gluSphere();  // Bottom
 
 	// Mid section
-//	glPushMatrix();
-//		glTranslatef(); 
-//		gluSphere();
-//	glPopMatrix();
+	// glPushMatrix();
+	// 	glTranslatef(); 
+	// 	gluSphere();
+	// glPopMatrix();
 
 	// Head
 	glPushMatrix(); // save transform matrix state

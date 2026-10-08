@@ -4,12 +4,13 @@
   
 // Rotation
 static GLfloat yRot = 0.0f;
+static GLfloat xRot = 0.0f;
 
 // Change viewing volume and viewport.  Called when window is resized  
 void ChangeSize(int w, int h)  
-    {  
-    GLfloat fAspect;  
-  
+    {
+    GLfloat fAspect;
+
     // Prevent a divide by zero  
     if(h == 0)  
         h = 1;  
@@ -69,12 +70,16 @@ void SpecialKeys(int key, int x, int y){
 
     if(key == GLUT_KEY_LEFT)  
         yRot -= 5.0f;  
-  
     if(key == GLUT_KEY_RIGHT)  
         yRot += 5.0f;  
-                  
+    if(key == GLUT_KEY_DOWN)
+        xRot -= 5.0f;
+    if(key == GLUT_KEY_END)
+        xRot += 5.0f;
+    
     yRot = (GLfloat)((const int)yRot % 360);  
-  
+    xRot = (GLfloat)((const int)xRot % 360);
+
     // Refresh the Window  
     glutPostRedisplay();  
 }
@@ -89,7 +94,8 @@ void RenderScene(void){
 
 	// Move object back and do in place rotation  
 	glTranslatef(0.0f, -1.0f, -5.0f);  
-	glRotatef(yRot, 0.0f, 1.0f, 0.0f);  
+	glRotatef(yRot, 0.0f, 1.0f, 0.0f);
+    glRotatef(xRot, 1.0f, 0.0f,  0.0f);
 
 	// Draw something  
 
@@ -131,8 +137,8 @@ int main(int argc, char *argv[]){
 
     glutInit(&argc, argv);  
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
-    glutInitWindowSize(800, 600);  
-    glutCreateWindow("Modeling with Quadrics");  
+    glutInitWindowSize(1000, 1000);  
+    glutCreateWindow("ALBJORN, COLISOR DE ESTRELAS, FRAGMENTADOR DE GALAXIAS E DEVORADOR DE MUNDOS");  
     glutReshapeFunc(ChangeSize);  
     glutSpecialFunc(SpecialKeys);  
     glutDisplayFunc(RenderScene);  

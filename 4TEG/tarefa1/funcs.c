@@ -1,6 +1,5 @@
 #include "arq.h"
 
-
 Vertice* novoVertice(int valor){
     Vertice* vertice = (Vertice*)malloc(sizeof(Vertice));
     if(!vertice){

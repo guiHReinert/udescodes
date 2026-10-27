@@ -19,15 +19,11 @@ typedef struct Vertice{
     NoAdj* listaAdj;
 } Nodo, Vertice;
 
-<<<<<<< HEAD
-typedef struct{
-=======
 /*
     O grafo apresenta uma lista de adjacencias composta por todos os vertices
     encadeados ordenadamente com os vertices com arestas em comum.
 */
 typedef struct Grafo{
->>>>>>> 2fdd3f3c14ed3244f8dca12a984de833cb88d6f9
     Vertice* lista;
     int num_vertices;
 } Grafo;

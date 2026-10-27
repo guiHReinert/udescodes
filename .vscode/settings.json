@@ -1,8 +1,10 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "*.*": "plaintext"
     },
     "java.configuration.updateBuildConfiguration": "interactive",
     "git.ignoreLimitWarning": true
+
 }

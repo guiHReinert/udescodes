@@ -179,7 +179,6 @@ INSERT INTO public.pacientes (codp, nome, idade, cidade, cpf, doenca) VALUES (4,
 ALTER TABLE ONLY public.ambulatorios
     ADD CONSTRAINT ambulatorios_pkey PRIMARY KEY (nroa);
 
-
 --
 -- TOC entry 2704 (class 2606 OID 91020)
 -- Name: consultas consultas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
